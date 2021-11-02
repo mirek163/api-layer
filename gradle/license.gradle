@@ -32,7 +32,8 @@ ext.projectsNeedLicense = [
     'zaas-client',
     'mock-services',
     'apiml-tomcat-common',
-    'apiml-sample-extension'
+    'apiml-sample-extension',
+    'certificate-service'
 ]
 
 configure(subprojects.findAll { it.name in projectsNeedLicense }) {
