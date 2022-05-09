@@ -21,18 +21,12 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.springframework.boot'
 
 bootJar {
-    baseName = "enabler-springboot-${springBootVersion}-sample"
+    archiveName = "enabler-springboot-sample-boot.jar"
     launchScript()
 }
 
 jar {
-    baseName = "enabler-springboot-${springBootVersion}-sample"
-    archiveName = "${baseName}.jar"
-}
-
-repositories {
-    mavenCentral()
-    maven { url "http://repo.spring.io/libs-milestone" }
+    enabled = false
 }
 
 dependencies {
