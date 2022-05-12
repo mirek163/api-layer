@@ -21,6 +21,7 @@ ext.javaProjectsWithUnitTests = [
     'zaas-client',
     'certificate-analyser',
     'apiml-tomcat-common',
+    'certificate-service',
     'apiml-extension-loader'
 ]
 

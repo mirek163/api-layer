@@ -13,6 +13,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.net.URL;
+import java.security.cert.Certificate;
 
 public class HttpClient {
 
@@ -23,12 +24,21 @@ public class HttpClient {
     }
 
     public int executeCall(URL url) throws IOException {
+        return getConnection(url).getResponseCode();
+    }
+
+    public Certificate[] getCertificateChain(URL url) throws IOException {
+        return getConnection(url).getServerCertificates();
+    }
+
+    public HttpsURLConnection getConnection(URL url) throws IOException {
         HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
         HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         con.setConnectTimeout(5000);
         con.setReadTimeout(5000);
-        return con.getResponseCode();
+        con.connect();
+        return con;
     }
 
 }
