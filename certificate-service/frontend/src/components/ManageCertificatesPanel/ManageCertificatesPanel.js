@@ -5,6 +5,7 @@ import {Box, FormControlLabel, Switch} from "@material-ui/core";
 import {ListItem, TextareaAutosize, Typography} from "@mui/material";
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
+import https from'https';
 
 const ManageCertificatesPanel = () => {
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -14,10 +15,6 @@ const ManageCertificatesPanel = () => {
     const [errors, setErrors] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [trustedCerts, setTrustedCerts] = React.useState(null);
-
-    function handleClick() {
-        setLoading(true);
-    }
 
     const onSubmit = async values => {
         await sleep(300);
@@ -56,12 +53,17 @@ const ManageCertificatesPanel = () => {
         []
     );
 
+    const httpsAgent = new https.Agent({
+        rejectUnauthorized: false,
+    });
+
     // TODO get list of certificate
     const getListOfTrustedCertificates = async () => {
         const url = process.env.REACT_APP_GATEWAY_URL + `/certificate-service/api/v1/trusted-certs`
         fetch(url, {
             method: 'GET',
-            mode: 'cors'
+            mode: 'cors',
+            agent: httpsAgent,
         }).then((response) => {
             if (!response.ok) {
                 throw Error(response.statusText);
@@ -92,7 +94,7 @@ const ManageCertificatesPanel = () => {
         });
     }
 
-    const {form, handleSubmit, values, pristine, submitting} = useForm({
+    const {form} = useForm({
         onSubmit,
         initialValues,
         validate
@@ -101,10 +103,6 @@ const ManageCertificatesPanel = () => {
     const alias = useField("alias", form);
     const url = useField("url", form);
     const certificate = useField("certificate", form);
-
-    const removeCertificate = (name) => {
-        console.log(`remove certificate ${name}`);
-    }
 
     const addCertificate = () => {
         console.log("Add Certificate");
@@ -116,7 +114,7 @@ const ManageCertificatesPanel = () => {
             items.push(
                 <List>
                 <ListItem alignItems={"flex-start"}>
-                    <ListItemText primary={"LABEL: " + `${item}`}
+                    <ListItemText primary={`LABEL: ${item}`}
                                   secondary={<React.Fragment>
                                       <Typography
                                           sx={{ display: 'inline' }}
@@ -139,27 +137,8 @@ const ManageCertificatesPanel = () => {
 
     return (
         <Styles>
-            <h2>Manage certificates</h2>
-            <table>
-                <tr>
-                    <td>Label</td>
-                    <td>Action</td>
-                </tr>
+            <h2>Manage truststore</h2>
 
-                <tr>
-                    <td>Label 1</td>
-                    <td>
-                        <button onClick={() => removeCertificate("Label 1")}>Remove</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Label 2</td>
-                    <td>
-                        <button onClick={() => removeCertificate("Label 2")}>Remove</button>
-                    </td>
-                </tr>
-            </table>
             <form>
                 <Box sx={{'& > button': {m: 1}}}>
                     <FormControlLabel

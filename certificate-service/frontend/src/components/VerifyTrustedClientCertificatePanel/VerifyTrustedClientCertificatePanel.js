@@ -4,7 +4,6 @@ import { useForm, useField } from "react-final-form-hooks";
 import FileUpload from "../FileUploadBar/FileUpload";
 
 const VerifyTrustedCertificate = () => {
-    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
     const [alias, setAlias] = useState(null);
     const onSubmit = async (data) => {
 

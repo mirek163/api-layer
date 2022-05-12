@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import List from '@mui/material/List';
@@ -11,11 +10,6 @@ export default function BasicMenu(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
     const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        props.changePanel(event.currentTarget.innerText);
-        console.log(event.currentTarget.innerText)
-        setAnchorEl(event.currentTarget);
-    };
 
     const handleMenuItemClick = (event, index) => {
         props.changePanel(event.currentTarget.innerText);

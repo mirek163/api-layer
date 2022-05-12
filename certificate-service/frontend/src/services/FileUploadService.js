@@ -23,7 +23,7 @@ const upload = (label, file, onUploadProgress) => {
     return app.post("/api/v1/certificate-service/certificate/upload", formData, config);
 };
 
-
-export default {
-    upload,
-};
+const fileUploadService = {
+    upload
+}
+export default fileUploadService;

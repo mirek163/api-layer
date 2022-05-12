@@ -1,4 +1,3 @@
-import { InputLabel } from '@mui/material';
 import { Component } from 'react';
 import BasicMenu from "../Menu/BasicMenu";
 import VerifyAccessPanel from "../VerifyAccessPanel/VerifyAccessPanel";
@@ -25,10 +24,10 @@ export default class Dashboard extends Component {
     render() {
         let panel = (<VerifyAccessPanel></VerifyAccessPanel>);
 
-        if(this.state.specificPanel && this.state.specificPanel == "Verify the service is trusted") {
+        if(this.state.specificPanel && this.state.specificPanel === "Verify the service is trusted") {
             panel = (<VerifyTrustedClientCertificatePanel></VerifyTrustedClientCertificatePanel>);
         }
-        else if (this.state.specificPanel && this.state.specificPanel == "Manage certificates") {
+        else if (this.state.specificPanel && this.state.specificPanel === "Manage certificates") {
             panel = (<ManageCertificatesPanel></ManageCertificatesPanel>);
         }
 

@@ -85,6 +85,59 @@ public class ApimlConf implements Config {
         return clientCertAuth;
     }
 
+    public void setKeyStore(String keyStore) {
+        this.keyStore = keyStore;
+    }
+
+    public void setTrustStore(String trustStore) {
+        this.trustStore = trustStore;
+    }
+
+    public void setTrustPasswd(String trustPasswd) {
+        this.trustPasswd = trustPasswd;
+    }
+
+    public void setKeyPasswd(String keyPasswd) {
+        this.keyPasswd = keyPasswd;
+    }
+
+    public void setTrustStoreType(String trustStoreType) {
+        this.trustStoreType = trustStoreType;
+    }
+
+    public void setKeyStoreType(String keyStoreType) {
+        this.keyStoreType = keyStoreType;
+    }
+
+    public void setKeyAlias(String keyAlias) {
+        this.keyAlias = keyAlias;
+    }
+
+    public void setRemoteUrl(String remoteUrl) {
+        this.remoteUrl = remoteUrl;
+    }
+
+    public void setDoLocalHandshake(boolean doLocalHandshake) {
+        this.doLocalHandshake = doLocalHandshake;
+    }
+
+    public void setHelpRequested(boolean helpRequested) {
+        this.helpRequested = helpRequested;
+    }
+
+    public void setClientCertAuth(boolean clientCertAuth) {
+        this.clientCertAuth = clientCertAuth;
+    }
+
+    public Config remapConfiguration(Config originalConfig, ApimlConf apimlConf){
+        apimlConf.setKeyStore(originalConfig.getKeyStore());
+        apimlConf.setTrustStore(originalConfig.getTrustStore());
+        apimlConf.setKeyPasswd(originalConfig.getKeyPasswd());
+        apimlConf.setTrustPasswd(originalConfig.getTrustPasswd());
+        apimlConf.setKeyAlias(originalConfig.getKeyAlias());
+        return apimlConf;
+    }
+
     private String defaultValue(String value, String defaultVal) {
         return value != null ? value : defaultVal;
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import UploadService from "../../services/FileUploadService";
 import "./FileUpload.css"
 import '../../assets/css/APIMReactToastify.css';
@@ -8,7 +8,7 @@ const FileUpload = (props) => {
     const [selectedFiles, setSelectedFiles] = useState(undefined);
     const [currentFile, setCurrentFile] = useState(undefined);
     const [progress, setProgress] = useState(0);
-    const [message, setMessage] = useState("");
+    const [setMessage] = useState("");
     const [fileInfos, setFileInfos] = useState([]);
 
 

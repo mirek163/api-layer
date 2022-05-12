@@ -14,9 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.zowe.apiml.HttpClient;
-import org.zowe.apiml.SSLContextFactory;
-import org.zowe.apiml.Stores;
+import org.zowe.apiml.*;
 import org.zowe.apiml.certificates.ZoweConfiguration;
 import org.zowe.apiml.certificates.service.CommandExecutor;
 
@@ -35,11 +33,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class StoresController {
 
     private final ZoweConfiguration zoweConfiguration;
+    private Stores stores;
+
+    public StoresController(ZoweConfiguration zoweConfiguration) {
+        this.zoweConfiguration = zoweConfiguration;
+        this.stores = new Stores(zoweConfiguration);
+    }
 
     @GetMapping("/trusted-certs")
     public Map<Object, Object> getListOfTrustedCerts() throws KeyStoreException {
@@ -139,5 +142,16 @@ public class StoresController {
             return new ResponseEntity<>("The certificate with provided label isn't part of the default truststore",
                 HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("certificate/handshake")
+    public ResponseEntity<String> doHandshake(@RequestParam("url") String url) throws Exception{
+        SSLContextFactory sslContextFactory = SSLContextFactory.initSSLContextWithoutKeystore(stores);
+
+        HttpClient httpClient = new HttpClient(sslContextFactory.getSslContext());
+        RemoteHandshake handshake = new RemoteHandshake(sslContextFactory,httpClient);
+        handshake.verify();
+        return null;
+
     }
 }
