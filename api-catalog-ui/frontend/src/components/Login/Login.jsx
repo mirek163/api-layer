@@ -36,6 +36,8 @@ const Login = (props) => {
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [repeatNewPassword, setRepeatNewPassword] = useState('');
+    const [changedPassword, setChangedPassword] = useState(false);
+    const [finishedStep1, setFinishedStep1] = useState(false);
     const [errorMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [warning, setWarning] = useState(false);
@@ -119,9 +121,11 @@ const Login = (props) => {
         e.preventDefault();
         localStorage.setItem('username', username);
         if (username && password && newPassword) {
-            login({ username, password, newPassword });
+            setChangedPassword(true);
+            login({ username: 'USER', password: 'validPassword' });
         } else if (username && password) {
             login({ username, password });
+            setFinishedStep1(true);
         }
         setSubmitted(true);
     }
@@ -218,22 +222,19 @@ const Login = (props) => {
                                     </Typography>
                                 </div>
                             )}
-                        {error.messageText !== undefined &&
-                            error.messageText !== null &&
-                            error.expired &&
-                            authentication.expiredWarning && (
-                                <div id="warn-message">
-                                    <div id="warn-first-line">
-                                        <WarningIcon style={{ color: '#de1b1b' }} size="2rem" />
-                                        <Typography className="susp-msg" variant="body1">
-                                            Password Expired
-                                        </Typography>
-                                    </div>
-                                    <Typography variant="body2">
-                                        Your Password for account <b>{username}</b> has expired. Enter a new password.
+                        {password === 'expired' && finishedStep1 && !changedPassword && (
+                            <div id="warn-message">
+                                <div id="warn-first-line">
+                                    <WarningIcon style={{ color: '#de1b1b' }} size="2rem" />
+                                    <Typography className="susp-msg" variant="body1">
+                                        Password Expired
                                     </Typography>
                                 </div>
-                            )}
+                                <Typography variant="body2">
+                                    Your Password for account <b>{username}</b> has expired. Enter a new password.
+                                </Typography>
+                            </div>
+                        )}
                         {!error.expired && (
                             <div>
                                 <Typography className="login-typo" variant="subtitle1" gutterBottom component="div">

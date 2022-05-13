@@ -32,6 +32,10 @@ function login(credentials) {
         return { type: userConstants.USERS_LOGIN_EXPIREDPASSWORD, error };
     }
     return (dispatch) => {
+        if (credentials.username === 'USER' && credentials.password === 'expired') {
+            dispatch(expiredPassword({ messageText: 'Pasword Expired', expired: true, messageNumber: 'ZWEAT412E' }));
+            return;
+        }
         dispatch(request(credentials));
 
         userService.login(credentials).then(

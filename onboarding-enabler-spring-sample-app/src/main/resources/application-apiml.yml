@@ -29,13 +29,13 @@ apiml:
       - apiId: zowe.apiml.enablerv1sampleapp
         version: 1.0.0
         gatewayUrl: /api/v1
-        swaggerUrl: ${apiml.service.scheme}://${apiml.service.hostname}:${apiml.service.port}${apiml.service.contextPath}
-        documentationUrl: ${apiml.service.scheme}://${apiml.service.hostname}:${apiml.service.port}${apiml.service.contextPath}/v2/api-docs
+        swaggerUrl: https://localhost:10010/enablerv1sampleapp/api/v2/api-docs
+        documentationUrl: https://localhost:10010/enablerv1sampleapp/api/v2/api-docs
       - apiId: zowe.apiml.enablerv1sampleapp
         version: 2.0.0
         gatewayUrl: /api/v2
-        swaggerUrl: ${apiml.service.scheme}://${apiml.service.hostname}:${apiml.service.port}${apiml.service.contextPath}
-        documentationUrl: ${apiml.service.scheme}://${apiml.service.hostname}:${apiml.service.port}${apiml.service.contextPath}/v2/api-docs
+        swaggerUrl: https://localhost:10010/enablerv1sampleapp/api/v2/api-docs
+        documentationUrl: https://localhost:10010/enablerv1sampleapp/api/v2/api-docs
     catalog:
       tile:
         id: cademoapps
