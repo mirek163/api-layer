@@ -57,7 +57,7 @@ apiml:
                                              # and is all run from single host.
                                              # In Brightside, this holds the DVIPA address and is overridden in PARMLIB to work
                                              # properly.
-        timeoutMillis: 30000  # Timeout for connection to the services
+        timeoutMillis: 20000  # Timeout for connection to the services
     security:
         filterChainConfiguration: new
         headersToBeCleared: X-Certificate-Public,X-Certificate-DistinguishedName,X-Certificate-CommonName
@@ -188,7 +188,7 @@ management:
         web:
             base-path: /application
             exposure:
-                include: health,info,shutdown,hystrix.stream
+                include: health,info,shutdown,hystrix.stream,httptrace
     health:
         defaults:
             enabled: false
@@ -251,7 +251,7 @@ management:
         web:
             base-path: /application
             exposure:
-                include: health,info,routes,loggers,shutdown,hystrix.stream
+                include: health,info,routes,loggers,shutdown,hystrix.stream,httptrace
     endpoint:
         shutdown:
             enabled: true
