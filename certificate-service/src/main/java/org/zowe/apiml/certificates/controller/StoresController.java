@@ -18,7 +18,9 @@ import org.zowe.apiml.*;
 import org.zowe.apiml.certificates.ZoweConfiguration;
 import org.zowe.apiml.certificates.service.CommandExecutor;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
@@ -33,16 +35,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class StoresController {
 
     private final ZoweConfiguration zoweConfiguration;
-    private Stores stores;
-
-    public StoresController(ZoweConfiguration zoweConfiguration) {
-        this.zoweConfiguration = zoweConfiguration;
-        this.stores = new Stores(zoweConfiguration);
-    }
 
     @GetMapping("/trusted-certs")
     public Map<Object, Object> getListOfTrustedCerts() throws KeyStoreException {
@@ -146,12 +143,14 @@ public class StoresController {
 
     @GetMapping("certificate/handshake")
     public ResponseEntity<String> doHandshake(@RequestParam("url") String url) throws Exception{
+        Stores stores = new Stores(zoweConfiguration);
         SSLContextFactory sslContextFactory = SSLContextFactory.initSSLContextWithoutKeystore(stores);
-
         HttpClient httpClient = new HttpClient(sslContextFactory.getSslContext());
         RemoteHandshake handshake = new RemoteHandshake(sslContextFactory,httpClient);
-        handshake.verify();
-        return null;
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        handshake.getHandshakeMessage(url);
+        return new ResponseEntity<>(out.toString(),HttpStatus.OK);
 
     }
 }

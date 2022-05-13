@@ -129,7 +129,7 @@ public class ApimlConf implements Config {
         this.clientCertAuth = clientCertAuth;
     }
 
-    public Config remapConfiguration(Config originalConfig, ApimlConf apimlConf){
+    public static ApimlConf remapConfiguration(Config originalConfig, ApimlConf apimlConf){
         apimlConf.setKeyStore(originalConfig.getKeyStore());
         apimlConf.setTrustStore(originalConfig.getTrustStore());
         apimlConf.setKeyPasswd(originalConfig.getKeyPasswd());

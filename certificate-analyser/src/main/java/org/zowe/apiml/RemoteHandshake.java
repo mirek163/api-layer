@@ -25,13 +25,11 @@ public class RemoteHandshake implements Verifier {
     }
 
     public void verify() {
-        String serviceAddress = ((ApimlConf)sslContextFactory.getStores().getConf()).getRemoteUrl();
         String trustStore = sslContextFactory.getStores().getConf().getTrustStore();
-
+        String serviceAddress = ((ApimlConf)sslContextFactory.getStores().getConf()).getRemoteUrl();
         try {
-            URL url = new URL(serviceAddress);
             System.out.println("Start of the remote SSL handshake.");
-            httpClient.executeCall(url);
+            getHandshakeMessage(serviceAddress);
             System.out.println("Handshake was successful. Service \"" + serviceAddress + "\" is trusted by truststore \"" + trustStore
                 + "\".");
         } catch (MalformedURLException e) {
@@ -42,6 +40,24 @@ public class RemoteHandshake implements Verifier {
         } catch (Exception e) {
             System.out.println("Failed when calling url: \"" + serviceAddress + "\" Error message: " + e.getMessage());
         }
+    }
+
+    public String getHandshakeMessage(String serviceAddress) throws Exception{
+        try {
+            URL url = new URL(serviceAddress);
+            httpClient.executeCall(url);
+            System.out.println("Handshake was successful. Service \"" + serviceAddress + "\" is trusted by truststore \""
+                + "\".");
+        } catch (MalformedURLException e) {
+            System.out.println("Incorrect url \"" + serviceAddress + "\". Error message: " + e.getMessage());
+        } catch (SSLHandshakeException e) {
+            System.out.println("SSL Handshake failed for address \"" + serviceAddress +
+                "\". Cause of error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Failed when calling url: \"" + serviceAddress + "\" Error message: " + e.getMessage());
+        }
+
+        return null;
     }
 
 
