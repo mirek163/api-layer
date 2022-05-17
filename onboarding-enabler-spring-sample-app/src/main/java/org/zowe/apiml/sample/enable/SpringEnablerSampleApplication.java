@@ -9,12 +9,14 @@
  */
 package org.zowe.apiml.sample.enable;
 
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.zowe.apiml.enable.EnableApiDiscovery;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableApiDiscovery
+@EnableEurekaClient
 public class SpringEnablerSampleApplication {
 
     public static void main(String[] args) {

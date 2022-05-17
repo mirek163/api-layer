@@ -44,6 +44,9 @@ dependencies {
     compileOnly libraries.lombok
     annotationProcessor libraries.lombok
 
+    implementation libraries.spring_cloud_starter_eureka
+    implementation libraries.spring_cloud_starter_hystrix
+
     testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     testCompile libraries.json_smart
 }
