@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.zowe.apiml.caching.model.KeyValue;
+import org.zowe.apiml.product.model.KeyValue;
 import org.zowe.apiml.caching.service.Messages;
 import org.zowe.apiml.caching.service.Storage;
 import org.zowe.apiml.caching.service.StorageException;

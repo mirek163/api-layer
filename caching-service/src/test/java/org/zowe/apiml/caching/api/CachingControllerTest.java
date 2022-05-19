@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.zowe.apiml.caching.model.KeyValue;
+import org.zowe.apiml.product.model.KeyValue;
 import org.zowe.apiml.caching.service.Messages;
 import org.zowe.apiml.caching.service.Storage;
 import org.zowe.apiml.caching.service.StorageException;

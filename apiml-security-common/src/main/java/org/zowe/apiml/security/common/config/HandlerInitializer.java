@@ -14,6 +14,7 @@ import org.zowe.apiml.security.common.error.ResourceAccessExceptionHandler;
 import org.zowe.apiml.security.common.handler.BasicAuthUnauthorizedHandler;
 import org.zowe.apiml.security.common.handler.FailedAuthenticationHandler;
 import org.zowe.apiml.security.common.handler.UnauthorizedHandler;
+import org.zowe.apiml.security.common.login.SuccessfulAuthAccessTokenHandler;
 import org.zowe.apiml.security.common.login.SuccessfulLoginHandler;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,17 +32,20 @@ public class HandlerInitializer {
     private final BasicAuthUnauthorizedHandler basicAuthUnauthorizedHandler;
     private final FailedAuthenticationHandler authenticationFailureHandler;
     private final ResourceAccessExceptionHandler resourceAccessExceptionHandler;
+    private final SuccessfulAuthAccessTokenHandler successfulAuthAccessTokenHandler;
 
     public HandlerInitializer(SuccessfulLoginHandler successfulLoginHandler,
                               @Qualifier("plainAuth")
                                   UnauthorizedHandler unAuthorizedHandler,
                               BasicAuthUnauthorizedHandler basicAuthUnauthorizedHandler,
                               FailedAuthenticationHandler authenticationFailureHandler,
-                              ResourceAccessExceptionHandler resourceAccessExceptionHandler) {
+                              ResourceAccessExceptionHandler resourceAccessExceptionHandler,
+                              SuccessfulAuthAccessTokenHandler successfulAuthAccessTokenHandler) {
         this.successfulLoginHandler = successfulLoginHandler;
         this.unAuthorizedHandler = unAuthorizedHandler;
         this.basicAuthUnauthorizedHandler = basicAuthUnauthorizedHandler;
         this.authenticationFailureHandler = authenticationFailureHandler;
         this.resourceAccessExceptionHandler = resourceAccessExceptionHandler;
+        this.successfulAuthAccessTokenHandler = successfulAuthAccessTokenHandler;
     }
 }

@@ -22,8 +22,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.zowe.apiml.gateway.security.service.AuthenticationService;
 import org.zowe.apiml.gateway.security.service.JwtSecurity;
+import org.zowe.apiml.gateway.security.service.pat.ApimlAccessTokenProvider;
 import org.zowe.apiml.gateway.security.service.zosmf.ZosmfService;
 import org.zowe.apiml.message.core.MessageService;
+import org.zowe.apiml.security.common.login.AccessTokenProvider;
 import org.zowe.apiml.security.common.token.TokenNotValidException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +53,7 @@ public class AuthController {
     private final JwtSecurity jwtSecurity;
     private final ZosmfService zosmfService;
     private final MessageService messageService;
-
+    private final ApimlAccessTokenProvider accessTokenProvider;
     public static final String CONTROLLER_PATH = "/gateway/auth";  // NOSONAR: URL is always using / to separate path segments
     public static final String INVALIDATE_PATH = "/invalidate/**";  // NOSONAR
     public static final String DISTRIBUTE_PATH = "/distribute/**";  // NOSONAR
@@ -121,6 +123,12 @@ public class AuthController {
             key.ifPresent(keys::add);
         }
         return new JWKSet(keys).toJSONObject(true);
+    }
+
+    @PostMapping(path = "access-token/verify")
+    public ResponseEntity<String> validateAccessToken(@RequestBody() String token) throws IOException{
+        int status = accessTokenProvider.validateToken(token);
+        return new ResponseEntity<>(HttpStatus.valueOf(status));
     }
 
     /**

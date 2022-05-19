@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.zowe.apiml.caching.model.KeyValue;
+import org.zowe.apiml.product.model.KeyValue;
 import org.zowe.apiml.util.config.SslContext;
 import org.zowe.apiml.util.config.SslContextConfigurer;
 

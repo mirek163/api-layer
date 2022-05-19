@@ -10,13 +10,19 @@
 package org.zowe.apiml.security.common.config;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.zowe.apiml.security.common.auth.saf.SafMethodSecurityExpressionHandler;
 import org.zowe.apiml.security.common.auth.saf.SafResourceAccessVerifying;
+import org.zowe.apiml.security.common.login.AccessTokenProvider;
+
+import java.io.IOException;
 
 @Configuration
 @RequiredArgsConstructor
@@ -30,6 +36,14 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
     @Override
     protected MethodSecurityExpressionHandler createExpressionHandler() {
         return new SafMethodSecurityExpressionHandler(safSecurityConfigurationProperties, safResourceAccessVerifying);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public AccessTokenProvider accessTokenProvider(){
+        return userId -> {
+            throw new NotImplementedException();
+        };
     }
 
 }

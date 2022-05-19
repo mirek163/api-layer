@@ -72,6 +72,7 @@ dependencies {
     implementation libraries.spring_security_config
     implementation libraries.spring_security_core
     implementation libraries.spring_security_crypto
+    implementation libraries.spring_security_oauth2
     implementation libraries.xstream
     implementation libraries.json_smart
 
@@ -80,6 +81,7 @@ dependencies {
     implementation libraries.jackson_annotations
     implementation libraries.jackson_core
     implementation libraries.jackson_databind
+    implementation libraries.jackson_datatype
     implementation libraries.tomcat_coyote
     implementation libraries.tomcat_annotations_api
     implementation libraries.tomcat_embed_core

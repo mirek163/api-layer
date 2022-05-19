@@ -11,7 +11,7 @@ package org.zowe.apiml.caching.service.vsam;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Retryable;
-import org.zowe.apiml.caching.model.KeyValue;
+import org.zowe.apiml.product.model.KeyValue;
 import org.zowe.apiml.caching.service.*;
 import org.zowe.apiml.caching.service.vsam.config.VsamConfig;
 import org.zowe.apiml.message.log.ApimlLogger;

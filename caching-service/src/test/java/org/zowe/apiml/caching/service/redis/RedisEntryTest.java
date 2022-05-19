@@ -13,7 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.zowe.apiml.caching.model.KeyValue;
+import org.zowe.apiml.product.model.KeyValue;
 import org.zowe.apiml.caching.service.redis.exceptions.RedisEntryException;
 
 import static org.hamcrest.MatcherAssert.assertThat;

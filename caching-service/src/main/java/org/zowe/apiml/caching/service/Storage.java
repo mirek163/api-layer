@@ -9,7 +9,7 @@
  */
 package org.zowe.apiml.caching.service;
 
-import org.zowe.apiml.caching.model.KeyValue;
+import org.zowe.apiml.product.model.KeyValue;
 
 import java.util.Map;
 
