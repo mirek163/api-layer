@@ -60,6 +60,7 @@ public class AuthController {
     public static final String PUBLIC_KEYS_PATH = "/keys/public";  // NOSONAR
     public static final String ALL_PUBLIC_KEYS_PATH = PUBLIC_KEYS_PATH + "/all";
     public static final String CURRENT_PUBLIC_KEYS_PATH = PUBLIC_KEYS_PATH + "/current";
+    public static final String ACCESS_TOKEN_VERIFY = "access-token/verify";
 
     @DeleteMapping(path = INVALIDATE_PATH)
     @HystrixCommand
@@ -125,11 +126,23 @@ public class AuthController {
         return new JWKSet(keys).toJSONObject(true);
     }
 
-    @PostMapping(path = "access-token/verify")
+    @PostMapping(path = ACCESS_TOKEN_VERIFY)
+    @ResponseBody
+    @HystrixCommand
     public ResponseEntity<String> validateAccessToken(@RequestBody() String token) throws IOException{
         int status = accessTokenProvider.validateToken(token);
         return new ResponseEntity<>(HttpStatus.valueOf(status));
     }
+
+    @DeleteMapping(path = "access-token/revoke")
+    @ResponseBody
+    @HystrixCommand
+    public ResponseEntity<String> revokeAccessTokens(@RequestParam() String user) throws IOException{
+        int status = accessTokenProvider.invalidateAllTokensForUser(user);
+        return new ResponseEntity<>(HttpStatus.valueOf(status));
+    }
+
+
 
     /**
      * Return key that's actually used. If there is one available from zOSMF, then this one is used otherwise the

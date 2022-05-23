@@ -12,7 +12,7 @@ class ApimlAccessTokenProviderTest {
     void getToken() {
         ApimlAccessTokenProvider aatp = new ApimlAccessTokenProvider(null,null);
         ApimlAccessTokenProvider.AccessTokenContainer token = aatp.generateDefault();
-        assertEquals(OAuth2AccessToken.TokenType.BEARER, token.getTokenType());
+        assertEquals(ApimlAccessTokenProvider.AccessTokenContainer.TOKEN_TYPE_BEARER, token.getTokenType());
         String newHash = DigestUtils.sha3_512Hex(token.getTokenValue());
         assertEquals(newHash, token.getTokenValue());
     }

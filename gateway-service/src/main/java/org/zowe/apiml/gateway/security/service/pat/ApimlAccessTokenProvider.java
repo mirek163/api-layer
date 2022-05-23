@@ -11,59 +11,70 @@ package org.zowe.apiml.gateway.security.service.pat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.text.RandomStringGenerator;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.zowe.apiml.product.gateway.GatewayClient;
 import org.zowe.apiml.product.model.KeyValue;
 import org.zowe.apiml.security.common.login.AccessTokenProvider;
+import org.zowe.apiml.security.common.login.AccessTokenRequest;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.apache.commons.text.CharacterPredicates.DIGITS;
 import static org.apache.commons.text.CharacterPredicates.LETTERS;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ApimlAccessTokenProvider implements AccessTokenProvider {
 
     public static final String TOKEN_PREFIX = "zwea_";
     @Qualifier("secureHttpClientWithKeystore")
-    private CloseableHttpClient httpClient;
-    private DiscoveryClient discoveryClient;
+    private final CloseableHttpClient httpClient;
+    private final GatewayClient gatewayClient;
+    @Value("${apiml.security.auth.provider}")
+    private String authProvider;
 
-    public AccessTokenContainer createContainer(int validity, String userId, String tokenValue) {
-        Set<String> scopes = new HashSet<>();
-        scopes.add("ZWE");
-
-        String hashToStore = DigestUtils.sha1Hex(tokenValue);
-        AccessTokenContainer atc = new AccessTokenContainer(userId, false, hashToStore,"Bearer",LocalDateTime.now(),LocalDateTime.now().plus(validity,ChronoUnit.DAYS),scopes);
-        return atc;
+    private static ObjectMapper objectMapper = new ObjectMapper();
+    static {
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
-    public String getToken(String userId) throws IOException{
+    private AccessTokenContainer createContainer(AccessTokenRequest tokenRequest, String userId, String tokenValue) {
+        Set<String> scopes = new HashSet<>();
+        Collections.addAll(scopes,tokenRequest.getScopes());
+        String hashToStore = DigestUtils.sha1Hex(tokenValue);
+        return new AccessTokenContainer(
+            userId,
+            false,
+            hashToStore,
+            AccessTokenContainer.TOKEN_TYPE_BEARER,LocalDateTime.now(),
+            LocalDateTime.now().plus(tokenRequest.getValidity(),ChronoUnit.DAYS),
+            scopes,authProvider);
+    }
+
+    public String createToken(String userId, AccessTokenRequest accessTokenRequest) throws IOException{
         String tokenValue = generateTokenValue(userId);
-        AccessTokenContainer atc = createContainer(90, userId, tokenValue);
-        storeToken(atc);
+        AccessTokenContainer atc = createContainer(accessTokenRequest, userId, tokenValue);
+        if(storeToken(atc)>299) return "error";
         return tokenValue;
     }
 
-    public String generateTokenValue(String userId){
+    private String generateTokenValue(String userId){
         RandomStringGenerator rsg = new RandomStringGenerator.Builder().withinRange('0','z').filteredBy(LETTERS,DIGITS).build();
         String key = rsg.generate(40);
         key = key + userId + System.currentTimeMillis();
@@ -71,44 +82,65 @@ public class ApimlAccessTokenProvider implements AccessTokenProvider {
     }
 
     public AccessTokenContainer generateDefault() {
-       return createContainer(90, "user","");
+       return createContainer(new AccessTokenRequest(90,null), "user","");
     }
 
-    public void storeToken(AccessTokenContainer container) throws IOException {
-//        EurekaServiceInstance cachingInstance = (EurekaServiceInstance)discoveryClient.getInstances("cachingservice").get(0);
-       String cachingUrl = String.format("%s/%s/%s/%s","https://localhost:10010/cachingservice","api","v1","cache");
+    private int storeToken(AccessTokenContainer container) throws IOException {
+        String cachingUrl = getCacheUrl();
         HttpPost request = new HttpPost(cachingUrl);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-       String json = mapper.writeValueAsString(container);
+        String json = objectMapper.writeValueAsString(container);
         KeyValue keyValue = new KeyValue(container.getTokenValue(),json);
-        json = mapper.writeValueAsString(keyValue);
+        json = objectMapper.writeValueAsString(keyValue);
         request.setEntity(new StringEntity(json));
         request.setHeader("Content-type", "application/json");
         CloseableHttpResponse response = httpClient.execute(request);
-        System.out.println(response.getStatusLine().getStatusCode());
+
+        return response.getStatusLine().getStatusCode();
+    }
+
+    private String getCacheUrl(){
+        return String.format("%s://%s/%s/%s/%s/%s",gatewayClient.getGatewayConfigProperties().getScheme(),gatewayClient.getGatewayConfigProperties().getHostname(),"cachingservice","api","v1","cache");
     }
 
     public int validateToken(String token) throws IOException{
         String tokenHash = DigestUtils.sha1Hex(token);
-//        EurekaServiceInstance cachingInstance = (EurekaServiceInstance)discoveryClient.getInstances("cachingservice").get(0);
-        String cachingUrl = String.format("%s/%s/%s/%s/%s","https://localhost:10010/cachingservice","api","v1","cache",tokenHash);
+        String cachingUrl = getCacheUrl() + "/" + tokenHash;
         HttpGet request = new HttpGet(cachingUrl);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
         CloseableHttpResponse response = httpClient.execute(request);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        Gson gson = new Gson();
         KeyValue kv = objectMapper.readValue(response.getEntity().getContent(),KeyValue.class);
-//        AccessTokenContainer atc = gson.fromJson(kv.getValue(),AccessTokenContainer.class);
         AccessTokenContainer atc = objectMapper.readValue(kv.getValue(),AccessTokenContainer.class);
+        if(atc.isRevoked || LocalDateTime.now().isAfter(atc.expiresAt)){
+            return 401;
+        }
         return response.getStatusLine().getStatusCode();
+    }
+
+    public int invalidateAllTokensForUser(String userId) throws IOException{
+        Map<String, Object> tokens = getAllTokens(userId);
+        if(tokens != null)
+            for(String key : tokens.keySet()) {
+            HttpDelete revokeRequest = new HttpDelete(getCacheUrl()+"/revoke/" + key);
+            try{
+               CloseableHttpResponse resp = httpClient.execute(revokeRequest);
+                System.out.println("Revoked hash: " + key + " with status" + resp.getStatusLine().getStatusCode());
+            } catch (IOException e){
+                System.out.println(e);
+                return 500;
+            }
+        };
+        return 200;
+    }
+
+    private Map<String, Object> getAllTokens(String userId) throws IOException{
+        CloseableHttpResponse resp = httpClient.execute(new HttpGet(getCacheUrl()));
+        return objectMapper.readValue(resp.getEntity().getContent(),Map.class);
     }
 
     @Data
     @AllArgsConstructor
     public static class AccessTokenContainer {
+
+        public static final String TOKEN_TYPE_BEARER = "Bearer";
         public AccessTokenContainer() {
         }
 
@@ -119,6 +151,7 @@ public class ApimlAccessTokenProvider implements AccessTokenProvider {
         private LocalDateTime issuedAt;
         private LocalDateTime expiresAt;
         private Set<String> scopes;
+        private String tokenProvider;
 
     }
 }

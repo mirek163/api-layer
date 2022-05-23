@@ -9,6 +9,7 @@
  */
 package org.zowe.apiml.caching.service;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.zowe.apiml.product.model.KeyValue;
 
 import java.util.Map;
@@ -68,4 +69,7 @@ public interface Storage {
      * @param serviceId Id of the service to delete all key/value pairs for.
      */
     void deleteForService(String serviceId);
+
+    default KeyValue revoke(String serviceId, String key){throw new NotImplementedException();
+    };
 }

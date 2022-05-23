@@ -96,6 +96,16 @@ public class CachingController {
             key, request, HttpStatus.NO_CONTENT);
     }
 
+    @DeleteMapping(value = "/cache/revoke/{key}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Delete key from the cache",
+        notes = "Will delete key-value pair for the provided {key}")
+    @ResponseBody
+    @HystrixCommand
+    public ResponseEntity<Object> revoke(@PathVariable String key, HttpServletRequest request) {
+        return keyRequest(storage::revoke,
+            key, request, HttpStatus.NO_CONTENT);
+    }
+
     @PostMapping(value = "/cache", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create a new key in the cache",
         notes = "A new key-value pair will be added to the cache")

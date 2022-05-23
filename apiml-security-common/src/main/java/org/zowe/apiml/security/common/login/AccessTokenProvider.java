@@ -4,5 +4,5 @@ import java.io.IOException;
 
 public interface AccessTokenProvider {
 
-    String getToken(String userId) throws IOException;
+    String createToken(String userId, AccessTokenRequest accessTokenRequest) throws IOException;
 }

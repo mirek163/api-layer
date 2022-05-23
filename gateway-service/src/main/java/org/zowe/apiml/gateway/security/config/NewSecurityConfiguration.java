@@ -34,6 +34,7 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.zowe.apiml.filter.AttlsFilter;
 import org.zowe.apiml.filter.SecureConnectionFilter;
 import org.zowe.apiml.gateway.controllers.AuthController;
@@ -46,6 +47,7 @@ import org.zowe.apiml.gateway.security.query.SuccessfulQueryHandler;
 import org.zowe.apiml.gateway.security.query.TokenAuthenticationProvider;
 import org.zowe.apiml.gateway.security.refresh.SuccessfulRefreshHandler;
 import org.zowe.apiml.gateway.security.service.AuthenticationService;
+import org.zowe.apiml.gateway.security.service.pat.ApimlAccessTokenProvider;
 import org.zowe.apiml.gateway.security.ticket.SuccessfulTicketHandler;
 import org.zowe.apiml.gateway.services.ServicesInfoController;
 import org.zowe.apiml.security.common.config.AuthConfigurationProperties;
@@ -56,9 +58,15 @@ import org.zowe.apiml.security.common.content.BearerContentFilter;
 import org.zowe.apiml.security.common.content.CookieContentFilter;
 import org.zowe.apiml.security.common.filter.CategorizeCertsFilter;
 import org.zowe.apiml.security.common.handler.FailedAuthenticationHandler;
+import org.zowe.apiml.security.common.login.AccessTokenRequest;
 import org.zowe.apiml.security.common.login.LoginFilter;
 import org.zowe.apiml.security.common.login.ShouldBeAlreadyAuthenticatedFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Set;
 
 /**
@@ -465,11 +473,24 @@ public class NewSecurityConfiguration {
 
                 //drive filter order this way
                 .addFilterBefore(new CategorizeCertsFilter(publicKeyCertificatesBase64), org.springframework.security.web.authentication.preauth.x509.X509AuthenticationFilter.class)
+                .addFilterBefore(extractBody(),CategorizeCertsFilter.class)
                 .addFilterBefore(accessTokenFilter("/**", authenticationManager()), org.springframework.security.web.authentication.preauth.x509.X509AuthenticationFilter.class)
                 .addFilterAfter(x509AuthenticationFilter("/**"), org.springframework.security.web.authentication.preauth.x509.X509AuthenticationFilter.class) // this filter consumes certificates from custom attribute and maps them to credentials and authenticates them
                 .addFilterAfter(jwtAuthFilter("/**",authenticationManager()),org.springframework.security.web.authentication.preauth.x509.X509AuthenticationFilter.class)
                 .addFilterAfter(new ShouldBeAlreadyAuthenticatedFilter("/**", handlerInitializer.getAuthenticationFailureHandler()), org.springframework.security.web.authentication.preauth.x509.X509AuthenticationFilter.class); // this filter stops processing of filter chaing because there is nothing on /auth/login endpoint
 
+        }
+
+        private OncePerRequestFilter extractBody(){
+            return new OncePerRequestFilter() {
+                @Override
+                protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+                    ObjectMapper mapper = new ObjectMapper();
+                    AccessTokenRequest atr = mapper.readValue(request.getInputStream(), AccessTokenRequest.class);
+                    request.setAttribute(AccessTokenRequest.REQUEST_ATTRIBUTE_NAME,atr);
+                    filterChain.doFilter(request,response);
+                }
+            };
         }
 
         private LoginFilter accessTokenFilter(String endpoint, AuthenticationManager authenticationManager) {

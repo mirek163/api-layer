@@ -29,7 +29,17 @@ public class SuccessfulAuthAccessTokenHandler implements AuthenticationSuccessHa
     private final AccessTokenProvider accessTokenProvider;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        String token = accessTokenProvider.getToken(authentication.getPrincipal().toString());
+        Object attributeObject = request.getAttribute(AccessTokenRequest.REQUEST_ATTRIBUTE_NAME);
+        String token;
+        String userId = authentication.getPrincipal().toString();
+        AccessTokenRequest atr;
+        if(attributeObject instanceof AccessTokenRequest) {
+            atr = (AccessTokenRequest) attributeObject;
+            token = accessTokenProvider.createToken(userId, atr);
+        }else {
+            token = accessTokenProvider.createToken(userId,new AccessTokenRequest(90,null));
+        }
+
         response.getWriter().write(token);
         response.getWriter().flush();
     }

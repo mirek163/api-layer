@@ -22,8 +22,6 @@ import org.zowe.apiml.security.common.auth.saf.SafMethodSecurityExpressionHandle
 import org.zowe.apiml.security.common.auth.saf.SafResourceAccessVerifying;
 import org.zowe.apiml.security.common.login.AccessTokenProvider;
 
-import java.io.IOException;
-
 @Configuration
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
@@ -41,7 +39,7 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public AccessTokenProvider accessTokenProvider(){
-        return userId -> {
+        return (userId, accessTokenRequest) -> {
             throw new NotImplementedException();
         };
     }

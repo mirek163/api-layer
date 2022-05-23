@@ -10,6 +10,7 @@
 package org.zowe.apiml.caching.service.infinispan.storage;
 
 import lombok.extern.slf4j.Slf4j;
+import org.infinispan.Cache;
 import org.zowe.apiml.product.model.KeyValue;
 import org.zowe.apiml.caching.service.Messages;
 import org.zowe.apiml.caching.service.Storage;
@@ -86,6 +87,15 @@ public class InfinispanStorage implements Storage {
             }
         });
         return result;
+    }
+
+    @Override
+    public KeyValue revoke(String serviceId, String key){
+       return ((Cache<String, KeyValue>) cache).computeIfPresent(serviceId + key,( k,  v)->{
+           KeyValue kv = new KeyValue(key,v.getValue().replace("false","true"),v.getCreated());
+           kv.setServiceId(serviceId);
+           return kv;
+       } );
     }
 
     @Override
