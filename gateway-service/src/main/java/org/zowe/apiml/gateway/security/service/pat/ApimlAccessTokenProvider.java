@@ -9,11 +9,14 @@
  */
 package org.zowe.apiml.gateway.security.service.pat;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.text.RandomStringGenerator;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -34,12 +37,14 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.text.CharacterPredicates.DIGITS;
 import static org.apache.commons.text.CharacterPredicates.LETTERS;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ApimlAccessTokenProvider implements AccessTokenProvider {
 
     public static final String TOKEN_PREFIX = "zwea_";
@@ -107,6 +112,9 @@ public class ApimlAccessTokenProvider implements AccessTokenProvider {
         String cachingUrl = getCacheUrl() + "/" + tokenHash;
         HttpGet request = new HttpGet(cachingUrl);
         CloseableHttpResponse response = httpClient.execute(request);
+        if(response.getStatusLine().getStatusCode() > 299) {
+            return 401;
+        }
         KeyValue kv = objectMapper.readValue(response.getEntity().getContent(),KeyValue.class);
         AccessTokenContainer atc = objectMapper.readValue(kv.getValue(),AccessTokenContainer.class);
         if(atc.isRevoked || LocalDateTime.now().isAfter(atc.expiresAt)){
@@ -116,24 +124,64 @@ public class ApimlAccessTokenProvider implements AccessTokenProvider {
     }
 
     public int invalidateAllTokensForUser(String userId) throws IOException{
-        Map<String, Object> tokens = getAllTokens(userId);
-        if(tokens != null)
-            for(String key : tokens.keySet()) {
-            HttpDelete revokeRequest = new HttpDelete(getCacheUrl()+"/revoke/" + key);
-            try{
-               CloseableHttpResponse resp = httpClient.execute(revokeRequest);
-                System.out.println("Revoked hash: " + key + " with status" + resp.getStatusLine().getStatusCode());
-            } catch (IOException e){
-                System.out.println(e);
-                return 500;
-            }
-        };
-        return 200;
+        List<String> keys = getTokensForUser(userId);
+        int returnCode = 200;
+        for(String key : keys) {
+           returnCode = invalidateTokenByKey(key);
+           if(returnCode > 299) {
+               return returnCode;
+           }
+        }
+        return returnCode;
     }
 
-    private Map<String, Object> getAllTokens(String userId) throws IOException{
+    public int invalidateAllTokens(String userId) throws IOException{
+        Map<String, KeyValue> allTokens = getAllTokens();
+        int returnCode = 200;
+        for(Map.Entry<String, KeyValue> entry : allTokens.entrySet()) {
+            returnCode = invalidateTokenByKey(entry.getKey());
+            if(returnCode > 299) {
+                return returnCode;
+            }
+        }
+        return returnCode;
+    }
+
+    public int invalidateToken(String token) {
+        String tokenHash = DigestUtils.sha1Hex(token);
+        return invalidateTokenByKey(tokenHash);
+    }
+
+    private int invalidateTokenByKey(String key) {
+        HttpDelete revokeRequest = new HttpDelete(getCacheUrl() + "/revoke/" + key);
+        try {
+            CloseableHttpResponse resp = httpClient.execute(revokeRequest);
+            log.debug("Revoked hash: " + key + " with status" + resp.getStatusLine().getStatusCode());
+            return resp.getStatusLine().getStatusCode();
+        } catch (IOException e) {
+            log.error("Error while revoking token with hash: " + key);
+            return 500;
+        }
+    }
+
+    private List<String> getTokensForUser(String userId) throws IOException{
+        Map<String, KeyValue> tokens = getAllTokens();
+        return tokens.entrySet().stream().filter((stringKeyValueEntry -> {
+            AccessTokenContainer atc;
+            try {
+                atc = objectMapper.readValue(stringKeyValueEntry.getValue().getValue(), AccessTokenContainer.class);
+                return userId.equals(atc.userId);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            return false;
+        })).map(Map.Entry::getKey).collect(Collectors.toList());
+    }
+
+    private Map<String, KeyValue> getAllTokens() throws IOException{
         CloseableHttpResponse resp = httpClient.execute(new HttpGet(getCacheUrl()));
-        return objectMapper.readValue(resp.getEntity().getContent(),Map.class);
+        return objectMapper.readValue(resp.getEntity().getContent(), new TypeReference<Map<String, KeyValue>>() {
+        });
     }
 
     @Data

@@ -137,8 +137,16 @@ public class AuthController {
     @DeleteMapping(path = "access-token/revoke")
     @ResponseBody
     @HystrixCommand
-    public ResponseEntity<String> revokeAccessTokens(@RequestParam() String user) throws IOException{
+    public ResponseEntity<String> revokeAccessTokens(@RequestBody() String user) throws IOException{
         int status = accessTokenProvider.invalidateAllTokensForUser(user);
+        return new ResponseEntity<>(HttpStatus.valueOf(status));
+    }
+
+    @DeleteMapping(path = "access-token/revoke/{token}")
+    @ResponseBody
+    @HystrixCommand
+    public ResponseEntity<String> revokeAccessToken(@PathVariable() String token) throws IOException{
+        int status = accessTokenProvider.invalidateToken(token);
         return new ResponseEntity<>(HttpStatus.valueOf(status));
     }
 
