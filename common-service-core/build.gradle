@@ -8,7 +8,6 @@ dependencies {
     compile libraries.netflix_servo
 
     compile(libraries.http_client)
-    compile(libraries.http_core)
     compile(libraries.jackson_annotations)
     compile(libraries.jackson_databind)
     compile(libraries.slf4j_api)
