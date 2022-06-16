@@ -4,6 +4,7 @@ logging:
         org.zowe.apiml: INFO
         org.springframework: WARN
         com.netflix: WARN
+        org.springdoc: WARN
         com.netflix.discovery: ERROR
         com.netflix.config: ERROR
         com.netflix.discovery.shared.transport.decorator.RedirectingEurekaHttpClient: OFF
@@ -34,6 +35,8 @@ apiml:
         id: gateway  # Service ID of this service. It is fixed for APIML API Gateway
         hostname: localhost  # Hostname that is advertised in Eureka. Contains the actual hostname of the instance.
                              # Default is valid only for localhost
+        title: API Gateway
+        description: REST API for the API Gateway service, which is a component of the API Mediation Layer. Use this API to perform tasks such as logging in with the mainframe credentials and checking authorization to mainframe resources.
         port: 10010  # Default port name for gateway service
         ipAddress: 127.0.0.1  # IP address that is advertised in Eureka. Default is valid only for localhost
         scheme: https  # "https" or "http"
@@ -73,6 +76,10 @@ apiml:
             urls:
                 authenticate: https://localhost:10013/zss/saf/authenticate
                 verify: https://localhost:10013/zss/saf/verify
+
+springdoc:
+    packagesToScan: org.zowe.apiml.gateway
+    pathsToMatch: /**
 
 spring:
     config:
@@ -227,7 +234,7 @@ eureka:
                     - apiId: zowe.apiml.gateway
                       version: 1.0.0
                       gatewayUrl: api/v1
-                      swaggerUrl: https://${apiml.service.hostname}:${apiml.service.port}/api-doc
+                      swaggerUrl: https://${apiml.service.hostname}:${apiml.service.port}/v3/api-docs
                       documentationUrl: https://zowe.github.io/docs-site/
                 service:
                     title: API Gateway

@@ -149,6 +149,7 @@ dependencies {
     implementation libraries.eh_cache
     implementation libraries.spring_retry
     implementation libraries.awaitility
+    implementation libraries.spring_doc
 
     compileOnly libraries.javax_inject
     compileOnly libraries.lombok
