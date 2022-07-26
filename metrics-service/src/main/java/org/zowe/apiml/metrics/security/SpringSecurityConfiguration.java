@@ -28,6 +28,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.zowe.apiml.security.client.EnableApimlAuth;
 import org.zowe.apiml.security.client.login.GatewayLoginProvider;
 import org.zowe.apiml.security.client.token.GatewayTokenProvider;
+import org.zowe.apiml.security.common.auth.CommonLogoutSuccessHandler;
 import org.zowe.apiml.security.common.config.AuthConfigurationProperties;
 import org.zowe.apiml.security.common.config.HandlerInitializer;
 import org.zowe.apiml.security.common.content.BasicContentFilter;
@@ -160,7 +161,7 @@ public class SpringSecurityConfiguration {
 
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
-        return new MetricsServiceLogoutSuccessHandler(authConfigurationProperties);
+        return new CommonLogoutSuccessHandler(authConfigurationProperties);
     }
 }
 

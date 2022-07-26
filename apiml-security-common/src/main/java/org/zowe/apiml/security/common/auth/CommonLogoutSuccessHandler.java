@@ -7,7 +7,7 @@
  *
  * Copyright Contributors to the Zowe Project.
  */
-package org.zowe.apiml.apicatalog.security;
+package org.zowe.apiml.security.common.auth;
 
 import org.zowe.apiml.security.common.config.AuthConfigurationProperties;
 import lombok.RequiredArgsConstructor;
@@ -15,20 +15,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 /**
  * Handles logout success by removing cookie and clearing security context
  */
 @RequiredArgsConstructor
-public class ApiCatalogLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
-
+public class CommonLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
     private final AuthConfigurationProperties authConfigurationProperties;
-
     /**
      * Clears cookie, session, context and sets response code
      *
@@ -44,7 +40,6 @@ public class ApiCatalogLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandle
             session.invalidate();
         }
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-
         // Set the cookie to null and expired
         Cookie tokenCookie = new Cookie(authConfigurationProperties.getCookieProperties().getCookieName(), null);
         tokenCookie.setPath(authConfigurationProperties.getCookieProperties().getCookiePath());
@@ -53,7 +48,6 @@ public class ApiCatalogLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandle
         tokenCookie.setHttpOnly(true);
         tokenCookie.setMaxAge(0);
         httpServletResponse.addCookie(tokenCookie);
-
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(null);
         SecurityContextHolder.clearContext();

@@ -35,6 +35,7 @@ import org.zowe.apiml.filter.SecureConnectionFilter;
 import org.zowe.apiml.security.client.EnableApimlAuth;
 import org.zowe.apiml.security.client.login.GatewayLoginProvider;
 import org.zowe.apiml.security.client.token.GatewayTokenProvider;
+import org.zowe.apiml.security.common.auth.CommonLogoutSuccessHandler;
 import org.zowe.apiml.security.common.config.AuthConfigurationProperties;
 import org.zowe.apiml.security.common.config.CertificateAuthenticationProvider;
 import org.zowe.apiml.security.common.config.HandlerInitializer;
@@ -276,6 +277,6 @@ public class SecurityConfiguration {
 
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
-        return new ApiCatalogLogoutSuccessHandler(authConfigurationProperties);
+        return new CommonLogoutSuccessHandler(authConfigurationProperties);
     }
 }
