@@ -82,7 +82,7 @@ public class ZUtilDummy implements ZUtil {
 
     @Override
     public Properties getEnvironment() {
-        return null;
+        return new Properties();
     }
 
     @Override
