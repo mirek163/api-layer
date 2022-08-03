@@ -44,7 +44,6 @@ ext {
     jsonUnitVersion = '1.25.1'
     jsonVersion = '20180813'
     jsoupVersion = '1.8.3'
-    jsr305Version = '3.0.2'
     junitJupiterVersion = '5.7.2'
     junitPlatformVersion = '1.7.2'
     jqueryVersion = '3.6.0!!'
@@ -163,8 +162,10 @@ ext {
         json_unit                          : "net.javacrumbs.json-unit:json-unit:${jsonUnitVersion}",
         json_unit_fluent                   : "net.javacrumbs.json-unit:json-unit-fluent:${jsonUnitVersion}",
         jsoup                              : "org.jsoup:jsoup:${jsoupVersion}",
-        jsr305                             : "com.google.code.findbugs:jsr305:${jsr305Version}",
-        junitJupiter                       : "org.junit.jupiter:junit-jupiter:${junitJupiterVersion}",
+        junit_jupiter                      : "org.junit.jupiter:junit-jupiter:${junitJupiterVersion}",
+        junit_jupiter_api                  : "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}",
+        junit_jupiter_params               : "org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}",
+        junit_jupiter_engine               : "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}",
         junit_platform_launcher            : "org.junit.platform:junit-platform-launcher:${junitPlatformVersion}",
         junit_platform_commons             : "org.junit.platform:junit-platform-commons:${junitPlatformVersion}",
         junit_platform_engine              : "org.junit.platform:junit-platform-engine:${junitPlatformVersion}",
@@ -213,6 +214,7 @@ ext {
         snakeyaml                          : "org.yaml:snakeyaml:${snakeyamlVersion}",
         spring4Mvc                         : "org.springframework:spring-webmvc:${spring4Version}",
         spring4Test                        : "org.springframework:spring-test:${spring4Version}",
+        spring_test                        : "org.springframework:spring-test:${springFrameworkVersion}",
         springFox                          : "io.springfox:springfox-swagger2:${springFoxVersion}",
         spring_doc                         : "org.springdoc:springdoc-openapi-ui:${springDocVersion}",
         spring_mock_mvc                    : "io.rest-assured:spring-mock-mvc:${restAssuredVersion}",

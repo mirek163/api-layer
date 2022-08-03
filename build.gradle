@@ -35,6 +35,7 @@ buildscript {
         classpath 'gradle.plugin.org.cadixdev.gradle:licenser:0.6.1'
         classpath 'org.owasp:dependency-check-gradle:7.1.1'
         classpath 'gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:3.2.1'
+        classpath 'ca.cutterslade.gradle:gradle-dependency-analyze:1.9.0'
     }
 }
 
@@ -52,6 +53,7 @@ allprojects {
     apply plugin: 'org.cadixdev.licenser'
     apply plugin: 'org.owasp.dependencycheck'
     apply plugin: 'eclipse'
+    apply plugin: 'ca.cutterslade.analyze'
 
     repositories mavenRepositories
 
@@ -85,14 +87,17 @@ subprojects {
     }
 
    dependencies {
-       testImplementation libraries.junitJupiter
-       testImplementation libraries.mockito_jupiter
-
-       testImplementation  libraries.junit_platform_launcher
-
-       //For Idea
-       testImplementation  libraries.junit_platform_commons
-       testImplementation  libraries.junit_platform_engine
+//       testImplementation libraries.junit_jupiter
+//       testImplementation libraries.junit_jupiter_api
+//       testImplementation libraries.junit_jupiter_params
+//       testImplementation libraries.mockito_core
+//       testImplementation libraries.mockito_jupiter
+//
+//       testImplementation  libraries.junit_platform_launcher
+//
+//       //For Idea
+//       testImplementation  libraries.junit_platform_commons
+//       testImplementation  libraries.junit_platform_engine
    }
 
     configurations.all {

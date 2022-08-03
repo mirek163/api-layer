@@ -15,7 +15,7 @@ dependencies {
     testImplementation libraries.http_client
     testImplementation libraries.spring_boot_starter_test
     testImplementation libraries.json_smart
-    testImplementation libraries.junitJupiter
+    testImplementation libraries.junit_jupiter
     testImplementation libraries.jjwt_full
     testImplementation libraries.logback_classic
 }
