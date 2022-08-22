@@ -10,6 +10,9 @@
 
 package org.zowe.apiml.caching.service.infinispan.storage;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.infinispan.AdvancedCache;
 import org.infinispan.Cache;
 import org.infinispan.lock.api.ClusteredLock;
@@ -18,14 +21,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.zowe.apiml.caching.model.KeyValue;
 import org.zowe.apiml.caching.service.StorageException;
+import org.zowe.apiml.models.AccessTokenContainer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.TimeUnit;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -35,7 +35,7 @@ class InfinispanStorageTest {
     public static final KeyValue TO_CREATE = new KeyValue("key1", "val1");
     public static final KeyValue TO_UPDATE = new KeyValue("key1", "val2");
     Cache<String, KeyValue> cache;
-    AdvancedCache<String, Map<String,String>> tokenCache;
+    AdvancedCache<String, Map<String, String>> tokenCache;
     InfinispanStorage storage;
     String serviceId1 = "service1";
 
@@ -209,6 +209,7 @@ class InfinispanStorageTest {
     class WhenRetrieveInvalidTokensAndRules {
 
         InfinispanStorage underTest;
+
         @BeforeEach
         void createStorage() {
             Map<String, String> tokensService1 = new HashMap();
@@ -262,14 +263,19 @@ class InfinispanStorageTest {
         InfinispanStorage underTest;
 
         @BeforeEach
-        void createStorage() {
-            Map<String, String> tokensService = new HashMap();
-            String value = "{\"userId\":null,\"tokenValue\":\"hashedKey\",\"issuedAt\":[2022,8,17,16,13,18],\"expiresAt\":[2021,11,15,15,13,18],\"scopes\":null,\"tokenProvider\":null}";
+        void createStorage() throws JsonProcessingException {
+            Map<String, String> tokensService = new HashMap<>();
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            AccessTokenContainer atc = new AccessTokenContainer("user1", "tokenValue", LocalDateTime.now(), LocalDateTime.now().plusDays(2), null, "apiml");
+            AccessTokenContainer atc2 = new AccessTokenContainer("user2", "tokenValue", LocalDateTime.now(), LocalDateTime.of(2020, 1, 1, 1, 1), null, "apiml");
+            String value = mapper.writeValueAsString(atc);
+            String value1 = mapper.writeValueAsString(atc2);
             tokensService.put("key1", value);
-            tokensService.put("key2", "token");
-            Map<String, String> rulesService = new HashMap();
+            tokensService.put("key2", value1);
+            Map<String, String> rulesService = new HashMap<>();
             rulesService.put("key1", "1595282400000");
-            Map<String, String> rulesUsers = new HashMap();
+            Map<String, String> rulesUsers = new HashMap<>();
             rulesUsers.put("key1", "1595282400000");
             ConcurrentMap<String, Map<String, String>> tokenCache = new ConcurrentHashMap<>();
             tokenCache.put(serviceId1 + "invalidTokens", tokensService);
@@ -277,14 +283,17 @@ class InfinispanStorageTest {
             tokenCache.put(serviceId1 + "invalidUsers", rulesUsers);
             underTest = new InfinispanStorage(cache, tokenCache, lock);
         }
+
         @Test
-        void thenEvictItems() {
+        void thenEvictItems() throws InterruptedException {
             CompletableFuture<Boolean> cmpl = new CompletableFuture<>();
             cmpl.complete(true);
             when(lock.tryLock(4, TimeUnit.SECONDS)).thenReturn(cmpl);
-            underTest.deleteItemFromMap(serviceId1, "invalidTokens");
-            underTest.deleteItemFromMap(serviceId1, "invalidScopes");
-            underTest.deleteItemFromMap(serviceId1, "invalidUsers");
+            ExecutorService exector = Executors.newFixedThreadPool(3);
+            List<String> cacheKeys = Arrays.asList("invalidTokens", "invalidScopes", "invalidUsers");
+            for (String key : cacheKeys) exector.submit(() -> underTest.deleteItemFromMap(serviceId1, key));
+            exector.shutdown();
+            exector.awaitTermination(12, TimeUnit.SECONDS);
             Map<String, Map<String, String>> result = underTest.getAllMaps(serviceId1);
             assertEquals(1, result.get("invalidTokens").size());
             assertEquals(0, result.get("invalidScopes").size());
