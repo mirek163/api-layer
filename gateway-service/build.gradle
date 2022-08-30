@@ -95,6 +95,8 @@ dependencies {
     implementation libraries.spring_cloud_commons
     implementation libraries.spring_cloud_starter_bootstrap
     implementation libraries.spring_cloud_starter_zuul
+    implementation libraries.infinispan_core
+    implementation libraries.spring_cloud_zuul_ratelimit
     implementation libraries.spring_cloud_starter_ribbon
     implementation libraries.jetty_websocket_common
     implementation libraries.jetty_websocket_client

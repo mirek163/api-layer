@@ -132,6 +132,24 @@ server:
         supportedProtocols: v12.stomp,v11.stomp
 
 zuul:
+#    gateway-service:
+#        path: /gateway/api/v1/auth/login
+#        url: forward:/
+    ratelimit:
+        enabled: true
+        repository: BUCKET4J_INFINISPAN
+        default-policy-list:
+            - limit: 5
+              refresh-interval: 60
+              type:
+                - origin
+
+        policy-list:
+            gateway-service:
+                - limit: 5
+                  refresh-interval: 60
+                  type:
+                    - origin
     sslHostnameValidationEnabled: false
     addProxyHeaders: true
     traceRequestBody: true

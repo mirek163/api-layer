@@ -30,9 +30,9 @@ import org.zowe.apiml.product.monitoring.LatencyUtilsConfigInitializer;
 import org.zowe.apiml.product.service.ServiceStartupEventHandler;
 import org.zowe.apiml.product.version.BuildInfo;
 
-import static org.zowe.apiml.extension.ZoweRuntimeEnvironment.defaultEnv;
-
 import javax.annotation.Nonnull;
+
+import static org.zowe.apiml.extension.ZoweRuntimeEnvironment.defaultEnv;
 
 @EnableZuulProxy
 @EnableWebSecurity
@@ -42,7 +42,8 @@ import javax.annotation.Nonnull;
     value = {
         "org.zowe.apiml.gateway",
         "org.zowe.apiml.product",
-        "org.zowe.apiml.security.common"
+        "org.zowe.apiml.security.common",
+        "com.marcosbarbero.cloud.autoconfigure.zuul.ratelimit"
     },
     excludeFilters = {
         @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".*RibbonConfig")

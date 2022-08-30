@@ -7,6 +7,7 @@ ext {
     springFrameworkVersion = '5.3.20!!'
     springRetryVersion = '1.2.4.RELEASE'
     springWebTestClientVersion = '4.4.0'
+    springCloudZuulRareLimitVersion = '2.4.1.RELEASE'
 
     attlsVersion = '1.21.3'
     awaitilityVersion = '3.0.0'
@@ -93,6 +94,7 @@ ext {
         spring_cloud_hystrix_dashboard     : "org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard:${springCloudVersion}",
         spring_cloud_starter_bootstrap     : "org.springframework.cloud:spring-cloud-starter-bootstrap:${springCloudVersion3}",
         spring_cloud_starter_zuul          : "org.springframework.cloud:spring-cloud-starter-netflix-zuul:${springCloudVersion}",
+        spring_cloud_zuul_ratelimit        : "com.marcosbarbero.cloud:spring-cloud-zuul-ratelimit:${springCloudZuulRareLimitVersion}",
         spring_cloud_starter_eureka        : "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${springCloudVersion}",
         spring_cloud_starter_eureka_server : "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server:${springCloudVersion}",
         spring_cloud_starter_ribbon        : "org.springframework.cloud:spring-cloud-starter-netflix-ribbon:${springCloudVersion}",

@@ -10,10 +10,17 @@
 
 package org.zowe.apiml.gateway.config;
 
+import com.marcosbarbero.cloud.autoconfigure.zuul.ratelimit.config.Rate;
+import com.marcosbarbero.cloud.autoconfigure.zuul.ratelimit.config.RateLimiter;
+import com.marcosbarbero.cloud.autoconfigure.zuul.ratelimit.config.repository.AbstractRateLimiter;
+import com.marcosbarbero.cloud.autoconfigure.zuul.ratelimit.config.repository.RateLimiterErrorHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.commons.util.IdUtils;
 import org.springframework.cloud.commons.util.InetUtils;
 import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
@@ -33,6 +40,7 @@ import org.zowe.apiml.product.gateway.GatewayConfigProperties;
 import org.zowe.apiml.product.routing.transform.TransformService;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 @RequiredArgsConstructor
@@ -61,6 +69,39 @@ public class GatewayConfig {
                                                             @Qualifier("secureHttpClientWithoutKeystore") CloseableHttpClient secureHttpClientWithoutKeystore) {
         return new SimpleHostRoutingFilter(helper, zuulProperties, secureHttpClientWithoutKeystore);
     }
+
+    @ConditionalOnMissingBean(RateLimiter.class)
+//    @ConditionalOnProperty(prefix = "zuul.ratelimit", name = "repository", havingValue = "IN_MEMORY", matchIfMissing = true)
+    public static class InMemoryConfiguration {
+
+        @Bean
+        public RateLimiter inMemoryRateLimiter(RateLimiterErrorHandler rateLimiterErrorHandler, Map<String, Rate> repository) {
+            return new InMemoryRateLimiter(rateLimiterErrorHandler, repository);
+        }
+    }
+
+    public static class InMemoryRateLimiter extends AbstractRateLimiter {
+
+        private Map<String, Rate> repository = new ConcurrentHashMap<>();
+
+        public InMemoryRateLimiter(RateLimiterErrorHandler rateLimiterErrorHandler, Map<String, Rate> repository) {
+            super(rateLimiterErrorHandler);
+            this.repository = repository;
+        }
+
+
+        @Override
+        protected Rate getRate(String key) {
+            return this.repository.get(key);
+        }
+
+        @Override
+        protected void saveRate(Rate rate) {
+            this.repository.put(rate.getKey(), rate);
+        }
+
+    }
+
 
     @Bean
     public EurekaInstanceConfigBean eurekaInstanceConfigBean(InetUtils inetUtils,
