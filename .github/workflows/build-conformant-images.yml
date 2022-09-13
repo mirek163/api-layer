@@ -125,19 +125,22 @@ jobs:
                     redhat-registry-user: ${{ secrets.redhat-registry-user }}
                     redhat-registry-password: ${{ secrets.redhat-registry-password }}
 
-            -   name: Build s390x
-                uses: zowe-actions/shared-actions/docker-build-zlinux@main
+            -   name: Build s390x with retry
+                uses: Wandalen/wretry.action@v1.0.11
                 with:
-                    zlinux-host: ${{ secrets.zlinux-host }}
-                    zlinux-ssh-user: ${{ secrets.zlinux-ssh-user }}
-                    zlinux-ssh-key: ${{ secrets.zlinux-ssh-key }}
-                    zlinux-ssh-passphrase: ${{ secrets.zlinux-ssh-passphrase }}
-                    build-arg-list: ${{ matrix.BUILD_ARG_LIST }}
-                    ### Only for UBI
-                    redhat-registry: ${{ env.DEFAULT_REDHAT_DOCKER_REGISTRY }}
-                    redhat-registry-user: ${{ secrets.redhat-registry-user }}
-                    redhat-registry-password: ${{ secrets.redhat-registry-password }}
-                timeout-minutes: 60
+                    action: zowe-actions/shared-actions/docker-build-zlinux@main
+                    with: |
+                        zlinux-host: ${{ secrets.zlinux-host }}
+                        zlinux-ssh-user: ${{ secrets.zlinux-ssh-user }}
+                        zlinux-ssh-key: ${{ secrets.zlinux-ssh-key }}
+                        zlinux-ssh-passphrase: ${{ secrets.zlinux-ssh-passphrase }}
+                        build-arg-list: ${{ matrix.BUILD_ARG_LIST }}
+                        ### Only for UBI
+                        redhat-registry: ${{ env.DEFAULT_REDHAT_DOCKER_REGISTRY }}
+                        redhat-registry-user: ${{ secrets.redhat-registry-user }}
+                        redhat-registry-password: ${{ secrets.redhat-registry-password }}
+                    timeout-minutes: 60
+                    attempt_limit: 3
 
             -   uses: ./.github/actions/teardown
 
