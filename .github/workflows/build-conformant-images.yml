@@ -127,6 +127,7 @@ jobs:
 
             -   name: Build s390x with retry
                 uses: Wandalen/wretry.action@v1.0.11
+                timeout-minutes: 60
                 with:
                     action: zowe-actions/shared-actions/docker-build-zlinux@main
                     with: |
@@ -139,7 +140,6 @@ jobs:
                         redhat-registry: ${{ env.DEFAULT_REDHAT_DOCKER_REGISTRY }}
                         redhat-registry-user: ${{ secrets.redhat-registry-user }}
                         redhat-registry-password: ${{ secrets.redhat-registry-password }}
-                    timeout-minutes: 60
                     attempt_limit: 3
 
             -   uses: ./.github/actions/teardown
