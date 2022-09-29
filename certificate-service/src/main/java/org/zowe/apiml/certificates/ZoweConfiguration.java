@@ -32,6 +32,11 @@ public class ZoweConfiguration implements Config {
     @Value("${server.ssl.keyAlias}")
     private String keyAlias;
 
+    @Value("${ZOSMF_HOST}")
+    private String zosmfHost;
+    @Value("${ZOSMF_PORT}")
+    private int zosmfPort;
+
     @Override
     public String getKeyStore() {
         return keyStore;
@@ -86,5 +91,13 @@ public class ZoweConfiguration implements Config {
     @Override
     public boolean isClientCertAuth() {
         return false;
+    }
+
+    public String getZosmfHost() {
+        return zosmfHost;
+    }
+
+    public int getZosmfPort() {
+        return zosmfPort;
     }
 }

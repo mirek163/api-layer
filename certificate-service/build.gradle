@@ -67,26 +67,15 @@ gitProperties {
 dependencies {
     implementation project(':onboarding-enabler-spring')
     implementation project(':certificate-analyser')
-    implementation libraries.spring_doc
-    implementation libraries.spring_boot_starter
-    implementation libraries.spring_boot_starter_actuator
     implementation(libraries.spring_boot_starter_web) {
         exclude group: "org.yaml", module: "snakeyaml"
     }
     implementation libraries.snakeyaml
-    implementation libraries.spring_boot_starter_validation
-    implementation libraries.spring_boot_starter_security
     implementation libraries.spring_cloud_commons
-    implementation libraries.spring_cloud_starter_bootstrap
+    implementation libraries.spring_boot_starter
     implementation libraries.spring_security_web
     implementation libraries.spring_security_config
-    implementation libraries.spring_security_core
-    implementation libraries.spring_security_crypto
-//    implementation libraries.spring_cloud_commons
-//    implementation libraries.spring_boot_starter
-//    implementation libraries.spring_security_web
-//    implementation libraries.spring_security_config
-//    implementation libraries.spring_boot_starter_actuator
+    implementation libraries.spring_boot_starter_actuator
     compileOnly libraries.lombok
     annotationProcessor libraries.lombok
 
@@ -152,3 +141,4 @@ task copyUi(type: Copy) {
 npmBuild.dependsOn npmInstall
 copyUi.dependsOn npmBuild
 build.dependsOn copyUi
+classes.dependsOn copyUi

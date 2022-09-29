@@ -39,19 +39,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class StoresController {
-
-    private final ZoweConfiguration zoweConfiguration;
+    private final Stores stores;
+    private final ZoweConfiguration configuration;
 
     @GetMapping("/trusted-certs")
     public Map<Object, Object> getListOfTrustedCerts() throws KeyStoreException {
-        Stores stores = new Stores(zoweConfiguration);
+
         return stores.getListOfCertificates().entrySet().stream()
-            .collect(Collectors.toMap(Map.Entry::getKey, entry -> ((X509Certificate)entry.getValue()).getSubjectDN().toString()));
+            .collect(Collectors.toMap(Map.Entry::getKey, entry -> ((X509Certificate) entry.getValue()).getSubjectDN().toString()));
     }
 
     @GetMapping("/verify")
     public ResponseEntity<String> verifyUrl(@RequestParam("url") String url) throws UnrecoverableKeyException, CertificateException, IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
-        Stores stores = new Stores(zoweConfiguration);
         SSLContextFactory factory = SSLContextFactory.initSSLContextWithoutKeystore(stores);
         HttpClient httpClient = new HttpClient(factory.getSslContext());
         try {
@@ -61,6 +60,11 @@ public class StoresController {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
         }
 
+    }
+
+    @GetMapping("/verify-zosmf")
+    public ResponseEntity<String> verifyZosmf() throws UnrecoverableKeyException, CertificateException, IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+        return verifyUrl(String.format("https://%s:%s/zosmf/", configuration.getZosmfHost(), configuration.getZosmfPort()));
     }
 
     @GetMapping("/tso-cmd")
@@ -89,7 +93,7 @@ public class StoresController {
         @RequestParam("label") String label,
         @RequestParam("url") String url
     ) throws UnrecoverableKeyException, CertificateException, IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
-        Stores stores = new Stores(zoweConfiguration);
+
         SSLContextFactory factory = SSLContextFactory.initIgnoringSSLContext();
         HttpClient httpClient = new HttpClient(factory.getSslContext());
         Certificate[] certificates = httpClient.getCertificateChain(new URL("https://" + url));
@@ -114,8 +118,6 @@ public class StoresController {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             X509Certificate certificate = (X509Certificate) cf.generateCertificate(certificateFile.getInputStream());
-
-            Stores stores = new Stores(zoweConfiguration);
             stores.add(label, certificate);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (KeyStoreException | IOException | CertificateException e) {
@@ -133,7 +135,6 @@ public class StoresController {
     @DeleteMapping("/certificate")
     public ResponseEntity<String> removeCertificate(String label) {
         try {
-            Stores stores = new Stores(zoweConfiguration);
             stores.remove(label);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (KeyStoreException exception) {

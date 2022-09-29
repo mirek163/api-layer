@@ -17,7 +17,7 @@ function VerifyAccessPanel() {
 
     const onSubmit = async () => {
         await sleep(300);
-        const url = process.env.REACT_APP_GATEWAY_URL + `/api/v1/certificate-service/certificate?label=${certAlias}&url=${serviceUrl}`;
+        const url = process.env.REACT_APP_GATEWAY_URL + `/certificate-service/api/v1/certificate?label=${certAlias}&url=${serviceUrl}`;
         fetch(url, {
             method: 'POST',
             mode: 'cors'
@@ -46,7 +46,7 @@ function VerifyAccessPanel() {
 
     const onVerify = async () => {
         await sleep(300);
-        const url = process.env.REACT_APP_GATEWAY_URL + `/api/v1/certificate-service/verify?url=${serviceUrl}`
+        const url = process.env.REACT_APP_GATEWAY_URL + `/certificate-service/api/v1/verify?url=${serviceUrl}`
         fetch(url, {
             method: 'GET',
             mode: 'cors'
