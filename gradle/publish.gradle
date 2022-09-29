@@ -15,7 +15,8 @@ ext.javaLibraries = [
     'zaas-client',
     'apiml-sample-extension',
     'apiml-sample-extension-package',
-    'apiml-extension-loader'
+    'apiml-extension-loader',
+    'certificate-service-package'
 ]
 
 ext.servicesToPublish = [
@@ -31,7 +32,8 @@ ext.servicesToPublish = [
     'gateway-service',
     'gateway-package',
     'cloud-gateway-service',
-    'cloud-gateway-package'
+    'cloud-gateway-package',
+    'certificate-service'
 ]
 
 ext.sdksToPublish = ext.enablers + ext.javaLibraries

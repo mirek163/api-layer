@@ -33,7 +33,8 @@ ext.projectsNeedLicense = [
     'mock-services',
     'apiml-tomcat-common',
     'apiml-sample-extension',
-    'certificate-service'
+    'certificate-service',
+    'certificate-service-package'
 ]
 
 configure(subprojects.findAll { it.name in projectsNeedLicense }) {

@@ -10,11 +10,9 @@
 
 package org.zowe.apiml;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -46,14 +44,16 @@ public class Stores {
                 initTruststore();
             }
         } catch (FileNotFoundException e) {
-            throw new StoresNotInitializeException("Error while loading keystore file. Error message: " + e.getMessage() + "\n" +
-                "Possible solution: Verify correct path to the keystore. Change owner or permission to the keystore file.");
+            throw new StoresNotInitializeException("Error while loading keystore file. Error message: " + e.getMessage()
+                    + "\n"
+                    + "Possible solution: Verify correct path to the keystore. Change owner or permission to the keystore file.");
         } catch (Exception e) {
             throw new StoresNotInitializeException(e.getMessage());
         }
     }
 
-    private void initTruststore() throws IOException, CertificateException, NoSuchAlgorithmException, KeyStoreException {
+    private void initTruststore()
+            throws IOException, CertificateException, NoSuchAlgorithmException, KeyStoreException {
         if (conf.getTrustStore() == null) {
             System.out.println("No keystore specified, will use empty.");
             try {
@@ -64,7 +64,8 @@ public class Stores {
             return;
         }
         try (InputStream trustStoreIStream = new FileInputStream(conf.getTrustStore())) {
-            this.trustStore = readKeyStore(trustStoreIStream, conf.getTrustPasswd().toCharArray(), conf.getTrustStoreType());
+            this.trustStore = readKeyStore(trustStoreIStream, conf.getTrustPasswd().toCharArray(),
+                    conf.getTrustStoreType());
         }
 
     }
@@ -88,8 +89,30 @@ public class Stores {
             }
         } else {
             try (InputStream keyStoreIStream = new FileInputStream(conf.getKeyStore())) {
-                this.keyStore = readKeyStore(keyStoreIStream, conf.getKeyPasswd().toCharArray(), conf.getKeyStoreType());
+                this.keyStore = readKeyStore(keyStoreIStream, conf.getKeyPasswd().toCharArray(),
+                        conf.getKeyStoreType());
             }
+        }
+    }
+
+
+    public void remove(String label) throws KeyStoreException {
+        this.trustStore.deleteEntry(label);
+        save();
+    }
+
+    public void add(String label, Certificate certificate) throws KeyStoreException {
+        this.trustStore.setCertificateEntry(label, certificate);
+        save();
+    }
+
+    private void save() throws KeyStoreException {
+        try {
+            try (FileOutputStream trustStoreOStream = new FileOutputStream(conf.getTrustStore())) {
+                this.trustStore.store(trustStoreOStream, conf.getTrustPasswd().toCharArray());
+            }
+        } catch (IOException | CertificateException | NoSuchAlgorithmException exception) {
+            throw new RuntimeException("");
         }
     }
 
@@ -144,8 +167,8 @@ public class Stores {
 
     public static URL keyRingUrl(String uri) throws MalformedURLException {
         if (!uri.startsWith(SAFKEYRING + ":////")) {
-            throw new StoresNotInitializeException("Incorrect key ring format: " + uri
-                + ". Make sure you use format safkeyring:////userId/keyRing");
+            throw new StoresNotInitializeException(
+                    "Incorrect key ring format: " + uri + ". Make sure you use format safkeyring:////userId/keyRing");
         }
 
         return new URL(replaceFourSlashes(uri));
