@@ -7,22 +7,19 @@
  *
  * Copyright Contributors to the Zowe Project.
  */
+
 package org.zowe.apiml.certificates;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.ApplicationListener;
 import org.zowe.apiml.enable.EnableApiDiscovery;
-import org.zowe.apiml.product.service.ServiceStartupEventHandler;
 
-import javax.annotation.Nonnull;
 
 @SpringBootApplication
 @EnableApiDiscovery
 @Slf4j
-public class CertificateServiceApplication implements ApplicationListener<ApplicationReadyEvent> {
+public class CertificateServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(CertificateServiceApplication.class);
@@ -34,9 +31,4 @@ public class CertificateServiceApplication implements ApplicationListener<Applic
         }
     }
 
-    @Override
-    public void onApplicationEvent(@Nonnull final ApplicationReadyEvent event) {
-        new ServiceStartupEventHandler().onServiceStartup("Certificate Service",
-            ServiceStartupEventHandler.DEFAULT_DELAY_FACTOR);
-    }
 }

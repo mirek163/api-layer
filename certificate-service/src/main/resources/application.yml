@@ -82,6 +82,11 @@ apiml:
                 corsEnabled: false
 
 spring:
+    cloud:
+        compatibilityVerifier:
+            enabled: false
+    config:
+        useLegacyProcessing: true
     application:
         name: Certificates Service
     output.ansi.enabled: always
@@ -131,34 +136,3 @@ logging:
         net.sf.ehcache: INFO
         org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter: INFO
 
----
-spring:
-    profiles: diag
-
----
-spring:
-    profiles: dev
-    profiles.include:
-        - debug
-        - diag
-
-logbackServiceName: ZWEAMS1
-
----
-spring:
-    profiles: attls
-
-server:
-    attls:
-        enabled: true
-    ssl:
-        enabled: false
-
-apiml:
-    service:
-        scheme: http
-
-eureka:
-    instance:
-        nonSecurePortEnabled: true
-        securePortEnabled: false

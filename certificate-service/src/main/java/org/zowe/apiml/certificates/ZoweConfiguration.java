@@ -7,6 +7,7 @@
  *
  * Copyright Contributors to the Zowe Project.
  */
+
 package org.zowe.apiml.certificates;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -66,4 +67,24 @@ public class ZoweConfiguration implements Config {
         return keyAlias;
     }
 
+
+    @Override
+    public String getRemoteUrl() {
+        return null;
+    }
+
+    @Override
+    public boolean isHelpRequested() {
+        return false;
+    }
+
+    @Override
+    public boolean isDoLocalHandshake() {
+        return false;
+    }
+
+    @Override
+    public boolean isClientCertAuth() {
+        return false;
+    }
 }
