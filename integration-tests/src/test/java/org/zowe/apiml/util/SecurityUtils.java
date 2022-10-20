@@ -162,6 +162,12 @@ public class SecurityUtils {
         return token;
     }
 
+    public static String oAuth2AccessToken() {
+        return
+            "eyJraWQiOiJGTUM5UndncFVJMUt0V25QWkdmVmFKYzZUZGlTTElZU29jeWs4aHlEbE44IiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULlNlQjZlNjRiMkY0OVE4Q05qc05TRC1SdnpURm5VSVlEeDh5bjQ1Sll2a1UiLCJpc3MiOiJodHRwczovL2Rldi05NTcyNzY4Ni5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE2NjYyNzU1MDEsImV4cCI6MTY2NjI3OTEwMSwiY2lkIjoiMG9hNmE0OG1uaVhBcUVNcng1ZDciLCJ1aWQiOiIwMHU2Nm01aTFoQjNSaVVUMjVkNyIsInNjcCI6WyJvcGVuaWQiXSwiYXV0aF90aW1lIjoxNjY2Mjc1NTAwLCJzdWIiOiJwdzYyMzQxNEBicm9hZGNvbS5uZXQiLCJncm91cHMiOlsiRXZlcnlvbmUiXX0.Mh_o8PUmVhCrp4Q3qnH1XH78fTjebjx0i3k9-NVyUCSMKSXE8NkLXXECYbLMCfpgZSRVBDOHFkNoaVIKpGxxtoJi6xdSsoCbOQSuTPoJ21mtBVZDCnXjw1w_huShbCpJ-UybY392xVN8gpziEm6rTApqT9bb2C-iKYYRzBzV_PM7SiVSxMhPnvP9BIAis5Gh6A-CqY76m0JHsv-k-PYQljy9ISIafCHb4DgVtKrjLvRXX9uvZih2hLJiQhCiPqfKlWClyy7k8D9pxk0jDM7fmzcoJaFbmcIgJ3-LmScwXEvDI1IG7iQx1wV7hs3xa5H8v3p4btqLRrWw_B-hEPxexA"
+            ;
+    }
+
     public static void logoutOnGateway(String url, String jwtToken) {
         given()
             .cookie(GATEWAY_TOKEN_COOKIE_NAME, jwtToken)

@@ -10,10 +10,10 @@ apiml:
         personalAccessToken:
             enabled: false
         oAuth:
-            enabled: false
-            clientId:
-            clientSecret:
-            validationUrl:
+            enabled: true
+            clientId: 0oa6a48mniXAqEMrx5d7
+            clientSecret: 4iXiWAY4MNw3LZqtQENkXXMbzpgcypvO4AlqRrHP
+            issuerUri: https://dev-95727686.okta.com:443/oauth2/default
 
         auth:
             jwt:

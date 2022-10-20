@@ -34,7 +34,7 @@ import org.zowe.apiml.gateway.security.service.zosmf.ZosmfService;
 import org.zowe.apiml.message.core.MessageService;
 import org.zowe.apiml.message.yaml.YamlMessageService;
 import org.zowe.apiml.security.common.token.AccessTokenProvider;
-import org.zowe.apiml.security.common.token.OIDCProvider;
+import org.zowe.apiml.security.common.token.OAuth2Provider;
 import org.zowe.apiml.security.common.token.TokenAuthentication;
 
 import java.text.ParseException;
@@ -67,7 +67,7 @@ class AuthControllerTest {
     private AccessTokenProvider tokenProvider;
 
     @Mock
-    private OIDCProvider oidcProvider;
+    private OAuth2Provider OAuth2Provider;
 
     private MessageService messageService;
 
@@ -77,7 +77,7 @@ class AuthControllerTest {
     @BeforeEach
     void setUp() throws ParseException, JSONException {
         messageService = new YamlMessageService("/gateway-log-messages.yml");
-        authController = new AuthController(authenticationService, jwtSecurity, zosmfService, messageService, tokenProvider, oidcProvider);
+        authController = new AuthController(authenticationService, jwtSecurity, zosmfService, messageService, tokenProvider, OAuth2Provider);
         mockMvc = MockMvcBuilders.standaloneSetup(authController).build();
         body = new JSONObject()
             .put("token", "token")
@@ -335,13 +335,13 @@ class AuthControllerTest {
     }
 
     @Nested
-    class GivenValidateOIDCTokenRequest {
+    class GivenValidateOAuth2TokenRequest {
         @Nested
         class WhenValidateToken {
             @Test
-            void validateOIDCToken() throws Exception {
-                when(oidcProvider.isValid("token")).thenReturn(true);
-                mockMvc.perform(post("/gateway/auth/oidc-token/validate")
+            void validateOAuth2AccessToken() throws Exception {
+                when(OAuth2Provider.isValid("token")).thenReturn(true);
+                mockMvc.perform(post("/gateway/auth/oauth-token/validate")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body.toString()))
                     .andExpect(status().is(SC_OK));
@@ -349,8 +349,8 @@ class AuthControllerTest {
 
             @Test
             void return401() throws Exception {
-                when(oidcProvider.isValid("token")).thenReturn(false);
-                mockMvc.perform(post("/gateway/auth/oidc-token/validate")
+                when(OAuth2Provider.isValid("token")).thenReturn(false);
+                mockMvc.perform(post("/gateway/auth/oauth-token/validate")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body.toString()))
                     .andExpect(status().is(SC_UNAUTHORIZED));

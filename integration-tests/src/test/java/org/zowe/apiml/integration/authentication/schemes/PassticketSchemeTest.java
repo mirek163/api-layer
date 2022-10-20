@@ -60,24 +60,28 @@ public class PassticketSchemeTest implements TestWithStartedInstances {
             Arguments.of("publicKeySignedJwt", SC_OK),
             Arguments.of("changedRealmJwt", SC_OK),
             Arguments.of("changedUserJwt", SC_OK),
-            Arguments.of("personalAccessToken", SC_OK)
+            Arguments.of("personalAccessToken", SC_OK),
+            Arguments.of("oAuth2AccessToken", SC_OK)
         );
     }
 
     static Set<String> scopes = new HashSet<>();
     static String jwt;
     static String pat;
+    static String oAuth2AccessToken;
 
     static {
         scopes.add("dcpassticket");
         jwt = gatewayToken();
         pat = personalAccessToken(scopes);
+        oAuth2AccessToken = oAuth2AccessToken();
     }
 
     private static Stream<Arguments> accessTokens() {
         return Stream.of(
             Arguments.of(jwt, COOKIE_NAME, new Header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)),
-            Arguments.of(pat, PAT_COOKIE_AUTH_NAME, new Header(ApimlConstants.PAT_HEADER_NAME, pat))
+            Arguments.of(pat, PAT_COOKIE_AUTH_NAME, new Header(ApimlConstants.PAT_HEADER_NAME, pat)),
+            Arguments.of(oAuth2AccessToken, ApimlConstants.OAUTH2_COOKIE_AUTH_NAME, new Header(ApimlConstants.OAUTH2_HEADER_NAME, oAuth2AccessToken))
         );
     }
 

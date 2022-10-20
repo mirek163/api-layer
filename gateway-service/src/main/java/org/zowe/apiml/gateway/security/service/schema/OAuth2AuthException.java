@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 @ResponseBody
-public class OIDCAuthException extends RuntimeException {
+public class OAuth2AuthException extends RuntimeException {
 
-    public OIDCAuthException(String message) {
+    public OAuth2AuthException(String message) {
         super(message);
     }
 }

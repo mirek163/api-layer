@@ -12,8 +12,10 @@ package org.zowe.apiml.integration.authentication.schemes;
 
 import io.restassured.http.Cookie;
 import io.restassured.http.Cookies;
+import io.restassured.http.Header;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.zowe.apiml.constants.ApimlConstants;
@@ -32,8 +34,7 @@ import java.util.Set;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.core.Is.is;
-import static org.zowe.apiml.util.SecurityUtils.gatewayToken;
-import static org.zowe.apiml.util.SecurityUtils.personalAccessToken;
+import static org.zowe.apiml.util.SecurityUtils.*;
 
 @zOSMFAuthTest
 @DiscoverableClientDependentTest
@@ -54,7 +55,7 @@ class ZoweJwtSchemeTest implements TestWithStartedInstances {
             .when()
             .get(URL)
             .then()
-            .body("headers.cookie", startsWith("apimlAuthenticationToken"))
+            .body("headers.cookie", startsWith(ApimlConstants.COOKIE_AUTH_NAME))
             .statusCode(200);
     }
 
@@ -98,7 +99,7 @@ class ZoweJwtSchemeTest implements TestWithStartedInstances {
                 .when()
                 .get(URL)
                 .then()
-                .body("headers.cookie", is("apimlAuthenticationToken=" + jwt))
+                .body("headers.cookie", is(ApimlConstants.COOKIE_AUTH_NAME + "=" + jwt))
                 .statusCode(200);
         }
 
@@ -149,9 +150,52 @@ class ZoweJwtSchemeTest implements TestWithStartedInstances {
                 .when()
                 .get(URL)
                 .then()
-                .body("headers.cookie", startsWith("apimlAuthenticationToken="))
+                .body("headers.cookie", startsWith(ApimlConstants.COOKIE_AUTH_NAME))
                 .statusCode(200);
         }
     }
 
+    @Nested
+    class GivenOAuth2AccessToken {
+        @Nested
+        class whenTokenInHeader {
+            private Header oAuthHeader;
+            @BeforeEach
+            void setup() {
+                String accessToken = oAuth2AccessToken();
+                oAuthHeader = new Header(ApimlConstants.OAUTH2_HEADER_NAME, accessToken);
+            }
+            @Test
+            void thenTranslateIntoJWTAndSendToService() {
+                given()
+                    .config(SslContext.tlsWithoutCert)
+                    .header(oAuthHeader)
+                    .when()
+                    .get(URL)
+                    .then()
+                    .body("headers.cookie", containsString(ApimlConstants.COOKIE_AUTH_NAME))
+                    .statusCode(200);
+            }
+        }
+        @Nested
+        class whenTokenInCookie {
+            private Cookie oAuthCookie;
+            @BeforeEach
+            void setup() {
+                String accessToken = oAuth2AccessToken();
+                oAuthCookie = new Cookie.Builder(ApimlConstants.OAUTH2_COOKIE_AUTH_NAME, accessToken).build();
+            }
+            @Test
+            void thenTranslateIntoJWTAndSendToService() {
+                given()
+                    .config(SslContext.tlsWithoutCert)
+                    .cookie(oAuthCookie)
+                    .when()
+                    .get(URL)
+                    .then()
+                    .body("headers.cookie", containsString(ApimlConstants.COOKIE_AUTH_NAME))
+                    .statusCode(200);
+            }
+        }
+    }
 }

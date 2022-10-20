@@ -10,7 +10,9 @@
 
 package org.zowe.apiml.security.common.token;
 
-public interface OIDCProvider {
+public interface OAuth2Provider {
 
     boolean isValid(String token);
+
+    OAuth2TokenDetails introspect(String token);
 }

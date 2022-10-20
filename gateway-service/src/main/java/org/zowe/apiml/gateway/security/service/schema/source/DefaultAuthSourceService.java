@@ -54,13 +54,15 @@ public class DefaultAuthSourceService implements AuthSourceService {
     public DefaultAuthSourceService(@Autowired JwtAuthSourceService jwtAuthSourceService,
                                     @Autowired @Qualifier("x509MFAuthSourceService") X509AuthSourceService x509AuthSourceService,
                                     PATAuthSourceService patAuthSourceService,
-                                    @Value("${apiml.security.personalAccessToken.enabled:false}") boolean isPATEnabled) {
+                                    @Value("${apiml.security.personalAccessToken.enabled:false}") boolean isPATEnabled,
+                                    @Autowired OAuth2AuthSourceService oAuth2AuthSourceService) {
         this.isPATEnabled = isPATEnabled;
         map.put(AuthSourceType.JWT, jwtAuthSourceService);
         map.put(AuthSourceType.CLIENT_CERT, x509AuthSourceService);
         if (isPATEnabled) {
             map.put(AuthSourceType.PAT, patAuthSourceService);
         }
+        map.put(AuthSourceType.OAUTH2, oAuth2AuthSourceService);
     }
 
     /**
@@ -68,7 +70,9 @@ public class DefaultAuthSourceService implements AuthSourceService {
      * <p>
      * In case if more than one source is present in request the precedence is the following:
      * 1) JWT token
-     * 2) Client certificate
+     * 2) Personal Access Token (if enabled)
+     * 3) Client certificate
+     * 4) oAuth2 Access Token
      * <p>
      *
      * @return Optional<AuthSource> which hold original source of authentication (JWT token, client certificate etc.)
@@ -84,6 +88,10 @@ public class DefaultAuthSourceService implements AuthSourceService {
         }
         if (!authSource.isPresent()) {
             service = getService(AuthSourceType.CLIENT_CERT);
+            authSource = service.getAuthSourceFromRequest();
+        }
+        if (!authSource.isPresent()) {
+            service = getService(AuthSourceType.OAUTH2);
             authSource = service.getAuthSourceFromRequest();
         }
         return authSource;

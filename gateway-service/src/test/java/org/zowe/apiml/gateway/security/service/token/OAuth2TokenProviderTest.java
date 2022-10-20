@@ -18,15 +18,15 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.zowe.apiml.gateway.cache.CachingServiceClientException;
-import org.zowe.apiml.gateway.security.service.schema.OIDCAuthException;
+import org.zowe.apiml.gateway.security.service.schema.OAuth2AuthException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-class OIDCTokenProviderTest {
+class OAuth2TokenProviderTest {
 
-    private OIDCTokenProvider oidcTokenProvider;
+    private OAuth2TokenProvider tokenProvider;
     private RestTemplate restTemplate;
     private ResponseEntity response;
 
@@ -51,8 +51,8 @@ class OIDCTokenProviderTest {
     void setup() throws CachingServiceClientException {
         restTemplate = mock(RestTemplate.class);
         response = mock(ResponseEntity.class);
-        oidcTokenProvider = new OIDCTokenProvider(restTemplate);
-        ReflectionTestUtils.setField(oidcTokenProvider, "isEnabled", true);
+        tokenProvider = new OAuth2TokenProvider(restTemplate);
+        ReflectionTestUtils.setField(tokenProvider, "isEnabled", true);
     }
 
     @Nested
@@ -62,7 +62,7 @@ class OIDCTokenProviderTest {
             doReturn(HttpStatus.OK).when(response).getStatusCode();
             doReturn(BODY).when(response).getBody();
             when(restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(HttpEntity.class), (Class<?>) any())).thenReturn(response);
-            assertTrue(oidcTokenProvider.isValid("token"));
+            assertTrue(tokenProvider.isValid("token"));
         }
 
         @Test
@@ -70,7 +70,7 @@ class OIDCTokenProviderTest {
             doReturn(HttpStatus.OK).when(response).getStatusCode();
             doReturn(NOT_VALID_BODY).when(response).getBody();
             when(restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(HttpEntity.class), (Class<?>) any())).thenReturn(response);
-            assertFalse(oidcTokenProvider.isValid("token"));
+            assertFalse(tokenProvider.isValid("token"));
         }
 
         @Test
@@ -80,7 +80,7 @@ class OIDCTokenProviderTest {
             HttpClientErrorException exception =
                 HttpClientErrorException.create(HttpStatus.INTERNAL_SERVER_ERROR, "statusText", new HttpHeaders(), new byte[]{}, null);
             when(restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(HttpEntity.class), (Class<?>) any())).thenThrow(exception);
-            assertFalse(oidcTokenProvider.isValid("token"));
+            assertFalse(tokenProvider.isValid("token"));
         }
 
         @Test
@@ -88,7 +88,7 @@ class OIDCTokenProviderTest {
             doReturn(HttpStatus.OK).when(response).getStatusCode();
             doReturn("{notValid}").when(response).getBody();
             when(restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(HttpEntity.class), (Class<?>) any())).thenReturn(response);
-            assertFalse(oidcTokenProvider.isValid("token"));
+            assertFalse(tokenProvider.isValid("token"));
         }
 
         @Test
@@ -96,23 +96,23 @@ class OIDCTokenProviderTest {
             doReturn(HttpStatus.UNAUTHORIZED).when(response).getStatusCode();
             doReturn(BODY).when(response).getBody();
             when(restTemplate.exchange(anyString(), eq(HttpMethod.POST), any(HttpEntity.class), (Class<?>) any())).thenReturn(response);
-            assertFalse(oidcTokenProvider.isValid("token"));
+            assertFalse(tokenProvider.isValid("token"));
         }
 
         @Test
         void whenTokenIsNull_ThenThrowException() {
-            assertThrows(OIDCAuthException.class, () -> oidcTokenProvider.isValid(null));
+            assertThrows(OAuth2AuthException.class, () -> tokenProvider.isValid(null));
         }
 
         @Test
         void whenTokenIsEmpty_ThenThrowException() {
-            assertThrows(OIDCAuthException.class, () -> oidcTokenProvider.isValid(""));
+            assertThrows(OAuth2AuthException.class, () -> tokenProvider.isValid(""));
         }
 
         @Test
         void whenProviderDisabled_ThenThrowException() {
-            ReflectionTestUtils.setField(oidcTokenProvider, "isEnabled", false);
-            assertThrows(OIDCAuthException.class, () -> oidcTokenProvider.isValid(null));
+            ReflectionTestUtils.setField(tokenProvider, "isEnabled", false);
+            assertThrows(OAuth2AuthException.class, () -> tokenProvider.isValid(null));
         }
     }
 

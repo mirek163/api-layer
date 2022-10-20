@@ -14,7 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.stereotype.Component;
+import org.zowe.apiml.gateway.security.login.saf.MockPlatformUser;
 import org.zowe.apiml.gateway.security.service.schema.source.AuthSource;
+import org.zowe.apiml.gateway.security.service.schema.source.OAuth2AuthSource;
 import org.zowe.apiml.gateway.security.service.schema.source.X509AuthSource;
 
 import javax.naming.InvalidNameException;
@@ -49,6 +51,9 @@ public class X509CommonNameUserMapper implements AuthenticationMapper {
                     return String.valueOf(rdn.getValue());
                 }
             }
+        }
+        if (authSource instanceof OAuth2AuthSource) {
+            return MockPlatformUser.VALID_USERID;
         }
         return null;
     }

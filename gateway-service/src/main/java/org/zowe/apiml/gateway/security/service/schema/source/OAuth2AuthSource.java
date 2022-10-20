@@ -15,13 +15,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Implementation of OIDC token source of authentication.
+ * Implementation of OAuth2 access token as source of authentication.
  */
 @RequiredArgsConstructor
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class OIDCAuthSource implements AuthSource {
-    public static final AuthSource.AuthSourceType type = AuthSource.AuthSourceType.OIDC;
+public class OAuth2AuthSource implements AuthSource {
+    public static final AuthSource.AuthSourceType type = AuthSource.AuthSourceType.OAUTH2;
 
     @EqualsAndHashCode.Include
     private final String source;

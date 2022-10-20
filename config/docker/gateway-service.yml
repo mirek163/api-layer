@@ -10,7 +10,7 @@ apiml:
             enabled: false
             clientId:
             clientSecret:
-            validationUrl:
+            issuerUri:
         auth:
             zosmf:
                 serviceId: mockzosmf  # Replace me with the correct z/OSMF service id

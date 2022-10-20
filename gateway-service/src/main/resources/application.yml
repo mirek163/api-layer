@@ -69,7 +69,7 @@ apiml:
             enabled: false
             clientId:
             clientSecret:
-            validationUrl:
+            issuerUri:
         auth:
             jwt:
                 customAuthHeader:
