@@ -19,10 +19,13 @@ import io.restassured.RestAssured;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.config.SSLConfig;
 import io.restassured.http.Cookie;
+import io.restassured.response.Response;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHeaders;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.ssl.SSLContexts;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.zowe.apiml.gateway.security.login.SuccessfulAccessTokenHandler;
 import org.zowe.apiml.security.common.login.LoginRequest;
@@ -41,9 +44,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
@@ -54,6 +55,7 @@ import static org.hamcrest.Matchers.isEmptyString;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.zowe.apiml.util.requests.Endpoints.*;
 
 public class SecurityUtils {
@@ -67,6 +69,9 @@ public class SecurityUtils {
 
     public final static String USERNAME = ConfigReader.environmentConfiguration().getCredentials().getUser();
     public final static String PASSWORD = ConfigReader.environmentConfiguration().getCredentials().getPassword();
+
+    public final static String OKTA_USERNAME = ConfigReader.environmentConfiguration().getCredentials().getUser();
+    public final static String OKTA_PASSWORD = ConfigReader.environmentConfiguration().getCredentials().getPassword();
 
     public final static String COOKIE_NAME = "apimlAuthenticationToken";
     public static final String PAT_COOKIE_AUTH_NAME = "personalAccessToken";
@@ -163,9 +168,45 @@ public class SecurityUtils {
     }
 
     public static String oAuth2AccessToken() {
-        return
-            "eyJraWQiOiJGTUM5UndncFVJMUt0V25QWkdmVmFKYzZUZGlTTElZU29jeWs4aHlEbE44IiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULlNlQjZlNjRiMkY0OVE4Q05qc05TRC1SdnpURm5VSVlEeDh5bjQ1Sll2a1UiLCJpc3MiOiJodHRwczovL2Rldi05NTcyNzY4Ni5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE2NjYyNzU1MDEsImV4cCI6MTY2NjI3OTEwMSwiY2lkIjoiMG9hNmE0OG1uaVhBcUVNcng1ZDciLCJ1aWQiOiIwMHU2Nm01aTFoQjNSaVVUMjVkNyIsInNjcCI6WyJvcGVuaWQiXSwiYXV0aF90aW1lIjoxNjY2Mjc1NTAwLCJzdWIiOiJwdzYyMzQxNEBicm9hZGNvbS5uZXQiLCJncm91cHMiOlsiRXZlcnlvbmUiXX0.Mh_o8PUmVhCrp4Q3qnH1XH78fTjebjx0i3k9-NVyUCSMKSXE8NkLXXECYbLMCfpgZSRVBDOHFkNoaVIKpGxxtoJi6xdSsoCbOQSuTPoJ21mtBVZDCnXjw1w_huShbCpJ-UybY392xVN8gpziEm6rTApqT9bb2C-iKYYRzBzV_PM7SiVSxMhPnvP9BIAis5Gh6A-CqY76m0JHsv-k-PYQljy9ISIafCHb4DgVtKrjLvRXX9uvZih2hLJiQhCiPqfKlWClyy7k8D9pxk0jDM7fmzcoJaFbmcIgJ3-LmScwXEvDI1IG7iQx1wV7hs3xa5H8v3p4btqLRrWw_B-hEPxexA"
-            ;
+        JSONObject requestBody = new JSONObject();
+        //TODO Remove hardcoded stuff
+        requestBody.put("username", "pw623414@broadcom.net");
+        requestBody.put("password", "Iron-Maiden");
+        String sessionToken = given()
+            .contentType(JSON)
+            .body(requestBody.toString())
+            .when()
+            .post("https://dev-95727686.okta.com/api/v1/authn")
+            .then()
+            .statusCode(200)
+            .extract().path("sessionToken");
+
+        assertNotNull(sessionToken, "Failed to get session token from Okta authentication.");
+
+        // retrieve the access token from Okta using session token
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("client_id", "0oa6a48mniXAqEMrx5d7");
+        queryParams.put("redirect_uri", "https://localhost:10010/login/oauth2/code/okta");
+        queryParams.put("response_type", "token");
+        queryParams.put("response_mode", "form_post");
+        queryParams.put("sessionToken", sessionToken);
+        queryParams.put("scope", "openid");
+        queryParams.put("state", "TEST");
+        queryParams.put("nonce", "TEST");
+        Response authResponse = given()
+            .queryParams(queryParams)
+            .when()
+            .get("https://dev-95727686.okta.com/oauth2/default/v1/authorize")
+            .then()
+            .statusCode(200)
+            .extract().response();
+
+        // The response is HTML form where access token is hidden input field ( this is controlled by response_mode = form_post
+
+        String body = authResponse.getBody().asString();
+        String accessToken = StringUtils.substringBetween(body, "name=\"access_token\" value=\"", "\"/>");
+        assertNotNull(accessToken, "Failed to locate access token in the Okta /authorize response.");
+        return accessToken;
     }
 
     public static void logoutOnGateway(String url, String jwtToken) {
