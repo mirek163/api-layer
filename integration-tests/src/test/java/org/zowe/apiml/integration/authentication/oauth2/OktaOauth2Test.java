@@ -12,8 +12,6 @@ package org.zowe.apiml.integration.authentication.oauth2;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.http.Cookies;
-import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
@@ -47,33 +45,29 @@ public class OktaOauth2Test {
         headers.put("Content-Type", "application/json");
 
         RestAssured.useRelaxedHTTPSValidation();
-        Response loginResponse = given()
+        String sessionToken = given()
             .headers(headers)
             .body(requestBody.toString())
         .when()
             .post("https://dev-95727686.okta.com/api/v1/authn")
         .then()
             .statusCode(200)
-            .extract().response();
-
-        Headers loginHeaders = loginResponse.getHeaders();
-        Cookies loginCookies = loginResponse.getDetailedCookies();
-        String loginBody = loginResponse.getBody().asPrettyString();
+            .extract().path("sessionToken");
 
         Map<String, String> queryParams = new HashMap<>();
         queryParams.put("client_id", "0oa6a48mniXAqEMrx5d7");
-        queryParams.put("redirect_uri", "https://oidcdebugger.com/debug");
-        queryParams.put("response_type", "code token");
+        queryParams.put("redirect_uri", "https://localhost:10012/discoverableclient/api/v1/request");
+        queryParams.put("response_type", "token");
         queryParams.put("response_mode", "fragment");
+        queryParams.put("sessionToken", sessionToken);
         queryParams.put("scope", "openid");
-        queryParams.put("state", "sss");
-        queryParams.put("nonce", "nnnnn");
-        queryParams.put("prompt", "none");
+        queryParams.put("state", "TEST");
+        queryParams.put("nonce", "TEST");
+//        queryParams.put("prompt", "none");
         Response authResponse = given()
-            .cookies(loginCookies)
             .queryParams(queryParams)
             .when()
-            .get("https://dev-95727686.okta.com/oauth2/v1/authorize")
+            .get("https://dev-95727686.okta.com/oauth2/default/v1/authorize")
             .then()
             .statusCode(200)
             .extract().response();

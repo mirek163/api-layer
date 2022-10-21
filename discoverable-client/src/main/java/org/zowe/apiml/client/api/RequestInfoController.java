@@ -20,10 +20,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import lombok.Value;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +63,7 @@ public class RequestInfoController {
         setHeaders(httpServletRequest, out);
         setCookie(httpServletRequest, out);
         setContent(httpServletRequest, out);
+        setUrl(httpServletRequest, out);
 
         return out; // NOSONAR
     }
@@ -106,6 +104,20 @@ public class RequestInfoController {
         requestInfo.content = CharStreams.toString(httpServletRequest.getReader());
     }
 
+    private void setUrl(HttpServletRequest httpServletRequest, RequestInfo requestInfo) {
+        StringBuilder requestURL = new StringBuilder(httpServletRequest.getRequestURL().toString());
+        String queryString = httpServletRequest.getQueryString();
+        String pathInfo = httpServletRequest.getPathInfo();
+        httpServletRequest.getTrailerFields();
+        if (pathInfo != null) {
+            requestURL.append("-1-").append(pathInfo);
+        }
+        if (queryString != null) {
+            requestURL.append("-2-").append(queryString);
+        }
+        requestInfo.url = requestURL.toString();
+    }
+
     @Schema(description = "Request info detail")
     @Getter
     public class RequestInfo {
@@ -125,6 +137,8 @@ public class RequestInfoController {
         @Schema(description = "Text content in the original request")
         private String content;
 
+        @Schema(description = "Full URL of the original request")
+        private String url;
     }
 
     @Schema(description = "Certificate info detail")
