@@ -55,7 +55,7 @@ allprojects {
 
     repositories mavenRepositories
 
-    sourceCompatibility = 1.8
+    sourceCompatibility = 11
     version = version
 
     idea {

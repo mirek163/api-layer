@@ -175,19 +175,6 @@ class ClassOrDefaultProxyUtilsTest {
     }
 
     @Test
-    void testSyntentic() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        new InnerClass().name = "toCompilarMakeASyntheticMethod";
-
-        TestInterface1Super ti = ClassOrDefaultProxyUtils.createProxy(TestInterface1Super.class, "unknownClassName", InnerClass::new);
-        Optional<Method> jacocoMethod = Arrays.stream(InnerClass.class.getDeclaredMethods()).filter(x -> x.isSynthetic()).filter(x -> x.getParameterTypes().length == 0).findFirst();
-        assertTrue(jacocoMethod.isPresent());
-
-        Method method = jacocoMethod.get();
-        method.setAccessible(true);
-        method.invoke(ti);
-    }
-
-    @Test
     void testImplementationWithExtends() {
         TestInterface2 ti = ClassOrDefaultProxyUtils.createProxy(TestInterface2.class, "unknownClassName", Extends::new);
         assertEquals("method1Response", ti.method1());
@@ -226,13 +213,13 @@ class ClassOrDefaultProxyUtilsTest {
         assertEquals("Cannot find constructor on java.lang.NullPointerException with [class java.lang.String]", e.getMessage());
 
         Exception nullPtrExceptionPrivate = new NullPointerExceptionPrivate("x");
-        final ClassOrDefaultProxyUtils.ByMethodName<?> proxyUtilsNullPrivate = 
+        final ClassOrDefaultProxyUtils.ByMethodName<?> proxyUtilsNullPrivate =
             new ClassOrDefaultProxyUtils.ByMethodName<>("org.zowe.apiml.util.ClassOrDefaultProxyUtilsTest$NullPointerExceptionPrivate", NullPointerException.class, "getMsg");
         e = assertThrows(ExceptionMappingError.class, () -> proxyUtilsNullPrivate.apply(nullPtrExceptionPrivate));
         assertTrue(e.getMessage().contains("Cannot invoke method private"));
 
         Exception nullPtrException = new NullPointerException("x");
-        final ClassOrDefaultProxyUtils.ByMethodName<?> proxyUtilsNull = 
+        final ClassOrDefaultProxyUtils.ByMethodName<?> proxyUtilsNull =
             new ClassOrDefaultProxyUtils.ByMethodName<>("java.lang.NullPointerException", NullPointerExceptionException.class, "getMessage");
         e = assertThrows(ExceptionMappingError.class, () -> proxyUtilsNull.apply(nullPtrException));
         assertTrue(e.getMessage().startsWith("Cannot construct exception"));
