@@ -187,7 +187,8 @@ public class SecurityUtils {
     public static KeyStore loadKeyStore(HttpsConfig config) throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
         KeyStore ks = KeyStore.getInstance(config.getKeyStoreType());
         InputStream inputStream;
-        if (config.getKeyStore().startsWith(SAFKEYRING)) {
+        if (config.getKeyStore().startsWith(SAFKEYRING) && ks.getType().equals("JCERACFKS")) {
+            System.setProperty("java.protocol.handler.pkgs", "com.ibm.crypto.provider");
             URL url = keyRingUrl(config.getKeyStore(), config.getTrustStore());
             inputStream = url.openStream();
         } else {
@@ -209,7 +210,7 @@ public class SecurityUtils {
     public static URL keyRingUrl(String uri, String trustStore) throws MalformedURLException {
         if (!uri.startsWith(SAFKEYRING + "://")) {
             throw new MalformedURLException("Incorrect key ring format: " + trustStore
-                + ". Make sure you use format safkeyring:////userId/keyRing");
+                + ". Make sure you use either the format safkeyring://userId/keyRing or safkeyring:////userId/keyRing");
         }
         return new URL(replaceFourSlashes(uri));
     }

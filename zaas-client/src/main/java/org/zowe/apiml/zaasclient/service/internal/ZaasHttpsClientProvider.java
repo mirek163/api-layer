@@ -114,6 +114,9 @@ class ZaasHttpsClientProvider implements CloseableClientProvider {
 
     private KeyStore getKeystore(String uri, String keyStoreType, char[] storePassword) throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
         KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+        if (keyStore.getType().equals("JCERACFKS")) {
+            System.setProperty("java.protocol.handler.pkgs", "com.ibm.crypto.provider");
+        }
         try (InputStream correctInStream = getCorrectInputStream(uri)) {
             keyStore.load(correctInStream, storePassword);
             return keyStore;

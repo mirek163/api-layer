@@ -145,7 +145,7 @@ public class Stores {
     public static URL keyRingUrl(String uri) throws MalformedURLException {
         if (!uri.startsWith(SAFKEYRING + ":////")) {
             throw new StoresNotInitializeException("Incorrect key ring format: " + uri
-                + ". Make sure you use format safkeyring:////userId/keyRing");
+                + ". Make sure you use either the format safkeyring://userId/keyRing or safkeyring:////userId/keyRing");
         }
 
         return new URL(replaceFourSlashes(uri));
