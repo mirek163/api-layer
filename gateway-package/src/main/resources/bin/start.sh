@@ -251,7 +251,6 @@ _BPX_JOBNAME=${ZWE_zowe_job_prefix}${GATEWAY_CODE} java \
     -Dapiml.security.authorization.resourceClass=${ZWE_configs_apiml_security_authorization_resourceClass:-ZOWE} \
     -Dapiml.security.authorization.resourceNamePrefix=${ZWE_configs_apiml_security_authorization_resourceNamePrefix:-APIML.} \
     -Dapiml.security.zosmf.applid=${ZWE_configs_apiml_security_zosmf_applid:-IZUDFLT} \
-    -Djava.protocol.handler.pkgs=com.ibm.crypto.provider \
     -Dloader.path=${GATEWAY_LOADER_PATH} \
     -Djava.library.path=${LIBPATH} \
     -jar ${JAR_FILE} &

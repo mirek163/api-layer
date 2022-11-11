@@ -180,7 +180,6 @@ _BPX_JOBNAME=${ZWE_zowe_job_prefix}${DISCOVERY_CODE} java -Xms32m -Xmx256m ${QUI
     -Dserver.ssl.trustStore="${truststore_location}" \
     -Dserver.ssl.trustStoreType="${ZWE_configs_certificate_truststore_type:-${ZWE_zowe_certificate_truststore_type:-PKCS12}}" \
     -Dserver.ssl.trustStorePassword="${truststore_pass}" \
-    -Djava.protocol.handler.pkgs=com.ibm.crypto.provider \
     -Dloader.path=${DISCOVERY_LOADER_PATH} \
     -Djava.library.path=${LIBPATH} \
     -jar "${JAR_FILE}" &

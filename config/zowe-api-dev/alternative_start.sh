@@ -88,7 +88,6 @@ _BPX_JOBNAME=${ZOWE_PREFIX}${GATEWAY_CODE} java \
     -Dapiml.security.authorization.resourceClass=${RESOURCE_CLASS:-ZOWE} \
     -Dapiml.security.authorization.resourceNamePrefix=${RESOURCE_NAME_PREFIX:-APIML.} \
     -Dapiml.security.zosmf.applid=${APIML_SECURITY_ZOSMF_APPLID} \
-    -Djava.protocol.handler.pkgs=com.ibm.crypto.provider \
     -Dloader.path=${GATEWAY_LOADER_PATH} \
     -Djava.library.path=${LIBPATH} \
     -jar ${ROOT_DIR}"/components/api-mediation/gateway-service-lite.jar" &
@@ -108,7 +107,6 @@ _BPX_JOBNAME=${ZOWE_PREFIX}${DISCOVERABLECLIENT_CODE} java -Xms32m -Xmx256m -Xqu
     -Dserver.ssl.keyStorePassword="${KEYSTORE_PASSWORD}" \
     -Dserver.ssl.trustStore="${TRUSTSTORE}" \
     -Dserver.ssl.trustStorePassword="${KEYSTORE_PASSWORD}" \
-    -Djava.protocol.handler.pkgs=com.ibm.crypto.provider \
     -Dapiml.service.preferIpAddress=false \
     -jar ${ROOT_DIR}"/components/api-mediation/discoverable-client.jar" &
 
@@ -139,7 +137,6 @@ _BPX_JOBNAME=${ZOWE_PREFIX}${DISCOVERY_CODE} java -Xms32m -Xmx256m ${QUICK_START
     -Dserver.ssl.trustStore="${TRUSTSTORE}" \
     -Dserver.ssl.trustStoreType="${KEYSTORE_TYPE}" \
     -Dserver.ssl.trustStorePassword="${KEYSTORE_PASSWORD}" \
-    -Djava.protocol.handler.pkgs=com.ibm.crypto.provider \
     -Dloader.path=${COMMON_LIB} \
     -Djava.library.path=${LIBPATH} \
     -jar ${ROOT_DIR}"/components/api-mediation/discovery-service-lite.jar" &
@@ -171,7 +168,6 @@ _BPX_JOBNAME=${ZOWE_PREFIX}${CATALOG_CODE} java \
     -Dserver.ssl.trustStore="${TRUSTSTORE}" \
     -Dserver.ssl.trustStoreType="${KEYSTORE_TYPE}" \
     -Dserver.ssl.trustStorePassword="${KEYSTORE_PASSWORD}" \
-    -Djava.protocol.handler.pkgs=com.ibm.crypto.provider \
     -Dloader.path=${COMMON_LIB} \
     -Djava.library.path=${LIBPATH} \
     -jar ${ROOT_DIR}"/components/api-mediation/api-catalog-services-lite.jar" &
@@ -208,7 +204,6 @@ _BPX_JOBNAME=${ZOWE_PREFIX}${CACHING_CODE} java -Xms16m -Xmx512m \
   -Dserver.ssl.trustStore="${TRUSTSTORE}" \
   -Dserver.ssl.trustStoreType="${KEYSTORE_TYPE}" \
   -Dserver.ssl.trustStorePassword="${KEYSTORE_PASSWORD}" \
-  -Djava.protocol.handler.pkgs=com.ibm.crypto.provider \
   -Djava.library.path=${LIBPATH} \
   -jar ${ROOT_DIR}"/components/api-mediation/caching-service.jar"
 

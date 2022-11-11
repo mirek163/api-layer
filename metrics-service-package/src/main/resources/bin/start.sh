@@ -138,7 +138,6 @@ _BPX_JOBNAME=${ZWE_zowe_job_prefix}${METRICS_CODE} java -Xms16m -Xmx512m \
   -Dserver.ssl.trustStore="${truststore_location}" \
   -Dserver.ssl.trustStoreType="${ZWE_configs_certificate_truststore_type:-${ZWE_zowe_certificate_truststore_type:-PKCS12}}" \
   -Dserver.ssl.trustStorePassword="${truststore_pass}" \
-  -Djava.protocol.handler.pkgs=com.ibm.crypto.provider \
   -Dloader.path=${COMMON_LIB} \
   -Djava.library.path=${LIBPATH} \
   -jar ${JAR_FILE} &
