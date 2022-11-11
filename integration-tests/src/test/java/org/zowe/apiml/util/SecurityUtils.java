@@ -70,8 +70,10 @@ public class SecurityUtils {
     public final static String USERNAME = ConfigReader.environmentConfiguration().getCredentials().getUser();
     public final static String PASSWORD = ConfigReader.environmentConfiguration().getCredentials().getPassword();
 
-    public final static String OKTA_USERNAME = ConfigReader.environmentConfiguration().getCredentials().getUser();
-    public final static String OKTA_PASSWORD = ConfigReader.environmentConfiguration().getCredentials().getPassword();
+    public final static String OKTA_HOSTNAME = ConfigReader.environmentConfiguration().getIdpConfiguration().getHostname();
+    public final static String OKTA_CLIENT_ID = ConfigReader.environmentConfiguration().getIdpConfiguration().getClientId();
+    public final static String OKTA_USERNAME = ConfigReader.environmentConfiguration().getIdpConfiguration().getUser();
+    public final static String OKTA_PASSWORD = ConfigReader.environmentConfiguration().getIdpConfiguration().getPassword();
 
     public final static String COOKIE_NAME = "apimlAuthenticationToken";
     public static final String PAT_COOKIE_AUTH_NAME = "personalAccessToken";
@@ -169,14 +171,13 @@ public class SecurityUtils {
 
     public static String oAuth2AccessToken() {
         JSONObject requestBody = new JSONObject();
-        //TODO Remove hardcoded stuff
-        requestBody.put("username", "pw623414@broadcom.net");
-        requestBody.put("password", "Iron-Maiden");
+        requestBody.put("username", OKTA_USERNAME);
+        requestBody.put("password", OKTA_PASSWORD);
         String sessionToken = given()
             .contentType(JSON)
             .body(requestBody.toString())
             .when()
-            .post("https://dev-95727686.okta.com/api/v1/authn")
+            .post(OKTA_HOSTNAME + "/api/v1/authn")
             .then()
             .statusCode(200)
             .extract().path("sessionToken");
@@ -185,7 +186,7 @@ public class SecurityUtils {
 
         // retrieve the access token from Okta using session token
         Map<String, String> queryParams = new HashMap<>();
-        queryParams.put("client_id", "0oa6a48mniXAqEMrx5d7");
+        queryParams.put("client_id", OKTA_CLIENT_ID);
         queryParams.put("redirect_uri", "https://localhost:10010/login/oauth2/code/okta");
         queryParams.put("response_type", "token");
         queryParams.put("response_mode", "form_post");
@@ -196,17 +197,21 @@ public class SecurityUtils {
         Response authResponse = given()
             .queryParams(queryParams)
             .when()
-            .get("https://dev-95727686.okta.com/oauth2/default/v1/authorize")
+            .get(OKTA_HOSTNAME + "/oauth2/default/v1/authorize")
             .then()
             .statusCode(200)
             .extract().response();
 
-        // The response is HTML form where access token is hidden input field ( this is controlled by response_mode = form_post
+        // The response is HTML form where access token is hidden input field (this is controlled by response_mode = form_post)
 
         String body = authResponse.getBody().asString();
         String accessToken = StringUtils.substringBetween(body, "name=\"access_token\" value=\"", "\"/>");
         assertNotNull(accessToken, "Failed to locate access token in the Okta /authorize response.");
         return accessToken;
+    }
+
+    public static String expiredOAuth2AccessToken() {
+        return "eyJraWQiOiJGTUM5UndncFVJMUt0V25QWkdmVmFKYzZUZGlTTElZU29jeWs4aHlEbE44IiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULkVzZ051RGxkcm5FN0VDYlhnNUhEdUY4MW9BV3k1UDF4WUZLT1psTmVJcmMiLCJpc3MiOiJodHRwczovL2Rldi05NTcyNzY4Ni5va3RhLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE2Njc5MTc5MjcsImV4cCI6MTY2NzkyMTUyNywiY2lkIjoiMG9hNmE0OG1uaVhBcUVNcng1ZDciLCJ1aWQiOiIwMHU3NmVvZjB6bnNNYkY3NDVkNyIsInNjcCI6WyJvcGVuaWQiXSwiYXV0aF90aW1lIjoxNjY3OTE3ODg2LCJzdWIiOiJpdF90ZXN0QGFjbWUuY29tIiwiZ3JvdXBzIjpbIkV2ZXJ5b25lIl19.KiPa0c1U5IClozwZI5aDRSwjoi-hYtIkQZWpizGF8PPsgzvfMaivUzMoPi5GfEUZF6Bjlg_fQFUK7kJQ8NWjL6gY_5QQMfONw0U9dzQy2HLHb5gU55IKt6mBIutBSPk2FmCTd4SaPmllMb6nAyhIZf0DI7xuAXqRgt5JnasnmCKSIM3HJMlTeXDzHQ5BvMr7tVHWmwQ-8W3nef5nsKi2Sw05rds9RgkcckGUzhA2tMeF_rVTitufeG7h2oXYICtv60wfK6YSnmE78aoHf5NQD5517gnGrRxGMM6UAn3SV4GKOll6OlGDzpz87mq-AR2tigkDfVcOtJA9mkxFFv7HSg";
     }
 
     public static void logoutOnGateway(String url, String jwtToken) {

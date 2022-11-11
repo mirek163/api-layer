@@ -70,6 +70,8 @@ public class OAuth2AuthSourceService extends TokenAuthSourceService {
             OAuth2TokenDetails details = oAuth2Provider.introspect(token);
             if (Boolean.TRUE.equals(details.getActive()) && details.getUsername() != null) {
                 return new ParsedTokenAuthSource(details.getUsername(), new Date(details.getIssuedAt()), new Date(details.getExpiresAt()), AuthSource.Origin.OAUTH2);
+            } else {
+                return new ParsedTokenAuthSource(null, null, null, AuthSource.Origin.OAUTH2);
             }
         }
         return null;

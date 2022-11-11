@@ -32,7 +32,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.core.Is.is;
 import static org.zowe.apiml.util.SecurityUtils.*;
 
@@ -41,11 +42,13 @@ import static org.zowe.apiml.util.SecurityUtils.*;
 class ZoweJwtSchemeTest implements TestWithStartedInstances {
 
     private static URI URL;
+    private static String oAuth2AccessToken;
 
     @BeforeAll
     static void init() throws Exception {
         SslContext.prepareSslAuthentication(ItSslConfigFactory.integrationTests());
         URL = HttpRequestUtils.getUriFromGateway("/zowejwt/api/v1/request");
+        oAuth2AccessToken = oAuth2AccessToken();
     }
 
     @Test
@@ -162,8 +165,7 @@ class ZoweJwtSchemeTest implements TestWithStartedInstances {
             private Header oAuthHeader;
             @BeforeEach
             void setup() {
-                String accessToken = oAuth2AccessToken();
-                oAuthHeader = new Header(ApimlConstants.OAUTH2_HEADER_NAME, accessToken);
+                oAuthHeader = new Header(ApimlConstants.OAUTH2_HEADER_NAME, oAuth2AccessToken);
             }
             @Test
             void thenTranslateIntoJWTAndSendToService() {
@@ -173,8 +175,30 @@ class ZoweJwtSchemeTest implements TestWithStartedInstances {
                     .when()
                     .get(URL)
                     .then()
-                    .body("headers.cookie", containsString(ApimlConstants.COOKIE_AUTH_NAME))
-                    .statusCode(200);
+                    .statusCode(200)
+                    .body("headers.cookie", containsString(ApimlConstants.COOKIE_AUTH_NAME));
+
+            }
+        }
+
+        @Nested
+        class whenExpiredTokenInHeader {
+            private Header oAuthHeader;
+            @BeforeEach
+            void setup() {
+                oAuthHeader = new Header(ApimlConstants.OAUTH2_HEADER_NAME, expiredOAuth2AccessToken());
+            }
+
+            @Test
+            void thenSeeWhatWillHappen() {
+                given()
+                    .config(SslContext.tlsWithoutCert)
+                    .header(oAuthHeader)
+                    .when()
+                    .get(URL)
+                    .then()
+                    .statusCode(200)
+                    .body("headers.cookie", containsString(ApimlConstants.COOKIE_AUTH_NAME));
             }
         }
         @Nested
@@ -182,8 +206,7 @@ class ZoweJwtSchemeTest implements TestWithStartedInstances {
             private Cookie oAuthCookie;
             @BeforeEach
             void setup() {
-                String accessToken = oAuth2AccessToken();
-                oAuthCookie = new Cookie.Builder(ApimlConstants.OAUTH2_COOKIE_AUTH_NAME, accessToken).build();
+                oAuthCookie = new Cookie.Builder(ApimlConstants.OAUTH2_COOKIE_AUTH_NAME, oAuth2AccessToken).build();
             }
             @Test
             void thenTranslateIntoJWTAndSendToService() {
@@ -193,8 +216,29 @@ class ZoweJwtSchemeTest implements TestWithStartedInstances {
                     .when()
                     .get(URL)
                     .then()
-                    .body("headers.cookie", containsString(ApimlConstants.COOKIE_AUTH_NAME))
-                    .statusCode(200);
+                    .statusCode(200)
+                    .body("headers.cookie", containsString(ApimlConstants.COOKIE_AUTH_NAME));
+            }
+        }
+
+        @Nested
+        class whenExpiredTokenInCookie {
+            private Cookie oAuthCookie;
+            @BeforeEach
+            void setup() {
+                oAuthCookie = new Cookie.Builder(ApimlConstants.OAUTH2_COOKIE_AUTH_NAME, expiredOAuth2AccessToken()).build();
+            }
+            @Test
+            void thenSeeWhatHappens() {
+                given()
+                    .config(SslContext.tlsWithoutCert)
+                    .cookie(oAuthCookie)
+                    .when()
+                    .get(URL)
+                    .then()
+                    .statusCode(200)
+                    .body("headers.cookie", containsString(ApimlConstants.COOKIE_AUTH_NAME));
+
             }
         }
     }
