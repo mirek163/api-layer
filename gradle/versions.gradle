@@ -4,7 +4,7 @@ ext {
     springCloudCommonsVersion = '2.2.9.RELEASE!!'
     springCloudVersion3 = '3.1.2'
     springSecurityVersion = '5.7.5!!'
-    springFrameworkVersion = '5.3.23!!'
+    springFrameworkVersion = '5.3.24!!'
     springRetryVersion = '1.2.4.RELEASE'
     springWebTestClientVersion = '4.4.0'
 
@@ -36,7 +36,7 @@ ext {
     jaxbApiVersion = '2.3.1'
     jerseyVersion = '2.26'
     jettyWebSocketClientVersion = '9.4.48.v20220622'
-    jettisonVersion = '1.5.1'
+    jettisonVersion = '1.5.2'
     jjwtVersion = '0.11.2'
     jjwtFullVersion = '0.9.1'
     jsonPathVersion = '2.6.0'
@@ -68,7 +68,7 @@ ext {
     swaggerCoreVersion = '1.5.24'
     swaggerJerseyJaxrsVersion = '1.5.10'
     thymeleafVersion = '3.0.15.RELEASE'
-    tomcatVersion = '9.0.68'
+    tomcatVersion = '9.0.69'
     velocityVersion = '2.3'
     xstreamVersion = '1.4.19!!'
 

@@ -46,6 +46,7 @@ dependencies {
         exclude group: "org.springframework", module: "spring-web"
         exclude group: "org.springframework", module: "spring-webmvc"
     }
+    implementation libraries.snakeyaml
     implementation libraries.spring_aop
     implementation libraries.spring_beans
     implementation libraries.spring_core

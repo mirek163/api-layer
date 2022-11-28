@@ -87,6 +87,7 @@ dependencies {
         exclude group: "com.fasterxml.jackson.core", module: "jackson-core"
         exclude group: "com.fasterxml.jackson.core", module: "jackson-databind"
     }
+    implementation libraries.snakeyaml
     implementation libraries.tomcat_embed_el
     implementation libraries.gson
     implementation libraries.spring_cloud_commons
