@@ -95,6 +95,8 @@ dependencies {
     implementation libraries.spring_security_core
     implementation libraries.spring_security_crypto
 
+    implementation libraries.bcprov
+    implementation libraries.bcpkix
     implementation libraries.bootstrap
     implementation libraries.jquery
 

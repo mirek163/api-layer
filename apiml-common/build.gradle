@@ -29,6 +29,8 @@ dependencies {
     compile libraries.spring_boot_starter_validation
     compile libraries.jackson_databind
     compile libraries.apache_commons_lang3
+    implementation libraries.bcprov
+    implementation libraries.bcpkix
     compile libraries.http_client
     compile libraries.http_core
     compile libraries.janino

@@ -11,7 +11,7 @@ ext {
     attlsVersion = '1.21.3'
     awaitilityVersion = '3.0.0'
     awsSdkVersion = '1.12.279'
-    bouncyCastleVersion = '1.69'
+    bouncyCastleVersion = '1.70'
     bootstrapVersion = '4.3.1'
     commonsCodecVersion = '1.15'
     commonsLang3Version = '3.7'
