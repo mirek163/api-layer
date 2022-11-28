@@ -26,7 +26,7 @@ jobs:
                 run: >
                     ./gradlew build runStartUpCheck --info -Partifactory_user=${{ secrets.ARTIFACTORY_USERNAME }} -Partifactory_password=${{ secrets.ARTIFACTORY_PASSWORD }}
             -   name: Store results
-                uses: actions/upload-artifact@v2
+                uses: actions/upload-artifact@v3
                 if: always()
                 with:
                     name: CITests-${{ env.JOB_ID }}
