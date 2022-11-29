@@ -20,7 +20,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.zowe.apiml.gateway.ribbon.loadbalancer.LoadBalancingContext;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -50,7 +51,7 @@ class RequestHeaderPredicateTest {
 
 
     @Nested
-    class WhitHeader {
+    class WithHeader {
 
         MockHttpServletRequest httpServletRequest;
         InstanceInfo info;
@@ -63,7 +64,8 @@ class RequestHeaderPredicateTest {
             rctx.setRequest(httpServletRequest);
             info = mock(InstanceInfo.class);
             when(server.getInstanceInfo()).thenReturn(info);
-            lbctx = new LoadBalancingContext("key", info);
+            lbctx = mock(LoadBalancingContext.class);
+            when(lbctx.getRequestContext()).thenReturn(rctx);
         }
 
         @ParameterizedTest(name = "{index} - testedHeader: {0} ")
@@ -72,12 +74,8 @@ class RequestHeaderPredicateTest {
             httpServletRequest.addHeader(headerName, "server1");
             RequestHeaderPredicate predicate = new RequestHeaderPredicate();
             when(info.getInstanceId()).thenReturn("server1");
-            assertNotNull(lbctx.getRequestContext().getRequest());
-            System.out.println("Request header value is '" + lbctx.getRequestContext().getRequest().getHeader(RequestHeaderPredicate.REQUEST_HEADER_NAME) + "'");
             assertTrue(predicate.apply(lbctx, server));
             when(info.getInstanceId()).thenReturn("server2");
-            assertNotNull(lbctx.getRequestContext().getRequest());
-            System.out.println("Request header value is '" + lbctx.getRequestContext().getRequest().getHeader(RequestHeaderPredicate.REQUEST_HEADER_NAME) + "'");
             assertFalse(predicate.apply(lbctx, server));
         }
 
