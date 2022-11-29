@@ -73,11 +73,11 @@ class RequestHeaderPredicateTest {
             RequestHeaderPredicate predicate = new RequestHeaderPredicate();
             when(info.getInstanceId()).thenReturn("server1");
             assertNotNull(lbctx.getRequestContext().getRequest());
-            assertEquals(httpServletRequest, lbctx.getRequestContext().getRequest());
+            System.out.println("Request header value is '" + lbctx.getRequestContext().getRequest().getHeader(RequestHeaderPredicate.REQUEST_HEADER_NAME) + "'");
             assertTrue(predicate.apply(lbctx, server));
             when(info.getInstanceId()).thenReturn("server2");
             assertNotNull(lbctx.getRequestContext().getRequest());
-            assertEquals(httpServletRequest, lbctx.getRequestContext().getRequest());
+            System.out.println("Request header value is '" + lbctx.getRequestContext().getRequest().getHeader(RequestHeaderPredicate.REQUEST_HEADER_NAME) + "'");
             assertFalse(predicate.apply(lbctx, server));
         }
 
