@@ -20,8 +20,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.zowe.apiml.gateway.ribbon.loadbalancer.LoadBalancingContext;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -73,8 +72,12 @@ class RequestHeaderPredicateTest {
             httpServletRequest.addHeader(headerName, "server1");
             RequestHeaderPredicate predicate = new RequestHeaderPredicate();
             when(info.getInstanceId()).thenReturn("server1");
+            assertNotNull(lbctx.getRequestContext().getRequest());
+            assertEquals(httpServletRequest, lbctx.getRequestContext().getRequest());
             assertTrue(predicate.apply(lbctx, server));
             when(info.getInstanceId()).thenReturn("server2");
+            assertNotNull(lbctx.getRequestContext().getRequest());
+            assertEquals(httpServletRequest, lbctx.getRequestContext().getRequest());
             assertFalse(predicate.apply(lbctx, server));
         }
 
