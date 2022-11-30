@@ -54,17 +54,14 @@ class RequestHeaderPredicateTest {
     class WithHeader {
 
         MockHttpServletRequest httpServletRequest;
-        InstanceInfo info;
+        InstanceInfo info = mock(InstanceInfo.class);
         DiscoveryEnabledServer server = mock(DiscoveryEnabledServer.class);
-        LoadBalancingContext lbctx;
+        LoadBalancingContext lbctx = mock(LoadBalancingContext.class);
 
         @BeforeEach
         void setUp() {
             httpServletRequest = new MockHttpServletRequest();
-            rctx.setRequest(httpServletRequest);
-            info = mock(InstanceInfo.class);
             when(server.getInstanceInfo()).thenReturn(info);
-            lbctx = mock(LoadBalancingContext.class);
             when(lbctx.getRequestContext()).thenReturn(rctx);
         }
 
@@ -72,6 +69,7 @@ class RequestHeaderPredicateTest {
         @CsvSource(value = {"X-InstanceId", "x-instanceid", "X-INSTANCEID"})
         void filtersOnInstanceId(String headerName) {
             httpServletRequest.addHeader(headerName, "server1");
+            rctx.setRequest(httpServletRequest);
             RequestHeaderPredicate predicate = new RequestHeaderPredicate();
             when(info.getInstanceId()).thenReturn("server1");
             assertTrue(predicate.apply(lbctx, server));
