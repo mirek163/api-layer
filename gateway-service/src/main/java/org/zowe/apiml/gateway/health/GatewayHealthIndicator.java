@@ -11,6 +11,7 @@
 package org.zowe.apiml.gateway.health;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health;
@@ -34,7 +35,7 @@ public class GatewayHealthIndicator extends AbstractHealthIndicator {
     private String apiCatalogServiceId;
 
     @Autowired
-    public GatewayHealthIndicator(DiscoveryClient discoveryClient,
+    public GatewayHealthIndicator(@Qualifier("local")DiscoveryClient discoveryClient,
                                   Providers providers,
                                   @Value("${apiml.catalog.serviceId:}") String apiCatalogServiceId) {
         this.discoveryClient = discoveryClient;

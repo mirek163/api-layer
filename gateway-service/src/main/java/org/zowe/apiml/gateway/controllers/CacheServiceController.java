@@ -12,6 +12,7 @@ package org.zowe.apiml.gateway.controllers;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,6 @@ import java.util.List;
  * about services when a update happened in discovery service. Discovery service notifies about any
  * change to be sure that cache on gateway is still valid.
  */
-@AllArgsConstructor
 @RestController
 @RequestMapping(CacheServiceController.CONTROLLER_PATH)
 public class CacheServiceController {
@@ -35,6 +35,11 @@ public class CacheServiceController {
 
     private final List<ServiceCacheEvict> toEvict;
     private final ApimlDiscoveryClient discoveryClient;
+
+    public CacheServiceController(List<ServiceCacheEvict> toEvict, @Qualifier("local")ApimlDiscoveryClient discoveryClient) {
+        this.toEvict = toEvict;
+        this.discoveryClient = discoveryClient;
+    }
 
     @DeleteMapping(path = "")
     @HystrixCommand

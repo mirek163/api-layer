@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.awaitility.Duration;
 import org.awaitility.core.ConditionTimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.zowe.apiml.gateway.discovery.ApimlDiscoveryClient;
@@ -80,12 +81,12 @@ public class JwtSecurity {
     private final List<String> events = new ArrayList<>();
 
     @Autowired
-    public JwtSecurity(Providers providers, ApimlDiscoveryClient discoveryClient) {
+    public JwtSecurity(Providers providers, @Qualifier("local")ApimlDiscoveryClient discoveryClient) {
         this.providers = providers;
         this.zosmfListener = new ZosmfListener(discoveryClient);
     }
 
-    public JwtSecurity(Providers providers, String keyAlias, String keyStore, char[] keyStorePassword, char[] keyPassword, ApimlDiscoveryClient discoveryClient) {
+    public JwtSecurity(Providers providers, String keyAlias, String keyStore, char[] keyStorePassword, char[] keyPassword, @Qualifier("local")ApimlDiscoveryClient discoveryClient) {
         this(providers, discoveryClient);
 
         this.keyStore = keyStore;

@@ -101,7 +101,7 @@ public class ZosmfService extends AbstractZosmfService {
 
     public ZosmfService(
         final AuthConfigurationProperties authConfigurationProperties,
-        final DiscoveryClient discovery,
+        final @Qualifier("local")DiscoveryClient discovery,
         final @Qualifier("restTemplateWithoutKeystore") RestTemplate restTemplateWithoutKeystore,
         final ObjectMapper securityObjectMapper,
         final ApplicationContext applicationContext,

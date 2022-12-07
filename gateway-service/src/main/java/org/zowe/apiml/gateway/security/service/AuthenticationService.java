@@ -23,6 +23,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -60,7 +61,6 @@ import static org.zowe.apiml.gateway.security.service.zosmf.ZosmfService.TokenTy
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class AuthenticationService {
@@ -80,6 +80,17 @@ public class AuthenticationService {
     private final RestTemplate restTemplate;
     private final CacheManager cacheManager;
     private final CacheUtils cacheUtils;
+
+    public AuthenticationService(ApplicationContext applicationContext, AuthConfigurationProperties authConfigurationProperties, JwtSecurity jwtSecurityInitializer, ZosmfService zosmfService, @Qualifier("local")EurekaClient discoveryClient, RestTemplate restTemplate, CacheManager cacheManager, CacheUtils cacheUtils) {
+        this.applicationContext = applicationContext;
+        this.authConfigurationProperties = authConfigurationProperties;
+        this.jwtSecurityInitializer = jwtSecurityInitializer;
+        this.zosmfService = zosmfService;
+        this.discoveryClient = discoveryClient;
+        this.restTemplate = restTemplate;
+        this.cacheManager = cacheManager;
+        this.cacheUtils = cacheUtils;
+    }
 
     // to force calling inside methods with aspects - ie. ehCache aspect
     private AuthenticationService meAsProxy;

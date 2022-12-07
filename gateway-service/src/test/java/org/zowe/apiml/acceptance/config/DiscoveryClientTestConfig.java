@@ -19,6 +19,7 @@ import com.netflix.discovery.EurekaClientConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.zuul.filters.RefreshableRouteLocator;
@@ -49,6 +50,7 @@ public class DiscoveryClientTestConfig {
 
     @Bean(destroyMethod = "shutdown")
     @RefreshScope
+    @Qualifier("local")
     public ApimlDiscoveryClientStub eurekaClient(ApplicationInfoManager manager,
                                                  EurekaClientConfig config,
                                                  EurekaInstanceConfig instance,
