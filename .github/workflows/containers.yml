@@ -18,7 +18,7 @@ jobs:
 
     E2EUITests:
         runs-on: ubuntu-latest
-        container: cypress/browsers:node14.19.0-chrome100-ff99-edge
+        container: cypress/browsers:latest
         timeout-minutes: 15
 
         services:
