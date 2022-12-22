@@ -15,27 +15,44 @@ env:
     JOB_ID: ${{ github.run_id }}-${{ github.run_number }}
 
 jobs:
+    PublishJibContainers:
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+
+        steps:
+            -   uses: actions/checkout@v3
+                with:
+                    ref: ${{ github.head_ref }}
+
+            -   uses: ./.github/actions/setup
+
+            -   name: Build with Gradle
+                run: >
+                    ./gradlew jib -Partifactory_user=${{ secrets.ARTIFACTORY_USERNAME }} -Partifactory_password=${{ secrets.ARTIFACTORY_PASSWORD }} -Pzowe.docker.password=${{ secrets.PERSONAL_JB_TOKEN }} -Pzowe.docker.username=balhar-jakub -Pzowe.docker.container=ghcr.io/balhar-jakub/ -Pzowe.docker.tag=${{ env.JOB_ID }}
+
+            -   uses: ./.github/actions/teardown
 
     E2EUITests:
+        needs: PublishJibContainers
         runs-on: ubuntu-latest
-        container: cypress/browsers:latest
+        container: cypress/browsers:node14.17.0-chrome91-ff89
         timeout-minutes: 15
 
         services:
             api-catalog-services:
-                image: ghcr.io/balhar-jakub/api-catalog-services:3758098958-3673
+                image: ghcr.io/balhar-jakub/api-catalog-services:${{ github.run_id }}-${{ github.run_number }}
                 volumes:
                     - /api-defs:/api-defs
             discoverable-client:
-                image: ghcr.io/balhar-jakub/discoverable-client:3758098958-3673
+                image: ghcr.io/balhar-jakub/discoverable-client:${{ github.run_id }}-${{ github.run_number }}
             discovery-service:
-                image: ghcr.io/balhar-jakub/discovery-service:3758098958-3673
+                image: ghcr.io/balhar-jakub/discovery-service:${{ github.run_id }}-${{ github.run_number }}
                 volumes:
                     - /api-defs:/api-defs
             gateway-service:
-                image: ghcr.io/balhar-jakub/gateway-service:3758098958-3673
+                image: ghcr.io/balhar-jakub/gateway-service:${{ github.run_id }}-${{ github.run_number }}
             mock-services:
-                image: ghcr.io/balhar-jakub/mock-services:3758098958-3673
+                image: ghcr.io/balhar-jakub/mock-services:${{ github.run_id }}-${{ github.run_number }}
 
         steps:
             -   uses: actions/checkout@v3
