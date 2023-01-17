@@ -10,30 +10,32 @@
 
 package org.zowe.apiml.apicatalog.standalone;
 
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.context.annotation.Primary;
+import org.zowe.apiml.product.gateway.GatewayConfigProperties;
 
 @Configuration
 @ConditionalOnProperty(value = "apiml.catalog.standalone.enabled", havingValue = "true")
-public class StandaloneSecurityConfig {
+public class ApiDocTransformForMock {
+
+    @Value("${server.hostname:localhost}")
+    private String hostname;
+
+    @Value("${server.port}")
+    private String port;
+
+    @Value("${service.schema:https}")
+    private String schema;
 
     @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityFilterChain permitAll(HttpSecurity http) throws Exception {
-        return http
-            .csrf().disable()   // NOSONAR
-            .headers().httpStrictTransportSecurity().disable()
-            .frameOptions().disable().and()
-
-            .authorizeRequests()
-            .anyRequest().permitAll()
-            .and()
+    @Primary
+    public GatewayConfigProperties gatewayConfigPropertiesForMock() {
+        return GatewayConfigProperties.builder()
+            .scheme(schema)
+            .hostname(String.format("%s:%s/apicatalog/mock", hostname, port))
             .build();
     }
 
