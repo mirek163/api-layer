@@ -32,7 +32,7 @@ configure(jacocoProjects) {
     apply plugin: 'idea'
     apply plugin: 'jacoco'
     jacoco {
-        toolVersion = '0.8.4'
+        toolVersion = '0.8.8'
     }
 
     jacocoTestReport {
@@ -82,6 +82,7 @@ task jacocoFullReport(type: JacocoReport) {
     reports {
         html.required = true
         xml.required = true
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
 

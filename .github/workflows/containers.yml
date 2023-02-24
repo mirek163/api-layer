@@ -1368,4 +1368,12 @@ jobs:
                     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+            -   name: Store results
+                uses: actions/upload-artifact@v2
+                if: always()
+                with:
+                    name: PublishResults-${{ env.JOB_ID }}
+                    path: |
+                        build/**
+
             -   uses: ./.github/actions/teardown

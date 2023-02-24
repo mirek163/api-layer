@@ -35,6 +35,7 @@ buildscript {
         classpath 'gradle.plugin.org.cadixdev.gradle:licenser:0.6.1'
         classpath 'org.owasp:dependency-check-gradle:7.1.1'
         classpath 'gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:3.2.1'
+        classpath "com.dorongold.plugins:task-tree:2.1.1"
     }
 }
 
@@ -52,6 +53,7 @@ allprojects {
     apply plugin: 'org.cadixdev.licenser'
     apply plugin: 'org.owasp.dependencycheck'
     apply plugin: 'eclipse'
+    apply plugin: "com.dorongold.task-tree"
 
     repositories mavenRepositories
 
