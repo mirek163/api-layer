@@ -62,6 +62,15 @@ public class APIContainer implements Serializable {
     @Schema(description = "Control whether the service's information should be shown")
     private boolean hideServiceInfo;
 
+    @Schema(description = "Customize the dashboard background color")
+    private String dashboardBackgroundColor;
+
+    @Schema(description = "Customize the dashboard titles color")
+    private String titlesColor;
+
+    @Schema(description = "Customize the detail page background color")
+    private String detailBackgroundColor;
+
     public APIContainer() {
         this.lastUpdatedTimestamp = Calendar.getInstance();
         this.createdTimestamp = this.lastUpdatedTimestamp;

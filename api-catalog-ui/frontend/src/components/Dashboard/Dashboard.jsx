@@ -67,8 +67,14 @@ export default class Dashboard extends Component {
             clearError,
             authentication,
         } = this.props;
+        // eslint-disable-next-line no-console
+        console.log(tiles);
+        let titleColor;
         const hasSearchCriteria = searchCriteria !== undefined && searchCriteria !== null && searchCriteria.length > 0;
         const hasTiles = !fetchTilesError && tiles && tiles.length > 0;
+        if (hasTiles) {
+            titleColor = tiles[0].titleColor;
+        }
         let error = null;
         if (fetchTilesError !== undefined && fetchTilesError !== null) {
             fetchTilesStop();
@@ -124,7 +130,9 @@ export default class Dashboard extends Component {
                                 <Shield title="Search Bar is broken !">
                                     <SearchCriteria placeholder="Search for APIs" doSearch={this.handleSearch} />
                                 </Shield>
-                                <h2 className="api-heading">Available API services</h2>
+                                <h2 className="api-heading" style={{ color: titleColor }}>
+                                    Available API services
+                                </h2>
                             </div>
                             {hasTiles && tiles.map((tile) => <Tile key={tile.id} tile={tile} history={history} />)}
                             {!hasTiles && hasSearchCriteria && (

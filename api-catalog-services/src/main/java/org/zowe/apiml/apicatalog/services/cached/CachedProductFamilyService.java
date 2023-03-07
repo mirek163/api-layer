@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.zowe.apiml.apicatalog.model.APIContainer;
 import org.zowe.apiml.apicatalog.model.APIService;
+import org.zowe.apiml.apicatalog.model.CustomStyleConfig;
 import org.zowe.apiml.auth.Authentication;
 import org.zowe.apiml.auth.AuthenticationSchemes;
 import org.zowe.apiml.config.ApiInfo;
@@ -57,6 +58,7 @@ public class CachedProductFamilyService {
     private final Map<String, APIContainer> products = new HashMap<>();
 
     private final AuthenticationSchemes schemes = new AuthenticationSchemes();
+    private final CustomStyleConfig customStyleConfig;
 
     @Value("${apiml.catalog.hide.serviceInfo:false}")
     private boolean hideServiceInfo;
@@ -64,10 +66,12 @@ public class CachedProductFamilyService {
     public CachedProductFamilyService(CachedServicesService cachedServicesService,
                                       TransformService transformService,
                                       @Value("${apiml.service-registry.cacheRefreshUpdateThresholdInMillis}")
-                                          Integer cacheRefreshUpdateThresholdInMillis) {
+                                          Integer cacheRefreshUpdateThresholdInMillis,
+                                      CustomStyleConfig customStyleConfig) {
         this.cachedServicesService = cachedServicesService;
         this.transformService = transformService;
         this.cacheRefreshUpdateThresholdInMillis = cacheRefreshUpdateThresholdInMillis;
+        this.customStyleConfig = customStyleConfig;
     }
 
     /**
@@ -232,6 +236,11 @@ public class CachedProductFamilyService {
         setStatus(apiContainer, servicesCount, activeServicesCount);
         apiContainer.setSso(isSso);
         apiContainer.setHideServiceInfo(hideServiceInfo);
+
+        // set metadata to customize the UI
+        apiContainer.setDashboardBackgroundColor(customStyleConfig.getDashboardPage().getBackgroundColor());
+        apiContainer.setTitlesColor(customStyleConfig.getDashboardPage().getTitlesColor());
+        apiContainer.setDetailBackgroundColor(customStyleConfig.getDetailPage().getBackgroundColor());
     }
 
     /**
