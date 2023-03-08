@@ -10,10 +10,9 @@
 import { connect } from 'react-redux';
 import { userActions } from '../../actions/user-actions';
 import Header from './Header';
-import { getVisibleTiles } from '../../selectors/selectors';
 
 const mapStateToProps = (state) => ({
-    tiles: getVisibleTiles(state.tilesReducer.tiles, state.filtersReducer.text),
+    tiles: state.tilesReducer.tiles,
 });
 
 const mapDispatchToProps = {
