@@ -10,8 +10,11 @@
 import { connect } from 'react-redux';
 import { userActions } from '../../actions/user-actions';
 import Header from './Header';
+import { getVisibleTiles } from '../../selectors/selectors';
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+    tiles: getVisibleTiles(state.tilesReducer.tiles, state.filtersReducer.text),
+});
 
 const mapDispatchToProps = {
     logout: () => userActions.logout(),

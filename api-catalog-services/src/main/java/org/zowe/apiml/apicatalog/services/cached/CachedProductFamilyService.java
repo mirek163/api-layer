@@ -239,8 +239,11 @@ public class CachedProductFamilyService {
 
         // set metadata to customize the UI
         apiContainer.setDashboardBackgroundColor(customStyleConfig.getDashboardPage().getBackgroundColor());
-        apiContainer.setTitlesColor(customStyleConfig.getDashboardPage().getTitlesColor());
+        apiContainer.setHeaderBackgroundColor(customStyleConfig.getHeader().getBackgroundColor());
         apiContainer.setDetailBackgroundColor(customStyleConfig.getDetailPage().getBackgroundColor());
+        apiContainer.setTitlesColor(customStyleConfig.getTitlesColor());
+        apiContainer.setFont(customStyleConfig.getFont());
+        apiContainer.setLinksColor(customStyleConfig.getDashboardPage().getLinksColor());
     }
 
     /**

@@ -74,15 +74,15 @@ apiml:
 
     catalog:
         customStyle:
+            titlesColor: "#c71c3a"
+            font: "Arial, sans-serif;"
+            header:
+                backgroundColor: "#c71c3a"  #will be used also for the buttons labels color in the header
             dashboardPage:
                 backgroundColor: "#FFFFFF"
-                titlesColor: "#c71c3a"
                 linksColor: "#c71c3a"
-                textFont: "Arial, sans-serif;"
             detailPage:
                 backgroundColor: "#E5E5E5"
-                titlesColor: "#c71c3a"
-                textFont: "Arial, sans-serif;"
 
         id: apimediationlayer
         title: API Mediation Layer API

@@ -18,13 +18,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "apiml.catalog.custom-style", ignoreInvalidFields = true)
 public class CustomStyleConfig {
+    private String titlesColor = "";
+    private String font = "";
     private DashboardPage dashboardPage;
     private DetailPage detailPage;
+    private Header header;
+
+    @Data
+    public static class Header {
+        private String backgroundColor = "";
+
+    }
 
     @Data
     public static class DashboardPage {
         private String backgroundColor = "";
-        private String titlesColor = "";
+        private String linksColor = "";
     }
 
     @Data

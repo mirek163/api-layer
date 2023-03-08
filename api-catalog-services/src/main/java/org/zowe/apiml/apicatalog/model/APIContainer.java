@@ -65,8 +65,20 @@ public class APIContainer implements Serializable {
     @Schema(description = "Customize the dashboard background color")
     private String dashboardBackgroundColor;
 
-    @Schema(description = "Customize the dashboard titles color")
+    @Schema(description = "Customize the header background color")
+    private String headerBackgroundColor;
+
+    @Schema(description = "Customize the links color")
+    private String dashboardLinksColor;
+
+    @Schema(description = "Customize the titles color")
     private String titlesColor;
+
+    @Schema(description = "Customize the links color")
+    private String linksColor;
+
+    @Schema(description = "Customize the font of the text")
+    private String font;
 
     @Schema(description = "Customize the detail page background color")
     private String detailBackgroundColor;

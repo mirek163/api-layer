@@ -73,7 +73,7 @@ export default class Dashboard extends Component {
         const hasSearchCriteria = searchCriteria !== undefined && searchCriteria !== null && searchCriteria.length > 0;
         const hasTiles = !fetchTilesError && tiles && tiles.length > 0;
         if (hasTiles) {
-            titleColor = tiles[0].titleColor;
+            titleColor = tiles[0].titlesColor;
         }
         let error = null;
         if (fetchTilesError !== undefined && fetchTilesError !== null) {
