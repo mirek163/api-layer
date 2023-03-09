@@ -74,9 +74,6 @@ public class APIContainer implements Serializable {
     @Schema(description = "Customize the titles color")
     private String titlesColor;
 
-    @Schema(description = "Customize the links color")
-    private String linksColor;
-
     @Schema(description = "Customize the font of the text")
     private String font;
 

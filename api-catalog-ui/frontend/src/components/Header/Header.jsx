@@ -57,9 +57,9 @@ function Header(props) {
     const { logout } = props;
     const { tiles } = props;
     const hasTiles = tiles && tiles.length > 0;
-    let titleColor;
+    let background;
     if (hasTiles) {
-        titleColor = tiles[0].titlesColor;
+        background = tiles[0].headerBackgroundColor;
     }
     const classes = useStyles();
     const handleLogout = () => {
@@ -79,7 +79,7 @@ function Header(props) {
     const dashboard = '#/dashboard';
     const username = localStorage.getItem('username');
     return (
-        <div className="header" style={{ backgroundColor: titleColor }}>
+        <div className="header" style={{ backgroundColor: background || '1d5bbf' }}>
             <div className="product-name">
                 <Link data-testid="link" href={dashboard}>
                     <div className="app-icon-container">

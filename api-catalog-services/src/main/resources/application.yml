@@ -80,14 +80,13 @@ apiml:
         # Configuration to customize the style of Catalog UI
         customStyle:
             titlesColor: "#c71c3a"
-            font: "Arial, sans-serif;"
+            font: "Arial, sans-serif"
             header:
                 backgroundColor: "#c71c3a"  #will be used also for the buttons labels color in the header
             dashboardPage:
-                backgroundColor: "#FFFFFF"
-                linksColor: "#c71c3a"
+                backgroundColor: "#c2ba99"
             detailPage:
-                backgroundColor: "#E5E5E5"
+                backgroundColor: "#c2ba99"
 
     service-registry:
         serviceFetchDelayInMillis:  20000

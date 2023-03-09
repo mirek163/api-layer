@@ -243,7 +243,6 @@ public class CachedProductFamilyService {
         apiContainer.setDetailBackgroundColor(customStyleConfig.getDetailPage().getBackgroundColor());
         apiContainer.setTitlesColor(customStyleConfig.getTitlesColor());
         apiContainer.setFont(customStyleConfig.getFont());
-        apiContainer.setLinksColor(customStyleConfig.getDashboardPage().getLinksColor());
     }
 
     /**

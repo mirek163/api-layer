@@ -1,5 +1,5 @@
 body {
-    background-color: #EFEFEF !important;
+    /*background-color: #EFEFEF !important;*/
     background-image: none;
 }
 
@@ -73,7 +73,7 @@ a {
 
 @media (min-width: 972px) {
     .apis {
-        background-image: url(../../assets/images/background.svg);
+        /*background-image: url(../../assets/images/background.svg);*/
     }
 }
 

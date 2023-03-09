@@ -233,7 +233,7 @@ html {
 body {
     margin: 0;
     min-height: 100%;
-    background-color: #efefef;
+    /*background-color: #efefef;*/
     font-family: Arial, sans-serif;
     font-size: 14px;
     line-height: 20px;
@@ -2134,7 +2134,7 @@ textarea.w-input, textarea.w-select {
    Start of custom Webflow CSS
    ========================================================================== */
 body {
-    background-color: #efefef;
+    /*background-color: #efefef;*/
     font-family: Montserrat, sans-serif;
     color: #000;
     font-size: 100%;
@@ -2153,7 +2153,7 @@ body {
     min-height: 75vh;
     padding: 35px 24px;
     padding-left: 0;
-    background-color: #efefef;
+    /*background-color: #efefef;*/
     background-position: 100% 0px;
     background-size: 60%;
     background-repeat: no-repeat;
@@ -2551,7 +2551,7 @@ body {
     -webkit-justify-content: space-between;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    background-color: #1d5bbf;
+    /*background-color: #1d5bbf;*/
 }
 
 .product-name {

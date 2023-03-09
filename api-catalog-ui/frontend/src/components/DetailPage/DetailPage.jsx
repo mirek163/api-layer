@@ -61,6 +61,13 @@ export default class DetailPage extends Component {
             fetchTilesStart,
             history,
         } = this.props;
+        const hasTiles = tiles && tiles.length > 0;
+        let background;
+        if (hasTiles) {
+            background = tiles[0].detailBackgroundColor;
+        }
+        // eslint-disable-next-line no-console
+        console.log(tiles);
         const iconBack = <ChevronLeftIcon />;
         let error = null;
         if (fetchTilesError !== undefined && fetchTilesError !== null) {
@@ -72,7 +79,7 @@ export default class DetailPage extends Component {
             fetchTilesStart(tileID);
         }
         return (
-            <div className="detail-page">
+            <div className="detail-page" style={{ backgroundColor: background || '1d5bbf' }}>
                 <Spinner isLoading={isLoading} />
                 {fetchTilesError && (
                     <div className="no-tiles-container">

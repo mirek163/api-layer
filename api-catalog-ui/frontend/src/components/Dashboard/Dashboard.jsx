@@ -70,10 +70,17 @@ export default class Dashboard extends Component {
         // eslint-disable-next-line no-console
         console.log(tiles);
         let titleColor;
+        let background;
         const hasSearchCriteria = searchCriteria !== undefined && searchCriteria !== null && searchCriteria.length > 0;
         const hasTiles = !fetchTilesError && tiles && tiles.length > 0;
         if (hasTiles) {
             titleColor = tiles[0].titlesColor;
+            background = tiles[0].dashboardBackgroundColor;
+        }
+        if (background) {
+            document.body.style.backgroundColor = background;
+        } else {
+            document.body.style.backgroundColor = '#EFEFEF';
         }
         let error = null;
         if (fetchTilesError !== undefined && fetchTilesError !== null) {
@@ -82,7 +89,13 @@ export default class Dashboard extends Component {
         }
 
         return (
-            <div>
+            <div
+                style={
+                    background
+                        ? { backgroundColor: background }
+                        : { backgroundImage: '../../assets/images/zowe-background.jpg' }
+                }
+            >
                 <div id="dash-buttons">
                     <DialogDropdown
                         selectEnabler={this.props.selectEnabler}

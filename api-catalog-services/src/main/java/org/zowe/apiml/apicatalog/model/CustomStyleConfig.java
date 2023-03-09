@@ -33,7 +33,6 @@ public class CustomStyleConfig {
     @Data
     public static class DashboardPage {
         private String backgroundColor = "";
-        private String linksColor = "";
     }
 
     @Data
