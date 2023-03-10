@@ -66,8 +66,6 @@ export default class DetailPage extends Component {
         if (hasTiles) {
             background = tiles[0].detailBackgroundColor;
         }
-        // eslint-disable-next-line no-console
-        console.log(tiles);
         const iconBack = <ChevronLeftIcon />;
         let error = null;
         if (fetchTilesError !== undefined && fetchTilesError !== null) {

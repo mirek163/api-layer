@@ -68,8 +68,6 @@ export default class Dashboard extends Component {
             clearError,
             authentication,
         } = this.props;
-        // eslint-disable-next-line no-console
-        console.log(tiles);
         let titleColor;
         let background;
         const hasSearchCriteria = searchCriteria !== undefined && searchCriteria !== null && searchCriteria.length > 0;
@@ -79,8 +77,6 @@ export default class Dashboard extends Component {
             background = tiles[0].dashboardBackgroundColor;
         }
         localStorage.setItem('dashboardBackground', background);
-        // eslint-disable-next-line no-console
-        console.log(background);
         if (background) {
             document.body.style.backgroundColor = background;
         } else {

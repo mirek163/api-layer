@@ -14,13 +14,14 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import productImage from '../../assets/images/api-catalog-logo.png';
 import './Header.css';
 
-const useStyles = makeStyles({
-    root: {
-        '&:hover': {
-            backgroundColor: 'rgb(86, 145, 240)',
+const useStyles = (color) =>
+    makeStyles({
+        root: {
+            '&:hover': {
+                backgroundColor: color,
+            },
         },
-    },
-});
+    });
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -62,7 +63,11 @@ function Header(props) {
         background = tiles[0].headerBackgroundColor;
         localStorage.setItem('headerBackground', background);
     }
-    const classes = useStyles();
+    let color = 'rgb(86, 145, 240)';
+    if (background) {
+        color = background;
+    }
+    const classes = useStyles(color);
     const handleLogout = () => {
         logout();
     };
@@ -125,7 +130,12 @@ function Header(props) {
                                 Logged in as <strong>{username}</strong>
                             </Typography>
                             <Divider />
-                            <MenuItem id="logout-button" data-testid="logout" onClick={handleLogout}>
+                            <MenuItem
+                                id="logout-button"
+                                data-testid="logout"
+                                onClick={handleLogout}
+                                style={{ color: background || '#3272d9' }}
+                            >
                                 Log out
                             </MenuItem>
                         </div>

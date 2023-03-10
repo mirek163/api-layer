@@ -12,6 +12,10 @@ import './Spinner.css';
 
 export default class Spinner extends Component {
     render() {
+        let color = '#1d5bbf';
+        if (localStorage.getItem('headerBackground')) {
+            color = localStorage.getItem('headerBackground');
+        }
         const { isLoading, css } = this.props;
         const divStyle = {
             display: isLoading === true ? 'block' : 'none',
@@ -19,10 +23,10 @@ export default class Spinner extends Component {
         };
         return (
             <div id="spinner" className="lds-ring" style={divStyle} data-testid="spinner">
-                <div />
-                <div />
-                <div />
-                <div />
+                <div style={{ borderColor: `${color} transparent transparent transparent` }} />
+                <div style={{ borderColor: `${color} transparent transparent transparent` }} />
+                <div style={{ borderColor: `${color} transparent transparent transparent` }} />
+                <div style={{ borderColor: `${color} transparent transparent transparent` }} />
             </div>
         );
     }
