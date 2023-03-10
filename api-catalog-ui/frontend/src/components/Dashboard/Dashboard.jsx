@@ -21,6 +21,7 @@ import WizardContainer from '../Wizard/WizardContainer';
 import DialogDropdown from '../Wizard/DialogDropdown';
 import { enablerData } from '../Wizard/configs/wizard_onboarding_methods';
 import ConfirmDialogContainer from '../Wizard/ConfirmDialogContainer';
+import Image from '../../assets/images/background.svg';
 
 export default class Dashboard extends Component {
     componentDidMount() {
@@ -78,7 +79,9 @@ export default class Dashboard extends Component {
             background = tiles[0].dashboardBackgroundColor;
         }
         localStorage.setItem('dashboardBackground', background);
-        if (localStorage.getItem('dashboardBackground')) {
+        // eslint-disable-next-line no-console
+        console.log(background);
+        if (background) {
             document.body.style.backgroundColor = background;
         } else {
             document.body.style.backgroundColor = '#EFEFEF';
@@ -90,13 +93,7 @@ export default class Dashboard extends Component {
         }
 
         return (
-            <div
-                style={
-                    background
-                        ? { backgroundColor: localStorage.getItem('dashboardBackground') }
-                        : { backgroundImage: '../../assets/images/zowe-background.jpg' }
-                }
-            >
+            <div>
                 <div id="dash-buttons">
                     <DialogDropdown
                         selectEnabler={this.props.selectEnabler}
@@ -138,7 +135,10 @@ export default class Dashboard extends Component {
                 )}
                 <ErrorDialog refreshedStaticApisError={refreshedStaticApisError} clearError={clearError} />
                 {!fetchTilesError && (
-                    <div className="apis">
+                    <div
+                        className="apis"
+                        style={background ? { backgroundColor: background } : { backgroundImage: `url(${Image})` }}
+                    >
                         <div id="grid-container">
                             <div className="filtering-container">
                                 <Shield title="Search Bar is broken !">

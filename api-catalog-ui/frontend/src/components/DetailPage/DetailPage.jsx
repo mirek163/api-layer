@@ -79,7 +79,7 @@ export default class DetailPage extends Component {
             fetchTilesStart(tileID);
         }
         return (
-            <div className="detail-page" style={{ backgroundColor: background || '#1d5bbf' }}>
+            <div className="detail-page" style={{ backgroundColor: background || '#EFEFEF' }}>
                 <Spinner isLoading={isLoading} />
                 {fetchTilesError && (
                     <div className="no-tiles-container">

@@ -57,11 +57,11 @@ function Header(props) {
     const { logout } = props;
     const { tiles } = props;
     const hasTiles = tiles && tiles.length > 0;
-    let background;
+    let background = localStorage.getItem('headerBackground');
     if (hasTiles) {
         background = tiles[0].headerBackgroundColor;
+        localStorage.setItem('headerBackground', background);
     }
-    localStorage.setItem('headerBackground', background);
     const classes = useStyles();
     const handleLogout = () => {
         logout();
@@ -80,7 +80,7 @@ function Header(props) {
     const dashboard = '#/dashboard';
     const username = localStorage.getItem('username');
     return (
-        <div className="header" style={{ backgroundColor: localStorage.getItem('headerBackground') || '#1d5bbf' }}>
+        <div className="header" style={{ backgroundColor: background || '#1d5bbf' }}>
             <div className="product-name">
                 <Link data-testid="link" href={dashboard}>
                     <div className="app-icon-container">
