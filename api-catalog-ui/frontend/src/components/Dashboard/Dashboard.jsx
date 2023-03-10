@@ -91,7 +91,10 @@ export default class Dashboard extends Component {
             fetchTilesStop();
             error = formatError(fetchTilesError);
         }
-
+        let buttonColor = '#3272d9';
+        if (localStorage.getItem('headerBackground')) {
+            buttonColor = localStorage.getItem('headerBackground');
+        }
         return (
             <div>
                 <div id="dash-buttons">
@@ -106,7 +109,7 @@ export default class Dashboard extends Component {
                         size="medium"
                         variant="outlined"
                         onClick={this.refreshStaticApis}
-                        style={{ borderRadius: '0.1875em' }}
+                        style={{ borderRadius: '0.1875em', color: buttonColor }}
                     >
                         Refresh Static APIs
                     </IconButton>

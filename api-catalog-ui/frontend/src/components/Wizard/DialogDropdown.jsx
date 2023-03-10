@@ -56,6 +56,10 @@ export default class DialogDropdown extends Component {
         if (!this.props.visible || !Array.isArray(this.state.data)) {
             return null;
         }
+        let buttonColor = '#3272d9';
+        if (localStorage.getItem('headerBackground')) {
+            buttonColor = localStorage.getItem('headerBackground');
+        }
         return (
             <span>
                 <Button
@@ -65,7 +69,7 @@ export default class DialogDropdown extends Component {
                     size="medium"
                     variant="outlined"
                     id="onboard-wizard-button"
-                    style={{ borderRadius: '0.1875em' }}
+                    style={{ borderRadius: '0.1875em', color: buttonColor }}
                     endIcon={<KeyboardArrowDownIcon />}
                 >
                     Onboard New API

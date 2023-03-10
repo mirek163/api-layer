@@ -78,13 +78,22 @@ export default class DetailPage extends Component {
             fetchTilesStop();
             fetchTilesStart(tileID);
         }
+        let buttonColor = '#0c7bb3';
+        if (localStorage.getItem('headerBackground')) {
+            buttonColor = localStorage.getItem('headerBackground');
+        }
         return (
             <div className="detail-page" style={{ backgroundColor: background || '#EFEFEF' }}>
                 <Spinner isLoading={isLoading} />
                 {fetchTilesError && (
                     <div className="no-tiles-container">
                         <br />
-                        <IconButton id="go-back-button" onClick={this.handleGoBack} size="medium">
+                        <IconButton
+                            id="go-back-button"
+                            onClick={this.handleGoBack}
+                            size="medium"
+                            style={{ color: buttonColor }}
+                        >
                             {iconBack}
                             Back
                         </IconButton>
@@ -107,6 +116,7 @@ export default class DetailPage extends Component {
                             color="primary"
                             onClick={this.handleGoBack}
                             size="medium"
+                            style={{ color: buttonColor }}
                         >
                             {iconBack}
                             Back
