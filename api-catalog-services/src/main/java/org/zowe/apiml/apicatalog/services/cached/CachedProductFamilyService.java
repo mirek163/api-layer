@@ -238,11 +238,38 @@ public class CachedProductFamilyService {
         apiContainer.setHideServiceInfo(hideServiceInfo);
 
         // set metadata to customize the UI
-        apiContainer.setDashboardBackgroundColor(customStyleConfig.getDashboardPage().getBackgroundColor());
-        apiContainer.setHeaderBackgroundColor(customStyleConfig.getHeader().getBackgroundColor());
-        apiContainer.setDetailBackgroundColor(customStyleConfig.getDetailPage().getBackgroundColor());
-        apiContainer.setTitlesColor(customStyleConfig.getTitlesColor());
-        apiContainer.setFont(customStyleConfig.getFont());
+        if (customStyleConfig != null) {
+            setCustomUiConfig(apiContainer);
+        }
+
+    }
+
+    /**
+     * Map the configuration to customize the Catalog UI to the container
+     * @param apiContainer
+     */
+    private void setCustomUiConfig(APIContainer apiContainer) {
+        if (customStyleConfig.getDashboardPage() != null &&
+            customStyleConfig.getDashboardPage().getBackgroundColor() != null &&
+            !customStyleConfig.getDashboardPage().getBackgroundColor().isEmpty()) {
+            apiContainer.setDashboardBackgroundColor(customStyleConfig.getDashboardPage().getBackgroundColor());
+        }
+        if (customStyleConfig.getHeader() != null &&
+            customStyleConfig.getHeader().getBackgroundColor() != null &&
+            !customStyleConfig.getHeader().getBackgroundColor().isEmpty()) {
+            apiContainer.setHeaderBackgroundColor(customStyleConfig.getHeader().getBackgroundColor());
+        }
+        if (customStyleConfig.getDetailPage() != null &&
+            customStyleConfig.getDetailPage().getBackgroundColor() != null &&
+            !customStyleConfig.getDetailPage().getBackgroundColor().isEmpty()) {
+            apiContainer.setDetailBackgroundColor(customStyleConfig.getDetailPage().getBackgroundColor());
+        }
+        if (customStyleConfig.getTitlesColor() != null && !customStyleConfig.getTitlesColor().isEmpty()) {
+            apiContainer.setTitlesColor(customStyleConfig.getTitlesColor());
+        }
+        if (customStyleConfig.getFont() != null && !customStyleConfig.getFont().isEmpty()) {
+            apiContainer.setFont(customStyleConfig.getFont());
+        }
     }
 
     /**

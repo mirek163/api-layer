@@ -79,7 +79,7 @@ function Header(props) {
     const dashboard = '#/dashboard';
     const username = localStorage.getItem('username');
     return (
-        <div className="header" style={{ backgroundColor: background || '1d5bbf' }}>
+        <div className="header" style={{ backgroundColor: background || '#1d5bbf' }}>
             <div className="product-name">
                 <Link data-testid="link" href={dashboard}>
                     <div className="app-icon-container">
