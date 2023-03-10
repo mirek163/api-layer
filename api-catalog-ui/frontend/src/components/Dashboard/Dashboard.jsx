@@ -77,7 +77,8 @@ export default class Dashboard extends Component {
             titleColor = tiles[0].titlesColor;
             background = tiles[0].dashboardBackgroundColor;
         }
-        if (background) {
+        localStorage.setItem('dashboardBackground', background);
+        if (localStorage.getItem('dashboardBackground')) {
             document.body.style.backgroundColor = background;
         } else {
             document.body.style.backgroundColor = '#EFEFEF';
@@ -92,7 +93,7 @@ export default class Dashboard extends Component {
             <div
                 style={
                     background
-                        ? { backgroundColor: background }
+                        ? { backgroundColor: localStorage.getItem('dashboardBackground') }
                         : { backgroundImage: '../../assets/images/zowe-background.jpg' }
                 }
             >
