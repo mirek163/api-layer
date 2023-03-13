@@ -20,9 +20,15 @@ import org.springframework.context.annotation.Configuration;
 public class CustomStyleConfig {
     private String titlesColor = "";
     private String font = "";
+    private String hoverColor = "";
+    private String focusColor = "";
+    private String hyperlinksColor = "";
+    private String boxShadowColor = "";
+
     private DashboardPage dashboardPage;
     private DetailPage detailPage;
     private Header header;
+    private TilesAndNavMenu tilesAndNavMenu;
 
     @Data
     public static class Header {
@@ -38,5 +44,11 @@ public class CustomStyleConfig {
     @Data
     public static class DetailPage {
         private String backgroundColor = "";
+    }
+
+    @Data
+    public static class TilesAndNavMenu {
+        private String backgroundColor = "";
+        private String borderColor = "";
     }
 }

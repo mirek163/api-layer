@@ -81,12 +81,19 @@ apiml:
         customStyle:
             titlesColor: "#c71c3a"
             font: "Arial, sans-serif"
+            hoverColor:
+            focusColor:
+            hyperlinksColor:
+            boxShadowColor:
             header:
                 backgroundColor: "#c71c3a"  #will be used also for the buttons labels color in the header
             dashboardPage:
                 backgroundColor: "#c2ba99"
             detailPage:
                 backgroundColor: "#c2ba99"
+            tilesAndNavMenu:
+                backgroundColor:
+                borderColor:
 
     service-registry:
         serviceFetchDelayInMillis:  20000

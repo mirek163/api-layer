@@ -264,11 +264,31 @@ public class CachedProductFamilyService {
             !customStyleConfig.getDetailPage().getBackgroundColor().isEmpty()) {
             apiContainer.setDetailBackgroundColor(customStyleConfig.getDetailPage().getBackgroundColor());
         }
+        if (customStyleConfig.getTilesAndNavMenu() != null) {
+            if (customStyleConfig.getTilesAndNavMenu().getBackgroundColor() != null && !customStyleConfig.getTilesAndNavMenu().getBackgroundColor().isEmpty()) {
+                apiContainer.setTilesAndMenuBackgroundColor(customStyleConfig.getTilesAndNavMenu().getBackgroundColor());
+            }
+            if (customStyleConfig.getTilesAndNavMenu().getBorderColor() != null && !customStyleConfig.getTilesAndNavMenu().getBorderColor().isEmpty()) {
+                apiContainer.setTilesAndMenuBorderColor(customStyleConfig.getTilesAndNavMenu().getBorderColor());
+            }
+        }
         if (customStyleConfig.getTitlesColor() != null && !customStyleConfig.getTitlesColor().isEmpty()) {
             apiContainer.setTitlesColor(customStyleConfig.getTitlesColor());
         }
         if (customStyleConfig.getFont() != null && !customStyleConfig.getFont().isEmpty()) {
             apiContainer.setFont(customStyleConfig.getFont());
+        }
+        if (customStyleConfig.getHoverColor() != null && !customStyleConfig.getHoverColor().isEmpty()) {
+            apiContainer.setHoverColor(customStyleConfig.getHoverColor());
+        }
+        if (customStyleConfig.getFocusColor() != null && !customStyleConfig.getFocusColor().isEmpty()) {
+            apiContainer.setFocusColor(customStyleConfig.getFocusColor());
+        }
+        if (customStyleConfig.getBoxShadowColor() != null && !customStyleConfig.getBoxShadowColor().isEmpty()) {
+            apiContainer.setBoxShadowColor(customStyleConfig.getBoxShadowColor());
+        }
+        if (customStyleConfig.getHyperlinksColor() != null && !customStyleConfig.getHyperlinksColor().isEmpty()) {
+            apiContainer.setHyperlinksColor(customStyleConfig.getHyperlinksColor());
         }
     }
 

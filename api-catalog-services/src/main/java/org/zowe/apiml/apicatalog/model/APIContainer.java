@@ -77,8 +77,26 @@ public class APIContainer implements Serializable {
     @Schema(description = "Customize the font of the text")
     private String font;
 
+    @Schema(description = "Customize the hover color of the elements")
+    private String hoverColor;
+
+    @Schema(description = "Customize the focus color of the elements")
+    private String focusColor;
+
+    @Schema(description = "Customize the hyperlinks color")
+    private String hyperlinksColor;
+
+    @Schema(description = "Customize the box shadow color")
+    private String boxShadowColor;
+
     @Schema(description = "Customize the detail page background color")
     private String detailBackgroundColor;
+
+    @Schema(description = "Customize the background color for the tiles and the nav menu")
+    private String tilesAndMenuBackgroundColor;
+
+    @Schema(description = "Customize the border color for the tiles and the nav menu")
+    private String tilesAndMenuBorderColor;
 
     public APIContainer() {
         this.lastUpdatedTimestamp = Calendar.getInstance();
