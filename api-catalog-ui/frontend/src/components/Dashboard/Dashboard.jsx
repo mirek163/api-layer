@@ -70,17 +70,25 @@ export default class Dashboard extends Component {
         } = this.props;
         let titleColor;
         let background;
+        let font;
         const hasSearchCriteria = searchCriteria !== undefined && searchCriteria !== null && searchCriteria.length > 0;
         const hasTiles = !fetchTilesError && tiles && tiles.length > 0;
         if (hasTiles) {
             titleColor = tiles[0].titlesColor;
             background = tiles[0].dashboardBackgroundColor;
+            font = tiles[0].font;
         }
         localStorage.setItem('dashboardBackground', background);
         if (background) {
             document.body.style.backgroundColor = background;
         } else {
             document.body.style.backgroundColor = '#EFEFEF';
+        }
+        localStorage.setItem('fontFamily', font);
+        if (font) {
+            document.body.style.fontFamily = font;
+        } else {
+            document.body.style.fontFamily = 'Montserrat, sans-serif';
         }
         let error = null;
         if (fetchTilesError !== undefined && fetchTilesError !== null) {

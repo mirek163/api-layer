@@ -66,6 +66,10 @@ export default class DetailPage extends Component {
         if (hasTiles) {
             background = tiles[0].detailBackgroundColor;
         }
+        const font = localStorage.getItem('fontFamily');
+        if (font) {
+            document.body.style.fontFamily = font;
+        }
         const iconBack = <ChevronLeftIcon />;
         let error = null;
         if (fetchTilesError !== undefined && fetchTilesError !== null) {

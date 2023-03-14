@@ -80,7 +80,7 @@ apiml:
         # Configuration to customize the style of Catalog UI
         customStyle:
             titlesColor: "#c71c3a"
-            font: "Arial, sans-serif"
+#            font: "fantasy"
             hoverColor:
             focusColor:
             hyperlinksColor:
