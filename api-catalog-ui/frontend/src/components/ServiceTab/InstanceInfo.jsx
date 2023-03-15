@@ -27,7 +27,9 @@ export default class InstanceInfo extends Component {
             hideServiceInfo = tiles[0].hideServiceInfo;
         }
         const font = localStorage.getItem('fontFamily');
-        if (font !== 'null') {
+        // eslint-disable-next-line no-console
+        console.log(font);
+        if (font && font !== 'null') {
             document.body.style.fontFamily = font;
         } else {
             document.body.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';

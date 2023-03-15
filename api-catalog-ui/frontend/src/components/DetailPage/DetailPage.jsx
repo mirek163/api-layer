@@ -67,7 +67,7 @@ export default class DetailPage extends Component {
             background = tiles[0].detailBackgroundColor;
         }
         const font = localStorage.getItem('fontFamily');
-        if (font) {
+        if (font && font !== 'null') {
             document.body.style.fontFamily = font;
         } else {
             document.body.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';

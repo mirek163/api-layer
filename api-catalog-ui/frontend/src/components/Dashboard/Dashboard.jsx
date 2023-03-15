@@ -57,13 +57,18 @@ export default class Dashboard extends Component {
     };
 
     setStyle(background, font) {
-        localStorage.setItem('dashboardBackground', background);
-        if (background) {
+        if (background && background !== 'null') {
+            localStorage.setItem('dashboardBackground', background);
             document.body.style.backgroundColor = background;
         } else {
             document.body.style.backgroundColor = '#EFEFEF';
         }
-        localStorage.setItem('fontFamily', font);
+        if (font && font !== 'null') {
+            localStorage.setItem('fontFamily', font);
+            document.body.style.fontFamily = font;
+        } else {
+            document.body.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';
+        }
     }
 
     render() {

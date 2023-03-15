@@ -171,7 +171,7 @@ export default class SwaggerUI extends Component {
         const { swaggerReady, swaggerProps } = this.state;
         let error = false;
         const font = localStorage.getItem('fontFamily');
-        if (font) {
+        if (font && font !== 'null') {
             document.body.style.fontFamily = font;
         } else {
             document.body.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';
