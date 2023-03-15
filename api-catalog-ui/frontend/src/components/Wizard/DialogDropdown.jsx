@@ -52,6 +52,13 @@ export default class DialogDropdown extends Component {
         this.setState({ isOpen: false });
     }
 
+    setStyle(font) {
+        if (font) {
+            return font;
+        }
+        return 'Roboto, Helvetica, Arial, sans-serif';
+    }
+
     renderDropdown() {
         if (!this.props.visible || !Array.isArray(this.state.data)) {
             return null;
@@ -60,6 +67,10 @@ export default class DialogDropdown extends Component {
         if (localStorage.getItem('headerBackground')) {
             buttonColor = localStorage.getItem('headerBackground');
         }
+        let { font } = this.props;
+        // eslint-disable-next-line no-console
+        console.log(font);
+        font = this.setStyle(font);
         return (
             <span>
                 <Button
@@ -69,7 +80,7 @@ export default class DialogDropdown extends Component {
                     size="medium"
                     variant="outlined"
                     id="onboard-wizard-button"
-                    style={{ borderRadius: '0.1875em', color: buttonColor }}
+                    style={{ borderRadius: '0.1875em', color: buttonColor, fontFamily: font }}
                     endIcon={<KeyboardArrowDownIcon />}
                 >
                     Onboard New API

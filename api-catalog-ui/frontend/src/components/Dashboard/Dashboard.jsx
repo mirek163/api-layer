@@ -63,8 +63,7 @@ export default class Dashboard extends Component {
         } else {
             document.body.style.backgroundColor = '#EFEFEF';
         }
-        if (font && font !== 'null') {
-            localStorage.setItem('fontFamily', font);
+        if (font) {
             document.body.style.fontFamily = font;
         } else {
             document.body.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';
@@ -111,6 +110,7 @@ export default class Dashboard extends Component {
                         data={enablerData}
                         toggleWizard={this.toggleWizard}
                         visible
+                        font={font}
                     />
                     <IconButton
                         id="refresh-api-button"
