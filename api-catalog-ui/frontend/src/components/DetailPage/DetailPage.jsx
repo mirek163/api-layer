@@ -69,6 +69,8 @@ export default class DetailPage extends Component {
         const font = localStorage.getItem('fontFamily');
         if (font) {
             document.body.style.fontFamily = font;
+        } else {
+            document.body.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';
         }
         const iconBack = <ChevronLeftIcon />;
         let error = null;

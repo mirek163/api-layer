@@ -26,6 +26,12 @@ export default class InstanceInfo extends Component {
         if (tiles !== undefined && tiles.length === 1) {
             hideServiceInfo = tiles[0].hideServiceInfo;
         }
+        const font = localStorage.getItem('fontFamily');
+        if (font !== 'null') {
+            document.body.style.fontFamily = font;
+        } else {
+            document.body.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';
+        }
         return (
             <Shield title="Cannot display information about selected instance">
                 <div className="apiInfo-item">
