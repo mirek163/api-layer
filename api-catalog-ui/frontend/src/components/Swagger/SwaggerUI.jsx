@@ -171,11 +171,11 @@ export default class SwaggerUI extends Component {
         const { swaggerReady, swaggerProps } = this.state;
         let error = false;
         const font = localStorage.getItem('fontFamily');
-        if (font && font !== 'null') {
-            document.body.style.fontFamily = font;
-        } else {
-            document.body.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';
-        }
+        // if (font && font !== 'null') {
+        //     document.body.style.fontFamily = font;
+        // } else {
+        //     document.body.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';
+        // }
         if (
             selectedService.apiDoc === undefined ||
             selectedService.apiDoc === null ||

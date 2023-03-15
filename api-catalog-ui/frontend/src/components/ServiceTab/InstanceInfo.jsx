@@ -23,13 +23,12 @@ export default class InstanceInfo extends Component {
             apiId = apiInfo.apiId;
         }
         let hideServiceInfo = false;
+        let font;
         if (tiles !== undefined && tiles.length === 1) {
             hideServiceInfo = tiles[0].hideServiceInfo;
+            font = tiles[0].font;
         }
-        const font = localStorage.getItem('fontFamily');
-        // eslint-disable-next-line no-console
-        console.log(font);
-        if (font && font !== 'null') {
+        if (font) {
             document.body.style.fontFamily = font;
         } else {
             document.body.style.fontFamily = 'Roboto, Helvetica, Arial, sans-serif';
