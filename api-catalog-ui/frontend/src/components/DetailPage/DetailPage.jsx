@@ -21,6 +21,7 @@ import formatError from '../Error/ErrorFormatter';
 import ServiceTabContainer from '../ServiceTab/ServiceTabContainer';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import BigShield from '../ErrorBoundary/BigShield/BigShield';
+import ServicesNavigationBarContainer from '../ServicesNavigationBar/ServicesNavigationBarContainer';
 
 export default class DetailPage extends Component {
     componentDidMount() {
@@ -179,6 +180,15 @@ export default class DetailPage extends Component {
                                                         ))}
                                                 </div>
                                                 <ServiceTabContainer />
+                                            </div>
+                                        )}
+                                    />
+                                    <Route
+                                        exact
+                                        path={`${match.path}/:serviceId`}
+                                        render={() => (
+                                            <div className="nav-bar">
+                                                <ServicesNavigationBarContainer />
                                             </div>
                                         )}
                                     />
