@@ -187,6 +187,7 @@ public class HttpsFactory {
         try {
             loadTrustMaterial(sslContextBuilder);
             loadKeyMaterial(sslContextBuilder);
+            sslContextBuilder.setProtocol(config.getProtocol());
             secureSslContext = sslContextBuilder.build();
             validateSslConfig();
             return secureSslContext;
