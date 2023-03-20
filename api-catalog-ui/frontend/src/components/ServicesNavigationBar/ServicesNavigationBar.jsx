@@ -9,14 +9,31 @@
  */
 
 import { Component } from 'react';
+import { Menu, MenuItem } from '@material-ui/core';
 
 export default class ServicesNavigationBar extends Component {
     render() {
-        const { selectedService, tiles } = this.props;
+        const { allContainers } = this.props;
         // eslint-disable-next-line no-console
-        console.log(selectedService);
-        // eslint-disable-next-line no-console
-        console.log(tiles);
+        console.log(allContainers);
+        // allContainers.forEach((services) => {
+        //     // eslint-disable-next-line no-console
+        //     console.log(services);
+        // });
         return 'ciao';
+        // return (
+        // <div>
+        //     <Menu
+        //         id="sidebar-menu"
+        //         keepMounted
+        //     >
+        //         {allContainers.map((itemType) => (
+        //             <MenuItem key={itemType.text} onClick={this.handleClick}>
+        //                 {itemType.text}
+        //             </MenuItem>
+        //         ))}
+        //     </Menu>
+        // </div>
+        // );
     }
 }

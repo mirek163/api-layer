@@ -8,13 +8,9 @@
  * Copyright Contributors to the Zowe Project.
  */
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import ServicesNavigationBar from './ServicesNavigationBar';
 
-const mapStateToProps = (state) => ({
-    selectedService: state.selectedServiceReducer.selectedService,
-    tiles: state.tilesReducer.tiles,
-});
+const mapStateToProps = () => ({});
 const mapDispatchToProps = {};
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ServicesNavigationBar));
+export default connect(mapStateToProps, mapDispatchToProps)(ServicesNavigationBar);

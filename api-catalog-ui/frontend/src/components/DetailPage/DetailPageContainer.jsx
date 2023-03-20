@@ -23,6 +23,7 @@ const loadingSelector = createLoadingSelector(['FETCH_TILES']);
 const mapStateToProps = (state) => ({
     tile: state.tilesReducer.tile,
     tiles: state.tilesReducer.tiles,
+    oldTiles: state.tilesReducer.tiles,
     fetchTilesError: state.tilesReducer.error,
     selectedTile: state.selectedServiceReducer.selectedTile,
     selectedServiceId: state.selectedServiceReducer.selectedService.serviceId,
@@ -31,6 +32,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchTilesStart: (id) => dispatch(fetchTilesStart(id)),
+    fetchAllTiles: () => dispatch(fetchTilesStart()),
     fetchTilesSuccess: (tiles) => dispatch(fetchTilesSuccess(tiles)),
     fetchTilesFailed: (error) => dispatch(fetchTilesFailed(error)),
     fetchTilesStop: () => dispatch(fetchTilesStop()),

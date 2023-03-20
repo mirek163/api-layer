@@ -67,6 +67,8 @@ export default class Dashboard extends Component {
             clearError,
             authentication,
         } = this.props;
+        // eslint-disable-next-line no-console
+        console.log(tiles);
         const hasSearchCriteria = searchCriteria !== undefined && searchCriteria !== null && searchCriteria.length > 0;
         const hasTiles = !fetchTilesError && tiles && tiles.length > 0;
         let error = null;

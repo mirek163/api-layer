@@ -23,10 +23,32 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import BigShield from '../ErrorBoundary/BigShield/BigShield';
 import ServicesNavigationBarContainer from '../ServicesNavigationBar/ServicesNavigationBarContainer';
 
+let serv = '';
 export default class DetailPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            allContainers: '',
+        };
+    }
+
     componentDidMount() {
-        const { fetchTilesStart, match } = this.props;
+        const { fetchTilesStart, match, tiles, fetchAllTiles } = this.props;
+        fetchAllTiles();
+        if (serv === '') {
+            serv = tiles;
+            this.setState({ allContainers: serv });
+        }
+        // eslint-disable-next-line no-console
+        console.log(tiles);
         fetchTilesStart(match.params.tileID);
+    }
+
+    componentDidUpdate(prevState) {
+        const { fetchTilesStart, fetchAllTiles } = this.props;
+        // eslint-disable-next-line no-console
+        console.log(prevState);
+        // this.setState({ allContainers: prevProps.allContainers });
     }
 
     componentWillUnmount() {
@@ -62,6 +84,9 @@ export default class DetailPage extends Component {
             fetchTilesStart,
             history,
         } = this.props;
+        const { allContainers } = this.state;
+        // eslint-disable-next-line no-console
+        console.log(allContainers);
         const iconBack = <ChevronLeftIcon />;
         let error = null;
         if (fetchTilesError !== undefined && fetchTilesError !== null) {
@@ -123,6 +148,9 @@ export default class DetailPage extends Component {
                         </div>
                     </div>
                 )}
+                <div className="nav-bar">
+                    <ServicesNavigationBarContainer allContainers={allContainers} />
+                </div>
                 <div className="content-description-container">
                     {tiles !== undefined && tiles.length === 1 && (
                         <Suspense>
@@ -180,15 +208,6 @@ export default class DetailPage extends Component {
                                                         ))}
                                                 </div>
                                                 <ServiceTabContainer />
-                                            </div>
-                                        )}
-                                    />
-                                    <Route
-                                        exact
-                                        path={`${match.path}/:serviceId`}
-                                        render={() => (
-                                            <div className="nav-bar">
-                                                <ServicesNavigationBarContainer />
                                             </div>
                                         )}
                                     />
