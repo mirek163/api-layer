@@ -10,7 +10,6 @@ jobs:
 
         env:
             PKG_NAME: id-federation-for-zowe-cli
-            PKG_TAGS: 2.8.14
 
         steps:
             - name: Checkout
@@ -26,8 +25,13 @@ jobs:
               run: |
                   cd zowe-cli-id-federation-plugin/zowe-plugin-deploy-components
                   npm install
-
-            - name: NPM Login
+                  
+            - name: Set Environment variables
+              run: |
+                  cd zowe-cli-id-federation-plugin
+                  echo "PKG_TAGS='echo $(node -p "require('./package.json').version")'" >> $GITHUB_ENV
+           
+           - name: NPM Login
               run: |
                   cd zowe-cli-id-federation-plugin/zowe-plugin-deploy-components
                   echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
