@@ -65,9 +65,9 @@ ext {
     springFoxVersion = '2.9.2'
     springDocVersion = '1.6.9'
     spring4Version = '4.3.7.RELEASE' // Used within PJE in tests
-    swagger3CoreVersion = '2.0.0'
-    swagger3ParserVersion = '2.0.17'
-    swaggerCoreVersion = '1.5.24'
+    swagger3CoreVersion = '2.2.8'
+    swagger3ParserVersion = '2.1.12'
+    swaggerCoreVersion = '1.6.10'
     swaggerJerseyJaxrsVersion = '1.5.10'
     thymeleafVersion = '3.0.15.RELEASE'
     tomcatVersion = '9.0.65'
@@ -224,6 +224,8 @@ ext {
         swagger_core                       : "io.swagger:swagger-core:${swaggerCoreVersion}",
         swagger3_core                      : "io.swagger.core.v3:swagger-core:${swagger3CoreVersion}",
         swagger3_parser                    : "io.swagger.parser.v3:swagger-parser-v3:${swagger3ParserVersion}",
+        swagger3_models                    : "io.swagger.core.v3:swagger-models:${swagger3CoreVersion}",
+        swagger_models                     : "io.swagger:swagger-models:${swaggerCoreVersion}",
         thymeleafSpring                    : "org.thymeleaf:thymeleaf-spring5:${thymeleafVersion}",
         thymeleaf                          : "org.thymeleaf:thymeleaf:${thymeleafVersion}",
         tomcat_annotations_api             : "org.apache.tomcat:tomcat-annotations-api:${tomcatVersion}",

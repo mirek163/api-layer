@@ -68,6 +68,16 @@ allprojects {
             downloadSources = true
         }
     }
+
+    dependencies {
+        constraints {
+            api libraries.swagger_core
+            api libraries.swagger3_core
+            api libraries.swagger3_parser
+            api libraries.swagger3_models
+            api libraries.swagger_models
+        }
+    }
 }
 
 subprojects {
