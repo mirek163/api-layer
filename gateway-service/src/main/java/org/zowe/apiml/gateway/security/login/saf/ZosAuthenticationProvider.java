@@ -40,6 +40,10 @@ public class ZosAuthenticationProvider implements AuthenticationProvider, Initia
 
     @Override
     public Authentication authenticate(Authentication authentication) {
+        if (getPlatformUser() == null) {
+           throw new IllegalArgumentException("PlatformUser must not be null");
+        }
+
         String userid = authentication.getName();
         char[] password = LoginRequest.getPassword(authentication);
         char[] newPassword = LoginRequest.getNewPassword(authentication);
