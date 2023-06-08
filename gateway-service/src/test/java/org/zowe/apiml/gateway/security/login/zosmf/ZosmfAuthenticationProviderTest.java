@@ -32,6 +32,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.zowe.apiml.gateway.security.login.saf.ZosAuthenticationProvider;
 import org.zowe.apiml.gateway.security.service.AuthenticationService;
 import org.zowe.apiml.gateway.security.service.TokenCreationService;
 import org.zowe.apiml.gateway.security.service.zosmf.ZosmfService;
@@ -72,6 +73,7 @@ class ZosmfAuthenticationProviderTest {
     private AuthenticationService authenticationService;
     private PassTicketService passTicketService;
     private TokenCreationService tokenCreationService;
+    private ZosAuthenticationProvider zosAuthenticationProvider;
     private final ObjectMapper securityObjectMapper = new ObjectMapper();
     protected static final String ZOSMF_CSRF_HEADER = "X-CSRF-ZOSMF-HEADER";
 
@@ -84,6 +86,7 @@ class ZosmfAuthenticationProviderTest {
     void init() {
         passTicketService = mock(PassTicketService.class);
         tokenCreationService = mock(TokenCreationService.class);
+        zosAuthenticationProvider = mock(ZosAuthenticationProvider.class);
     }
 
     @BeforeEach
@@ -123,7 +126,8 @@ class ZosmfAuthenticationProviderTest {
             applicationContext,
             new ArrayList<>(),
             passTicketService,
-            tokenCreationService
+            tokenCreationService,
+            zosAuthenticationProvider
         );
         ReflectionTestUtils.setField(zosmfService, "meAsProxy", zosmfService);
         ZosmfService output = spy(zosmfService);

@@ -26,6 +26,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.web.client.RestTemplate;
+import org.zowe.apiml.gateway.security.login.saf.ZosAuthenticationProvider;
 import org.zowe.apiml.gateway.security.service.AuthenticationService;
 import org.zowe.apiml.gateway.security.service.JwtSecurity;
 import org.zowe.apiml.gateway.security.service.TokenCreationService;
@@ -74,10 +75,13 @@ class SuccessfulQueryHandlerTest {
     private PassTicketService passTicketService;
     private TokenCreationService tokenCreationService;
 
+    private ZosAuthenticationProvider zosAuthenticationProvider;
+
     @BeforeTestClass
     void init() {
         passTicketService = mock(PassTicketService.class);
         tokenCreationService = mock(TokenCreationService.class);
+        zosAuthenticationProvider = mock(ZosAuthenticationProvider.class);
     }
 
     @BeforeEach
@@ -99,7 +103,8 @@ class SuccessfulQueryHandlerTest {
             applicationContext,
             new ArrayList<TokenValidationStrategy>(),
             passTicketService,
-            tokenCreationService
+            tokenCreationService,
+            zosAuthenticationProvider
         );
         AuthenticationService authenticationService = new AuthenticationService(
             applicationContext, authConfigurationProperties, jwtSecurityInitializer, zosmfService,

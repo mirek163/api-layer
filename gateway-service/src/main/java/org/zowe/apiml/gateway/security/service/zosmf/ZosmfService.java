@@ -40,6 +40,7 @@ import org.zowe.apiml.security.common.error.ServiceNotAccessibleException;
 import org.zowe.apiml.security.common.login.ChangePasswordRequest;
 import org.zowe.apiml.security.common.login.LoginRequest;
 import org.zowe.apiml.security.common.token.TokenNotValidException;
+import org.zowe.apiml.gateway.security.login.saf.ZosAuthenticationProvider;
 
 import javax.annotation.PostConstruct;
 import java.text.ParseException;
@@ -66,6 +67,7 @@ public class ZosmfService extends AbstractZosmfService {
     private final PassTicketService passTicketService;
     private final TokenCreationService tokenCreationService;
 
+    private final ZosAuthenticationProvider zosAuthenticationProvider;
     /**
      * Enumeration of supported security tokens
      */
@@ -122,7 +124,8 @@ public class ZosmfService extends AbstractZosmfService {
         final ApplicationContext applicationContext,
         List<TokenValidationStrategy> tokenValidationStrategy,
         final PassTicketService passTicketService,
-        final TokenCreationService tokenCreationService
+        final TokenCreationService tokenCreationService,
+        final ZosAuthenticationProvider zosAuthenticationProvider
     ) {
         super(
             authConfigurationProperties,
@@ -134,6 +137,7 @@ public class ZosmfService extends AbstractZosmfService {
         this.tokenValidationStrategy = tokenValidationStrategy;
         this.passTicketService = passTicketService;
         this.tokenCreationService = tokenCreationService;
+        this.zosAuthenticationProvider = zosAuthenticationProvider;
     }
 
     private ZosmfService meAsProxy;
@@ -256,13 +260,24 @@ public class ZosmfService extends AbstractZosmfService {
     protected AuthenticationResponse issueAuthenticationRequest(Authentication authentication, String url, HttpMethod httpMethod) {
         final HttpHeaders headers = new HttpHeaders();
         String authorizationHeaderValue = null;
-        try {
-            authorizationHeaderValue = (usePassTicketForBasicAuth) ? passTicketService.generate(authentication.getName(), zosmfApplId) : getAuthenticationValue(authentication);
-        } catch (IRRPassTicketGenerationException e) {
-            String error = String.format("Could not generate PassTicket for user ID %s and APPLID %s", authentication.getName(), zosmfApplId);
-            apimlLog.log(MessageType.DEBUG, error);
-            throw new AuthSchemeException("org.zowe.apiml.security.ticket.generateFailed", error);
+        if (usePassTicketForBasicAuth) {
+            try {
+                // #TODO: Validate user identity with |
+                Authentication zOSTokenAuth = zosAuthenticationProvider.authenticate(authentication);
+                // Throw this token. It was used to just validate the user. In next steps we will be creating passticket and zOSMF jWT.
+                log.debug("User %s was successfully authenticated by zOSAuthProvider", authentication.getName());
+
+                authorizationHeaderValue =  passTicketService.generate(authentication.getName(), zosmfApplId);
+                log.debug("Created passticked to use in place of Basic-Auth credentials %s", authorizationHeaderValue);
+            } catch (IRRPassTicketGenerationException e) {
+                String error = String.format("Could not generate PassTicket for user ID %s and APPLID %s", authentication.getName(), zosmfApplId);
+                apimlLog.log(MessageType.DEBUG, error);
+                throw new AuthSchemeException("org.zowe.apiml.security.ticket.generateFailed", error);
+            }
+        } else {
+            authorizationHeaderValue =  getAuthenticationValue(authentication);
         }
+
         headers.add(HttpHeaders.AUTHORIZATION, authorizationHeaderValue);
         headers.add(ZOSMF_CSRF_HEADER, "");
 
