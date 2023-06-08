@@ -22,8 +22,11 @@ import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.*;
+import org.zowe.apiml.gateway.security.service.TokenCreationService;
+import org.zowe.apiml.passticket.PassTicketService;
 import org.zowe.apiml.security.common.config.AuthConfigurationProperties;
 import org.zowe.apiml.security.common.error.ServiceNotAccessibleException;
 import org.zowe.apiml.security.common.login.LoginRequest;
@@ -49,10 +52,19 @@ class ZosmfServiceTest {
     private final TokenValidationStrategy tokenValidationStrategy2 = mock(TokenValidationStrategy.class);
     private final List<TokenValidationStrategy> validationStrategyList = new ArrayList<>();
 
+    private PassTicketService passTicketService;
+    private TokenCreationService tokenCreationService;
+
     {
         when(authConfigurationProperties.getZosmf()).thenReturn(mock(AuthConfigurationProperties.Zosmf.class));
         validationStrategyList.add(tokenValidationStrategy1);
         validationStrategyList.add(tokenValidationStrategy2);
+    }
+
+    @BeforeTestClass
+    void init() {
+        passTicketService = mock(PassTicketService.class);
+        tokenCreationService = mock(TokenCreationService.class);
     }
 
     private final ObjectMapper securityObjectMapper = spy(ObjectMapper.class);
@@ -63,7 +75,10 @@ class ZosmfServiceTest {
             restTemplate,
             securityObjectMapper,
             applicationContext,
-            null);
+            null,
+            passTicketService,
+            tokenCreationService
+            );
         ZosmfService zosmfService = spy(zosmfServiceObj);
         doReturn(ZOSMF_ID).when(zosmfService).getZosmfServiceId();
         doReturn("http://zosmf:1433").when(zosmfService).getURI(ZOSMF_ID);
@@ -77,7 +92,9 @@ class ZosmfServiceTest {
             restTemplate,
             securityObjectMapper,
             applicationContext,
-            validationStrategyList);
+            validationStrategyList,
+            passTicketService,
+            tokenCreationService);
 
         ZosmfService zosmfService = spy(zosmfServiceObj);
         doReturn("http://host:port").when(zosmfService).getURI(any());
@@ -582,7 +599,7 @@ class ZosmfServiceTest {
 
         @Test
         void thenReturnNull() {
-            assertNull(new ZosmfService(null, null, null, null, null, null).readTokenFromCookie(null, null));
+            assertNull(new ZosmfService(null, null, null, null, null, null, null, null).readTokenFromCookie(null, null));
         }
     }
 
@@ -621,7 +638,9 @@ class ZosmfServiceTest {
                 restTemplate,
                 securityObjectMapper,
                 applicationContext,
-                null
+                null,
+                passTicketService,
+                tokenCreationService
             );
 
             underTest = spy(zosmfService);

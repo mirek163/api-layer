@@ -24,11 +24,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.web.client.RestTemplate;
 import org.zowe.apiml.gateway.security.service.AuthenticationService;
 import org.zowe.apiml.gateway.security.service.JwtSecurity;
+import org.zowe.apiml.gateway.security.service.TokenCreationService;
 import org.zowe.apiml.gateway.security.service.zosmf.TokenValidationStrategy;
 import org.zowe.apiml.gateway.security.service.zosmf.ZosmfService;
+import org.zowe.apiml.passticket.PassTicketService;
 import org.zowe.apiml.security.SecurityUtils;
 import org.zowe.apiml.security.common.config.AuthConfigurationProperties;
 import org.zowe.apiml.security.common.token.TokenAuthentication;
@@ -39,6 +42,7 @@ import java.security.KeyPair;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,6 +71,15 @@ class SuccessfulQueryHandlerTest {
     @Mock
     private CacheManager cacheManager;
 
+    private PassTicketService passTicketService;
+    private TokenCreationService tokenCreationService;
+
+    @BeforeTestClass
+    void init() {
+        passTicketService = mock(PassTicketService.class);
+        tokenCreationService = mock(TokenCreationService.class);
+    }
+
     @BeforeEach
     void setup() {
         httpServletRequest = new MockHttpServletRequest();
@@ -84,7 +97,10 @@ class SuccessfulQueryHandlerTest {
             restTemplate,
             new ObjectMapper(),
             applicationContext,
-            new ArrayList<TokenValidationStrategy>());
+            new ArrayList<TokenValidationStrategy>(),
+            passTicketService,
+            tokenCreationService
+        );
         AuthenticationService authenticationService = new AuthenticationService(
             applicationContext, authConfigurationProperties, jwtSecurityInitializer, zosmfService,
             discoveryClient, restTemplate, cacheManager, new CacheUtils()

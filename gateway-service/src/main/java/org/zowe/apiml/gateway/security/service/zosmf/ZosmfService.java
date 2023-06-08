@@ -19,6 +19,7 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
@@ -29,6 +30,11 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.*;
+import org.zowe.apiml.gateway.security.service.TokenCreationService;
+import org.zowe.apiml.gateway.security.service.schema.source.AuthSchemeException;
+import org.zowe.apiml.message.core.MessageType;
+import org.zowe.apiml.passticket.IRRPassTicketGenerationException;
+import org.zowe.apiml.passticket.PassTicketService;
 import org.zowe.apiml.security.common.config.AuthConfigurationProperties;
 import org.zowe.apiml.security.common.error.ServiceNotAccessibleException;
 import org.zowe.apiml.security.common.login.ChangePasswordRequest;
@@ -50,6 +56,15 @@ import static org.zowe.apiml.gateway.security.service.zosmf.ZosmfService.TokenTy
 public class ZosmfService extends AbstractZosmfService {
 
     private static final String CACHE_INVALIDATED_JWT_TOKENS = "invalidatedJwtTokens";
+
+    @Value("${apiml.security.auth.zosmf.usePassTicketForBasicAuth:false}")
+    private boolean usePassTicketForBasicAuth;
+
+    @Value("${apiml.security.zosmf.applid:IZUDFLT}")
+    protected String zosmfApplId;
+
+    private final PassTicketService passTicketService;
+    private final TokenCreationService tokenCreationService;
 
     /**
      * Enumeration of supported security tokens
@@ -105,7 +120,9 @@ public class ZosmfService extends AbstractZosmfService {
         final @Qualifier("restTemplateWithoutKeystore") RestTemplate restTemplateWithoutKeystore,
         final ObjectMapper securityObjectMapper,
         final ApplicationContext applicationContext,
-        List<TokenValidationStrategy> tokenValidationStrategy
+        List<TokenValidationStrategy> tokenValidationStrategy,
+        final PassTicketService passTicketService,
+        final TokenCreationService tokenCreationService
     ) {
         super(
             authConfigurationProperties,
@@ -115,6 +132,8 @@ public class ZosmfService extends AbstractZosmfService {
         );
         this.applicationContext = applicationContext;
         this.tokenValidationStrategy = tokenValidationStrategy;
+        this.passTicketService = passTicketService;
+        this.tokenCreationService = tokenCreationService;
     }
 
     private ZosmfService meAsProxy;
@@ -236,7 +255,15 @@ public class ZosmfService extends AbstractZosmfService {
      */
     protected AuthenticationResponse issueAuthenticationRequest(Authentication authentication, String url, HttpMethod httpMethod) {
         final HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, getAuthenticationValue(authentication));
+        String authorizationHeaderValue = null;
+        try {
+            authorizationHeaderValue = (usePassTicketForBasicAuth) ? passTicketService.generate(authentication.getName(), zosmfApplId) : getAuthenticationValue(authentication);
+        } catch (IRRPassTicketGenerationException e) {
+            String error = String.format("Could not generate PassTicket for user ID %s and APPLID %s", authentication.getName(), zosmfApplId);
+            apimlLog.log(MessageType.DEBUG, error);
+            throw new AuthSchemeException("org.zowe.apiml.security.ticket.generateFailed", error);
+        }
+        headers.add(HttpHeaders.AUTHORIZATION, authorizationHeaderValue);
         headers.add(ZOSMF_CSRF_HEADER, "");
 
         try {
@@ -248,6 +275,10 @@ public class ZosmfService extends AbstractZosmfService {
         } catch (RuntimeException re) {
             throw handleExceptionOnCall(url, re);
         }
+    }
+
+    private String getPassticket(Authentication authentication) throws IRRPassTicketGenerationException {
+        return passTicketService.generate(authentication.getName(), zosmfApplId);
     }
 
     /**

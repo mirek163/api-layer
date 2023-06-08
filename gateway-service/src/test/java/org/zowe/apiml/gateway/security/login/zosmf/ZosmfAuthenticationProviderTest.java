@@ -27,12 +27,15 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.jaas.JaasAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.zowe.apiml.gateway.security.service.AuthenticationService;
+import org.zowe.apiml.gateway.security.service.TokenCreationService;
 import org.zowe.apiml.gateway.security.service.zosmf.ZosmfService;
+import org.zowe.apiml.passticket.PassTicketService;
 import org.zowe.apiml.security.common.config.AuthConfigurationProperties;
 import org.zowe.apiml.security.common.error.ServiceNotAccessibleException;
 import org.zowe.apiml.security.common.token.InvalidTokenTypeException;
@@ -67,12 +70,20 @@ class ZosmfAuthenticationProviderTest {
     private RestTemplate restTemplate;
     private InstanceInfo zosmfInstance;
     private AuthenticationService authenticationService;
+    private PassTicketService passTicketService;
+    private TokenCreationService tokenCreationService;
     private final ObjectMapper securityObjectMapper = new ObjectMapper();
     protected static final String ZOSMF_CSRF_HEADER = "X-CSRF-ZOSMF-HEADER";
 
     private ZosmfService.AuthenticationResponse getResponse(boolean valid) {
         if (valid) return new ZosmfService.AuthenticationResponse(RESPONSE, null);
         return new ZosmfService.AuthenticationResponse(INVALID_RESPONSE, null);
+    }
+
+    @BeforeTestClass
+    void init() {
+        passTicketService = mock(PassTicketService.class);
+        tokenCreationService = mock(TokenCreationService.class);
     }
 
     @BeforeEach
@@ -110,7 +121,10 @@ class ZosmfAuthenticationProviderTest {
             restTemplate,
             securityObjectMapper,
             applicationContext,
-            new ArrayList<>());
+            new ArrayList<>(),
+            passTicketService,
+            tokenCreationService
+        );
         ReflectionTestUtils.setField(zosmfService, "meAsProxy", zosmfService);
         ZosmfService output = spy(zosmfService);
         when(applicationContext.getBean(ZosmfService.class)).thenReturn(output);
