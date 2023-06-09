@@ -29,6 +29,7 @@ apiml:
             zosmf:
                 serviceId: mockzosmf  # Replace me with the correct z/OSMF service id
                 usePassTicketForBasicAuth: true  # Use passtickets instead of username and password to always get unique zOSMF JWT token
+                skipSafPreAuthentication: true   # Set to true for local development environment only!
         ssl:
             verifySslCertificatesOfServices: true
         x509:

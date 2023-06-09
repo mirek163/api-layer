@@ -41,7 +41,8 @@ public class ZosAuthenticationProvider implements AuthenticationProvider, Initia
     @Override
     public Authentication authenticate(Authentication authentication) {
         if (getPlatformUser() == null) {
-           throw new IllegalArgumentException("PlatformUser must not be null");
+            log.debug("PlatformUser is not set. If this is not a off-Z installation, chec kyour configuration and access rights");
+           return null;// throw new IllegalArgumentException("PlatformUser must not be null");
         }
 
         String userid = authentication.getName();

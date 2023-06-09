@@ -117,6 +117,7 @@ public class AuthConfigurationProperties {
         private String serviceId;
         private String jwtEndpoint = "/jwt/ibm/api/zOSMFBuilder/jwk";
         private Boolean usePassTicketForBasicAuth = Boolean.FALSE;
+        private Boolean skipSafPreAuthentication = Boolean.FALSE;
         private JWT_AUTOCONFIGURATION_MODE jwtAutoconfiguration = JWT_AUTOCONFIGURATION_MODE.AUTO;
     }
 
