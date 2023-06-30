@@ -59,7 +59,8 @@ public class HttpsWebSecurityConfig extends AbstractWebSecurityConfigurer {
     @Value("${server.attls.enabled:false}")
     private boolean isAttlsEnabled;
 
-    @Value("${apiml.security.ssl.verifySslCertificatesOfServices:true}")
+    //@Value("${apiml.security.ssl.verifySslCertificatesOfServices:true}")
+    @Value("#{new Boolean('${apiml.security.ssl.verifySslCertificatesOfServices:true}')}")
     private boolean verifySslCertificatesOfServices;
 
     @Value("${apiml.security.ssl.nonStrictVerifySslCertificatesOfServices:false}")

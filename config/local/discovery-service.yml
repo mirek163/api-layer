@@ -21,6 +21,11 @@ spring:
 
 ---
 spring.profiles: https
+
+logging:
+    level:
+        org.zowe.apiml: DEBUG
+
 eureka:
     client:
         initialInstanceInfoReplicationIntervalSeconds: 1

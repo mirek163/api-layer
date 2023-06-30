@@ -79,7 +79,8 @@ public class HttpConfig {
     @Value("${server.ssl.keyStoreType:PKCS12}")
     private String keyStoreType;
 
-    @Value("${apiml.security.ssl.verifySslCertificatesOfServices:true}")
+    //@Value("${apiml.security.ssl.verifySslCertificatesOfServices:true}")
+    @Value("#{new Boolean('${apiml.security.ssl.verifySslCertificatesOfServices:true}')}")
     private boolean verifySslCertificatesOfServices;
 
     @Value("${apiml.security.ssl.nonStrictVerifySslCertificatesOfServices:false}")
