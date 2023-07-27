@@ -40,6 +40,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -61,7 +62,7 @@ import java.time.Duration;
 
 @Configuration
 @Slf4j
-
+@EnableScheduling
 public class ConnectionsConfig {
 
     private static final char[] KEYRING_PASSWORD = "password".toCharArray();
