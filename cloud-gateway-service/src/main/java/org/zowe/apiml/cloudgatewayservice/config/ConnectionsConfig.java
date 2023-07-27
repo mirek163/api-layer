@@ -61,6 +61,7 @@ import java.time.Duration;
 
 @Configuration
 @Slf4j
+
 public class ConnectionsConfig {
 
     private static final char[] KEYRING_PASSWORD = "password".toCharArray();
