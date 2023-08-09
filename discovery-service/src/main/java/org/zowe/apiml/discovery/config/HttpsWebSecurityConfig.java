@@ -26,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.preauth.x509.X509AuthenticationFilter;
+import org.springframework.security.web.session.DisableEncodeUrlFilter;
 import org.zowe.apiml.filter.AttlsFilter;
 import org.zowe.apiml.filter.SecureConnectionFilter;
 import org.zowe.apiml.security.client.EnableApimlAuth;
@@ -106,7 +107,8 @@ public class HttpsWebSecurityConfig extends AbstractWebSecurityConfigurer {
             .and()
             .httpBasic().realmName(DISCOVERY_REALM);
         if (isAttlsEnabled) {
-            http.addFilterBefore(new SecureConnectionFilter(), CookieContentFilter.class);
+            // add secure connection filter at the top of the list
+            http.addFilterBefore(new SecureConnectionFilter(), DisableEncodeUrlFilter.class);
         }
 
         return http.apply(new CustomSecurityFilters()).and().build();
@@ -125,7 +127,6 @@ public class HttpsWebSecurityConfig extends AbstractWebSecurityConfigurer {
                 .and().x509().userDetailsService(x509UserDetailsService());
             if (isAttlsEnabled) {
                 http.addFilterBefore(new AttlsFilter(), X509AuthenticationFilter.class);
-                http.addFilterBefore(new SecureConnectionFilter(), AttlsFilter.class);
             }
         } else {
             http.authorizeRequests().anyRequest().permitAll();
@@ -148,7 +149,6 @@ public class HttpsWebSecurityConfig extends AbstractWebSecurityConfigurer {
                 .x509().userDetailsService(x509UserDetailsService());
             if (isAttlsEnabled) {
                 http.addFilterBefore(new AttlsFilter(), X509AuthenticationFilter.class);
-                http.addFilterBefore(new SecureConnectionFilter(), AttlsFilter.class);
             }
         }
 

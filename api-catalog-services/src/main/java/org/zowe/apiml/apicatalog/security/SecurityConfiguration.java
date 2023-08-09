@@ -30,6 +30,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.preauth.x509.X509AuthenticationFilter;
+import org.springframework.security.web.session.DisableEncodeUrlFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.zowe.apiml.filter.AttlsFilter;
 import org.zowe.apiml.filter.SecureConnectionFilter;
@@ -108,8 +109,7 @@ public class SecurityConfiguration {
                         .userDetailsService(x509UserDetailsService())
                         .and()
                         .addFilterBefore(reversedCategorizeCertFilter(), X509AuthenticationFilter.class)
-                        .addFilterBefore(new AttlsFilter(), X509AuthenticationFilter.class)
-                        .addFilterBefore(new SecureConnectionFilter(), AttlsFilter.class);
+                        .addFilterBefore(new AttlsFilter(), X509AuthenticationFilter.class);
                 } else {
                     http.x509()
                         .userDetailsService(x509UserDetailsService());
@@ -167,7 +167,7 @@ public class SecurityConfiguration {
             http.authorizeRequests().antMatchers("/application/**").authenticated();
 
             if (isAttlsEnabled) {
-                http.addFilterBefore(new SecureConnectionFilter(), BasicContentFilter.class);
+                http.addFilterBefore(new SecureConnectionFilter(), DisableEncodeUrlFilter.class);
             }
             return http.build();
         }
