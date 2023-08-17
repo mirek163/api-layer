@@ -83,7 +83,9 @@ public class DefaultAuthSourceService implements AuthSourceService {
      * <p>
      * In case if more than one source is present in request the precedence is the following:
      * 1) JWT token
-     * 2) Client certificate
+     * 2) PAT
+     * 3) OIDC access token
+     * 4) Client certificate
      * <p>
      *
      * @return Optional<AuthSource> which hold original source of authentication (JWT token, client certificate etc.)
