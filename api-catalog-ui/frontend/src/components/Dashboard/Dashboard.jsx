@@ -80,7 +80,7 @@ export default class Dashboard extends Component {
             fetchTilesStop();
             error = formatError(fetchTilesError);
         }
-
+        const index = -2;
         if (hasTiles && 'customStyleConfig' in tiles[0] && tiles[0].customStyleConfig) {
             customUIStyle(tiles[0].customStyleConfig);
         }
@@ -160,6 +160,7 @@ export default class Dashboard extends Component {
                                 tiles.map((tile) =>
                                     tile.services.map((service) => (
                                         <Tile
+                                            tabIndex={-index + 1}
                                             storeCurrentTileId={storeCurrentTileId}
                                             service={service}
                                             key={service}

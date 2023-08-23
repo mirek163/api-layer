@@ -111,3 +111,12 @@ body {
     margin-left: auto;
 }
 
+.tile-button {
+    display: none;
+    //left: -9999px; /* Move off-screen */
+    width: auto;
+    border-color: transparent;
+    //height: 1px;
+    //overflow: hidden;
+}
+

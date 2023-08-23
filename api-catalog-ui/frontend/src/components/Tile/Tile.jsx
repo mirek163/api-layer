@@ -60,59 +60,76 @@ export default class Tile extends Component {
     };
 
     render() {
-        const { tile, service } = this.props;
+        const { tile, service, tabIndex } = this.props;
         const apiPortalEnabled = isAPIPortal();
         const { useCasesCounter, tutorialsCounter, videosCounter } = utilFunctions(service);
 
         return (
-            <Card key={tile.id} className="grid-tile pop grid-item" onClick={this.handleClick} data-testid="tile">
-                <CardContent style={{ fontSize: '0.875em', color: 'rgb(88, 96, 110)' }} className="tile">
-                    <Typography id="tileLabel" className="grid-tile-status">
-                        {this.getTileStatus(tile)}
-                        {this.getTileStatusText(tile)}
-                    </Typography>
-                    <Typography
-                        variant="subtitle1"
-                        style={{
-                            color: 'rgb(88, 96, 110)',
-                            fontWeight: 'bold',
-                            fontSize: '1.125em',
-                        }}
-                    >
-                        {service.title}
-                    </Typography>
-                    {service.sso && (
-                        <Typography variant="h6" id="grid-tile-sso">
-                            (SSO)
+            <div
+                onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        this.handleClick();
+                    }
+                }}
+                tabIndex={tabIndex}
+                className="visually-hidden-div"
+                onClick={this.handleClick}
+                role="button"
+            >
+                <Card key={tile.id} className="grid-tile pop grid-item" onClick={this.handleClick} data-testid="tile">
+                    <CardContent style={{ fontSize: '0.875em', color: 'rgb(88, 96, 110)' }} className="tile">
+                        <Typography id="tileLabel" className="grid-tile-status">
+                            {this.getTileStatus(tile)}
+                            {this.getTileStatusText(tile)}
                         </Typography>
-                    )}
-                    {apiPortalEnabled && (
-                        <div id="media-icons">
-                            <Typography
-                                className="media-labels"
-                                id="use-cases-counter"
-                                size="medium"
-                                variant="outlined"
-                            >
-                                {useCasesCounter}
+                        <Typography
+                            variant="subtitle1"
+                            style={{
+                                color: 'rgb(88, 96, 110)',
+                                fontWeight: 'bold',
+                                fontSize: '1.125em',
+                            }}
+                        >
+                            {service.title}
+                        </Typography>
+                        {service.sso && (
+                            <Typography variant="h6" id="grid-tile-sso">
+                                (SSO)
                             </Typography>
-                            <Typography
-                                className="media-labels"
-                                id="tutorials-counter"
-                                size="medium"
-                                variant="outlined"
-                            >
-                                {tutorialsCounter}
-                            </Typography>
-                            <img id="tutorials" alt="Tutorials" src={tutorialsImg} />
-                            <Typography className="fmedia-labels" id="videos-counter" size="medium" variant="outlined">
-                                {videosCounter}
-                            </Typography>
-                            <img id="videos" alt="Videos" src={videosImg} />
-                        </div>
-                    )}
-                </CardContent>
-            </Card>
+                        )}
+                        {apiPortalEnabled && (
+                            <div id="media-icons">
+                                <Typography
+                                    className="media-labels"
+                                    id="use-cases-counter"
+                                    size="medium"
+                                    variant="outlined"
+                                >
+                                    {useCasesCounter}
+                                </Typography>
+                                <Typography
+                                    className="media-labels"
+                                    id="tutorials-counter"
+                                    size="medium"
+                                    variant="outlined"
+                                >
+                                    {tutorialsCounter}
+                                </Typography>
+                                <img id="tutorials" alt="Tutorials" src={tutorialsImg} />
+                                <Typography
+                                    className="fmedia-labels"
+                                    id="videos-counter"
+                                    size="medium"
+                                    variant="outlined"
+                                >
+                                    {videosCounter}
+                                </Typography>
+                                <img id="videos" alt="Videos" src={videosImg} />
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+            </div>
         );
     }
 }
