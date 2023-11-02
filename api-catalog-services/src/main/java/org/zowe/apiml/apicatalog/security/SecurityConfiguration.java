@@ -98,18 +98,20 @@ public class SecurityConfiguration {
                 baseConfiguration(http.requestMatchers(matchers -> matchers.antMatchers(APIDOC_ROUTES, STATIC_REFRESH_ROUTE)))
             )
             .authorizeRequests(requests -> requests
-            .antMatchers(APIDOC_ROUTES, STATIC_REFRESH_ROUTE).authenticated())
+            .antMatchers(APIDOC_ROUTES, STATIC_REFRESH_ROUTE)
+                .authenticated())
             .authenticationProvider(gatewayLoginProvider)
             .authenticationProvider(gatewayTokenProvider)
             .authenticationProvider(new CertificateAuthenticationProvider());
 
             if (verifySslCertificatesOfServices || !nonStrictVerifySslCertificatesOfServices) {
                 if (isAttlsEnabled) {
-                    http.x509(x -> x
-                    .userDetailsService(x509UserDetailsService()))
-                    .addFilterBefore(reversedCategorizeCertFilter(), X509AuthenticationFilter.class)
-                    .addFilterBefore(new AttlsFilter(), X509AuthenticationFilter.class)
-                    .addFilterBefore(new SecureConnectionFilter(), AttlsFilter.class);
+                    http
+                        .x509(x -> x
+                            .userDetailsService(x509UserDetailsService()))
+                        .addFilterBefore(reversedCategorizeCertFilter(), X509AuthenticationFilter.class)
+                        .addFilterBefore(new AttlsFilter(), X509AuthenticationFilter.class)
+                        .addFilterBefore(new SecureConnectionFilter(), AttlsFilter.class);
                 } else {
                     http.x509(x -> x.userDetailsService(x509UserDetailsService()));
                 }
@@ -151,18 +153,30 @@ public class SecurityConfiguration {
         public SecurityFilterChain basicAuthOrTokenAllEndpointsFilterChain(HttpSecurity http) throws Exception {
             mainframeCredentialsConfiguration(baseConfiguration(http))
                 .authorizeRequests(requests -> requests
-                .antMatchers("/static-api/**").authenticated()
-                .antMatchers("/containers/**").authenticated()
-                .antMatchers(APIDOC_ROUTES).authenticated()
-                .antMatchers("/application/health", "/application/info").permitAll())
+                    .antMatchers("/static-api/**")
+                        .authenticated()
+                    .antMatchers("/containers/**")
+                        .authenticated()
+                    .antMatchers(APIDOC_ROUTES)
+                        .authenticated()
+                    .antMatchers("/application/health", "/application/info")
+                        .permitAll())
                 .authenticationProvider(gatewayLoginProvider)
                 .authenticationProvider(gatewayTokenProvider);
 
             if (isMetricsEnabled) {
-                http.authorizeRequests(requests -> requests.antMatchers("/application/hystrixstream").permitAll());
+                http
+                    .authorizeRequests(requests -> requests
+                        .antMatchers("/application/hystrixstream")
+                        .permitAll()
+                    );
             }
 
-            http.authorizeRequests(requests -> requests.antMatchers("/application/**").authenticated());
+            http
+                .authorizeRequests(requests -> requests
+                    .antMatchers("/application/**")
+                    .authenticated()
+                );
 
             if (isAttlsEnabled) {
                 http.addFilterBefore(new SecureConnectionFilter(), BasicContentFilter.class);
@@ -175,24 +189,26 @@ public class SecurityConfiguration {
         http
             .csrf(csrf -> csrf.disable())   // NOSONAR
             .headers(headers -> headers
-            .httpStrictTransportSecurity().disable()
-            .frameOptions().disable())
+                .httpStrictTransportSecurity()
+                .disable()
+            .frameOptions()
+                .disable())
             .exceptionHandling(handling -> handling
-
-        .defaultAuthenticationEntryPointFor(
-            handlerInitializer.getBasicAuthUnauthorizedHandler(), new AntPathRequestMatcher("/application/**")
-        )
-        .defaultAuthenticationEntryPointFor(
-            handlerInitializer.getBasicAuthUnauthorizedHandler(), new AntPathRequestMatcher(APIDOC_ROUTES)
-        )
-        .defaultAuthenticationEntryPointFor(
-            handlerInitializer.getBasicAuthUnauthorizedHandler(), new AntPathRequestMatcher(STATIC_REFRESH_ROUTE)
-        )
-        .defaultAuthenticationEntryPointFor(
-            handlerInitializer.getUnAuthorizedHandler(), new AntPathRequestMatcher("/**")
-        ))
-        .sessionManagement(management -> management
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .defaultAuthenticationEntryPointFor(
+                    handlerInitializer.getBasicAuthUnauthorizedHandler(), new AntPathRequestMatcher("/application/**")
+                )
+                .defaultAuthenticationEntryPointFor(
+                    handlerInitializer.getBasicAuthUnauthorizedHandler(), new AntPathRequestMatcher(APIDOC_ROUTES)
+                )
+                .defaultAuthenticationEntryPointFor(
+                    handlerInitializer.getBasicAuthUnauthorizedHandler(), new AntPathRequestMatcher(STATIC_REFRESH_ROUTE)
+                )
+                .defaultAuthenticationEntryPointFor(
+                    handlerInitializer.getUnAuthorizedHandler(), new AntPathRequestMatcher("/**")
+                )
+            )
+            .sessionManagement(management -> management
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http;
     }
@@ -201,10 +217,12 @@ public class SecurityConfiguration {
         http
             // login endpoint
             .authorizeRequests(requests -> requests
-            .antMatchers(HttpMethod.POST, authConfigurationProperties.getServiceLoginEndpoint()).permitAll())
+                .antMatchers(HttpMethod.POST, authConfigurationProperties.getServiceLoginEndpoint())
+                .permitAll())
             .logout(logout -> logout
-            .logoutUrl(authConfigurationProperties.getServiceLogoutEndpoint())
-            .logoutSuccessHandler(logoutSuccessHandler())).apply(new CustomSecurityFilters());
+                .logoutUrl(authConfigurationProperties.getServiceLogoutEndpoint())
+                .logoutSuccessHandler(logoutSuccessHandler()))
+            .apply(new CustomSecurityFilters());
 
         return http;
     }
