@@ -44,7 +44,10 @@ export default class DetailPage extends Component {
 
     componentDidMount() {
         if (isAPIPortal()) {
-            document.title = process.env.REACT_APP_API_PORTAL_SERVICE_TITLE;
+            const { service } = this.props;
+            if (service?.serviceId) {
+                document.title = `${service.serviceId} | ${process.env.REACT_APP_API_PORTAL_SERVICE_TITLE}`;
+            }
             closeMobileMenu();
             const goBackButton = document.getElementById('go-back-button-portal');
             if (goBackButton) {
