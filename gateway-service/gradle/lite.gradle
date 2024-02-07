@@ -27,15 +27,16 @@ apply from: "$rootDir/gradle/lite-project.gradle"
 task liteJar(type: BootJar) {
     //Do not allow duplicates by ignoring subsequent items to be created at the same path.
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
+    targetJavaVersion = JavaVersion.VERSION_17
     manifest {
-        attributes 'Main-Class': 'org.springframework.boot.loader.PropertiesLauncher'
+        attributes 'Main-Class': 'org.springframework.boot.loader.launch.PropertiesLauncher'
     }
     def modulesJar = getModulesJarNames()
     archiveFileName = getBaseNameLite() + ".jar"
     mainClass = getSpringBootApp()
     exclude { details -> details.file && details.file.name.endsWith('.jar') && !modulesJar.contains(details.file.name) }
     with bootJar
+
     archiveClassifier = "lite"
 }
 
@@ -48,7 +49,6 @@ artifacts {
         builtBy(liteJar)
     }
 }
-
 task liteLibJar(type: Jar) {
     archiveFileName = getBaseNameLite() + "-lib.jar"
     entryCompression = ZipEntryCompression.STORED

@@ -10,10 +10,9 @@
 
 package org.zowe.apiml.gateway.error.check;
 
-import org.zowe.apiml.message.api.ApiMessageView;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
-
-import javax.servlet.http.HttpServletRequest;
+import org.zowe.apiml.message.api.ApiMessageView;
 
 @FunctionalInterface
 public interface ErrorCheck {
