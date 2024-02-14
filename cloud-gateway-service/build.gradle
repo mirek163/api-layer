@@ -3,6 +3,7 @@ buildscript {
     dependencies {
         classpath libs.spring.boot.gradle.plugin
         classpath libs.jgit
+        classpath 'io.openliberty.tools:liberty-gradle-plugin:3.8'
     }
 }
 
@@ -20,6 +21,7 @@ normalization {
 apply plugin: 'org.springframework.boot'
 apply plugin: 'com.google.cloud.tools.jib'
 apply from: "../gradle/jib.gradle"
+apply plugin: 'liberty'
 
 def javaAgentPort = 6310
 def debugPort = 5130
@@ -59,6 +61,7 @@ configurations.all {
 }
 
 dependencies {
+    libertyRuntime group: 'com.ibm.websphere.appserver.runtime', name: 'wlp-kernel', version: '24.0.0.1'
     api project(':common-service-core')
     api project(':apiml-utility')
 
