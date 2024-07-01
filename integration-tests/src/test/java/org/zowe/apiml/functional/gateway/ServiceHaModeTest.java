@@ -18,7 +18,6 @@ import org.apache.http.HttpStatus;
 import org.json.JSONException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -40,9 +39,7 @@ import java.util.stream.Stream;
 import static io.restassured.RestAssured.when;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.zowe.apiml.util.SecurityUtils.getConfiguredSslConfig;
@@ -56,7 +53,6 @@ import static org.zowe.apiml.util.SecurityUtils.getConfiguredSslConfig;
  */
 @TestsNotMeantForZowe
 @GatewayTest
-@Disabled("May be returned once ZUUL is fixed")
 class ServiceHaModeTest implements TestWithStartedInstances {
 
     private static final int TIMEOUT = 30;
@@ -162,7 +158,7 @@ class ServiceHaModeTest implements TestWithStartedInstances {
                 service1 = new VirtualService("testHaModeService2", ports.get(0));
                 service2 = new VirtualService("testHaModeService2", ports.get(1));
 
-                service1.addInstanceServlet("Http503", "/httpCode");
+                service1.addInstanceServlet("Http503", "/httpCode/503");
                 service2.addHttpStatusCodeServlet(HttpStatus.SC_SERVICE_UNAVAILABLE);
 
                 service1.start();
