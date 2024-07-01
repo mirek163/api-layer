@@ -12,9 +12,10 @@ package org.zowe.apiml.util.service;
 
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
@@ -30,17 +31,11 @@ import org.springframework.http.MediaType;
 import org.zowe.apiml.auth.Authentication;
 import org.zowe.apiml.util.UrlUtils;
 
-import jakarta.servlet.Servlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -115,9 +110,12 @@ public class VirtualService implements AutoCloseable {
     private String gatewayPath;
     private boolean isZombie = false;
 
+    private static final Map<Integer, VirtualService> PORT_TO_VIRTUALSERVICE = Collections.synchronizedMap(new HashMap<>());
+
     public VirtualService(String serviceId, int port) {
-        this.serviceId = serviceId;
+        this.serviceId = serviceId.toLowerCase(Locale.ROOT);
         createTomcat(port);
+        PORT_TO_VIRTUALSERVICE.put(port, this);
     }
 
     /**
@@ -178,7 +176,7 @@ public class VirtualService implements AutoCloseable {
         tomcat.setConnector(httpConnector);
 
         context = tomcat.addContext("", getContextPath());
-        addServlet(HealthServlet.class.getSimpleName(), "/application/health", new HealthServlet());
+        addServlet(HealthServlet.class.getSimpleName(), "/application/health", HealthServlet.class);
         addInstanceServlet(InstanceServlet.class.getSimpleName(), "/application/instance");
     }
 
@@ -205,11 +203,11 @@ public class VirtualService implements AutoCloseable {
      *
      * @param name    name of servlet
      * @param pattern url to listen
-     * @param servlet instance of servlet
+     * @param servletClazz class of servlet
      * @return this instance to next command
      */
-    public VirtualService addServlet(String name, String pattern, Servlet servlet) {
-        Tomcat.addServlet(context, name, servlet.getClass().getName());
+    public VirtualService addServlet(String name, String pattern, Class<? extends Servlet> servletClazz) {
+        Tomcat.addServlet(context, name, servletClazz.getName());
         context.addServletMappingDecoded(pattern, name);
 
         return this;
@@ -223,7 +221,7 @@ public class VirtualService implements AutoCloseable {
      * @return this instance to next command
      */
     public VirtualService addInstanceServlet(String name, String url) {
-        addServlet(name, url, new InstanceServlet());
+        addServlet(name, url, InstanceServlet.class);
 
         return this;
     }
@@ -235,7 +233,7 @@ public class VirtualService implements AutoCloseable {
      * @return this instance to next command
      */
     public VirtualService addHttpStatusCodeServlet(int httpStatus) {
-        addServlet(HttpStatusCodeServlet.class.getName(), "/httpCode", new HttpStatusCodeServlet(httpStatus));
+        addServlet(HttpStatusCodeServlet.class.getName(), "/httpCode/" + httpStatus, HttpStatusCodeServlet.class);
 
         return this;
     }
@@ -247,7 +245,7 @@ public class VirtualService implements AutoCloseable {
      * @return this instance to next command
      */
     public VirtualService addGetHeaderServlet(String headerName) {
-        addServlet("getHeader" + headerName, "/header/" + headerName, new HeaderServlet(headerName));
+        addServlet("getHeader" + headerName, "/header/" + headerName, HeaderServlet.class);
 
         return this;
     }
@@ -259,7 +257,7 @@ public class VirtualService implements AutoCloseable {
      * @return this instance to next command
      */
     public VirtualService addVerifyServlet() {
-        addServlet(VerifyServlet.class.getSimpleName(), "/verify/*", new VerifyServlet(RequestVerifier.getInstance()));
+        addServlet(VerifyServlet.class.getSimpleName(), "/verify/*", VerifyServlet.class);
 
         return this;
     }
@@ -447,7 +445,7 @@ public class VirtualService implements AutoCloseable {
                         .put("renewalIntervalInSecs", renewalIntervalInSecs)
                         .put("durationInSecs", renewalIntervalInSecs * 3)
                     )
-                    .put("metadata", metadata)
+                    .put("metadata", new JSONObject(metadata))
                 ).toString()
             )
             .post(DiscoveryUtils.getDiscoveryUrl() + "/eureka/apps/{appId}", serviceId);
@@ -593,15 +591,12 @@ public class VirtualService implements AutoCloseable {
         return getGatewayUrls().stream().map(x -> x + "/verify").collect(Collectors.toList());
     }
 
-    @AllArgsConstructor
-    static class HeaderServlet extends HttpServlet {
-
-        private final String headerName;
+    public static class HeaderServlet extends HttpServlet {
 
         @Override
         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
             resp.setStatus(HttpStatus.SC_OK);
-            resp.getWriter().print(req.getHeader(headerName));
+            resp.getWriter().print(req.getHeader(req.getPathInfo()));
             resp.getWriter().close();
         }
 
@@ -655,14 +650,14 @@ public class VirtualService implements AutoCloseable {
      * Serve address /application/health to support health answer. It is helpful for long term tests, because discovery
      * service need this heart beat send each 30s.
      */
-    @NoArgsConstructor
-    class HealthServlet extends HttpServlet {
+    public static class HealthServlet extends HttpServlet {
 
         @Override
         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
             resp.setStatus(HttpStatus.SC_OK);
             resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            final Status status = healthService == null ? Status.UNKNOWN : healthService.getStatus();
+            VirtualService virtualService = PORT_TO_VIRTUALSERVICE.get(req.getLocalPort());
+            final Status status = virtualService.healthService == null ? Status.UNKNOWN : virtualService.healthService.getStatus();
             resp.getWriter().print("{\"status\":\"" + status + "\"}");
             resp.getWriter().close();
         }
@@ -671,14 +666,12 @@ public class VirtualService implements AutoCloseable {
     /**
      * Servlet Verify store all request to next analyze, see {@link RequestVerifier}
      */
-    @AllArgsConstructor
-    class VerifyServlet extends HttpServlet {
-
-        private RequestVerifier verify;
+    public static class VerifyServlet extends HttpServlet {
 
         @Override
         protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-            verify.add(VirtualService.this, req);
+            VirtualService virtualService = PORT_TO_VIRTUALSERVICE.get(req.getLocalPort());
+            RequestVerifier.getInstance().add(virtualService, req);
             resp.setStatus(HttpStatus.SC_OK);
         }
 
@@ -688,7 +681,7 @@ public class VirtualService implements AutoCloseable {
      * Servlet answer on /application/instance Http method and instanceId. This is base part of method to verify registration on
      * gateways, see {@link #waitForGatewayRegistration(int, int)} and {@link #waitForGatewayUnregistering(int, int)}
      */
-    class InstanceServlet extends HttpServlet {
+    public static class InstanceServlet extends HttpServlet {
 
         @Override
         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -722,7 +715,8 @@ public class VirtualService implements AutoCloseable {
 
         private void writeResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
             resp.setStatus(HttpStatus.SC_OK);
-            resp.getWriter().print(req.getMethod() + " " + VirtualService.this.instanceId);
+            VirtualService virtualService = PORT_TO_VIRTUALSERVICE.get(req.getLocalPort());
+            resp.getWriter().print(req.getMethod() + " " + virtualService.instanceId);
             resp.getWriter().close();
         }
 
@@ -731,43 +725,41 @@ public class VirtualService implements AutoCloseable {
     /**
      * Servlet returns the specified Http return code for all Http methods
      */
-    @RequiredArgsConstructor
-    static class HttpStatusCodeServlet extends HttpServlet {
-
-        private final int httpStatus;
+    public static class HttpStatusCodeServlet extends HttpServlet {
 
         @Override
         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-            writeResponse(resp);
+            writeResponse(req, resp);
         }
 
         @Override
         protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-            writeResponse(resp);
+            writeResponse(req, resp);
         }
 
         @Override
         protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-            writeResponse(resp);
+            writeResponse(req, resp);
         }
 
         @Override
         protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-            writeResponse(resp);
+            writeResponse(req, resp);
         }
 
         @Override
         protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-            writeResponse(resp);
+            writeResponse(req, resp);
         }
 
         @Override
         protected void doHead(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-            writeResponse(resp);
+            writeResponse(req, resp);
         }
 
-        private void writeResponse(HttpServletResponse resp) throws IOException {
-            resp.setStatus(httpStatus);
+        private void writeResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+            int status = Integer.parseInt(req.getPathInfo());
+            resp.setStatus(status);
             resp.getWriter().close();
         }
 
