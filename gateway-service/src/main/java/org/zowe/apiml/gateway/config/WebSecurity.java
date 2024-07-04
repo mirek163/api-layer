@@ -322,7 +322,10 @@ public class WebSecurity {
                 SERVICES_SHORT_URL,
                 SERVICES_SHORT_URL + "/**",
                 SERVICES_FULL_URL,
-                SERVICES_FULL_URL + "/**"
+                SERVICES_FULL_URL + "/**",
+                // FIXME: please update with some constants
+                "/application",
+                "/application/**"
             ))
             .authorizeExchange(authorizeExchangeSpec ->
                 authorizeExchangeSpec
