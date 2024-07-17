@@ -13,7 +13,7 @@
       },
       "devDependencies": {
         "@types/jest": "29.4.3",
-        "@types/node": "18.15.3 ",
+        "@types/node": "20.14.11",
         "@typescript-eslint/eslint-plugin": "5.55.0",
         "@typescript-eslint/parser": "5.55.0",
         "@zowe/cli": "7.19.0",
@@ -3041,10 +3041,14 @@
       "dev": true
     },
     "node_modules/@types/node": {
-      "version": "18.15.3",
-      "resolved": "https://zowe.jfrog.io/artifactory/api/npm/npm-org/@types/node/-/node-18.15.3.tgz",
-      "integrity": "sha512-p6ua9zBxz5otCmbpb5D3U4B5Nanw6Pk3PPyX05xnxbB/fRv71N7CPmORg7uAD5P70T0xmx1pzAx/FUfa5X+3cw==",
-      "dev": true
+      "version": "20.14.11",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.14.11.tgz",
+      "integrity": "sha512-kprQpL8MMeszbz6ojB5/tU8PLN4kesnN8Gjzw349rDlNgsSzg90lAVj3llK99Dh7JON+t9AuscPPFW6mPbTnSA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "undici-types": "~5.26.4"
+      }
     },
     "node_modules/@types/prettier": {
       "version": "2.7.2",
@@ -11726,6 +11730,13 @@
       "resolved": "https://zowe.jfrog.io/artifactory/api/npm/npm-org/underscore/-/underscore-1.13.6.tgz",
       "integrity": "sha512-+A5Sja4HP1M08MaXya7p5LvjuM7K6q/2EaC0+iovj/wOcMsTzMvDFbasi/oSapiwOlt252IqsKqPjCl7huKS0A==",
       "dev": true
+    },
+    "node_modules/undici-types": {
+      "version": "5.26.5",
+      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-5.26.5.tgz",
+      "integrity": "sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==",
+      "dev": true,
+      "license": "MIT"
     },
     "node_modules/unicode-canonical-property-names-ecmascript": {
       "version": "2.0.0",
