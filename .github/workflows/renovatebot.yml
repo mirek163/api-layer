@@ -1,82 +1,15 @@
-# This is a basic workflow to help you get started with Actions
-
-name: Run Renovate
+name: Renovate
 
 on:
-    # Allows you to run this workflow manually from the Actions tab
     workflow_dispatch:
-
-    # Run at midnight UTC Monday morning
-    schedule:
-        - cron: '0 0 * * 1'
-
-    # Push on main branch if needed for rebasing from PRs.
-    # push:
-    #   branches: main
-
-    # Run when there is an update to a PR. This will cleanup branches, and rebase PRs after merges.
-    # Couple with the "IF" field on the job to limit to updates of the 'renovate/' branches.
-    pull_request_target:
-        types:
-            - closed
-            - edited
-            - reopened
-
 jobs:
-    dependency_scan:
-        # Requires docker, so we run on a node that is tagged with docker.
-       # runs-on: [ docker ]
+    renovate:
+        name: Renovate
         runs-on: linux
-
-        # Execute within the context of the renovate image
-        container:
-            image: renovate/renovate:latest
-
         steps:
-            # Execute using the renovate action
-            - name: Renovate!
-              env:
-                  RENOVATE_AUTO_APPROVE: true
-              with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-
-                  # Limit Number of active renovate PRs. Default: unlimited
-                  # pr-concurrency: 3
-
-                  # Limit number of PRs per hour to create. Helpful to slow roll renovate into a repo. Default: unlimited
-                  # pr-hour-limit: 2
-
-                  # Change when any PRs are generated. Default every Monday
-                  # Update to Tuesdays
-                  # update-schedule: 'on the second day of the week'
-                  # Always create PRs.
-                  update-schedule: ''
-
-                  # Automatically adds 1 approving PR to any generated renovate PRs.
-                  # Can be useful when 2 approving reviews are required.
-                  pr-auto-approve: true
-                  # User and token used to create approving review.
-                  # Required when pr-auto-approve is true.
-                  # github-approver-token: ${{ secrets.SECP_SASEPORTALDEV_GH_TOKEN }}
-                  # github-approver-user: saseportaldev
-
-                  package-rules: |-
-                      { "matchPackagePatterns":[".*"], "matchUpdateTypes":["minor","patch"], "automerge":true }
-
-              #run: |
-              #    renovate --dry-run \
-              #             --log-file renovate.log \
-              #             --log-file-level debug
-
-              #shell: bash
-              #run: sh 'renovate --dry-run'
-
-              #run: renovate --dry-run
-
-              #run: sh 'renovate --dry-run'
+            - name: Run Renovate
               run: |
                   docker run --rm \
-                    --volume ${{ github.workspace }}/renovate.json:/usr/src/app/renovate.json \
+                    --volume ${{ github.workspace }}/renovate-config.js:/usr/src/app/config.js \
                     --env LOG_LEVEL=debug \
-                    renovate/renovate:latest
-
+                    mycompany.net/my-registry-remote/renovate/renovate:32.26.3
