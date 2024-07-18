@@ -26,11 +26,11 @@ jobs:
     dependency_scan:
         # Requires docker, so we run on a node that is tagged with docker.
        # runs-on: [ docker ]
-        runs-on: [ docker ]
+        runs-on: linux
 
         # Execute within the context of the renovate image
         container:
-            image: renovatebot/renovate:24.29.1-slim
+            image: renovate/renovate:latest
 
         steps:
             # Execute using the renovate action
@@ -71,8 +71,12 @@ jobs:
               #shell: bash
               #run: sh 'renovate --dry-run'
 
-              run: renovate --dry-run
+              #run: renovate --dry-run
 
               #run: sh 'renovate --dry-run'
-
+              run: |
+                  docker run --rm \
+                    --volume ${{ github.workspace }}/renovate.json:/usr/src/app/renovate.json \
+                    --env LOG_LEVEL=debug \
+                    renovate/renovate:latest
 
