@@ -15,4 +15,4 @@ jobs:
             - name: Run Renovate
               run: |
                   npm install -g renovate
-                  renovate --log-file renovate.log
+                  renovate
