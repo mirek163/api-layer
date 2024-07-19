@@ -16,7 +16,8 @@ jobs:
         env:
           LOG_LEVEL: debug
         run: |
-          renovate
+            ${{ github.workspace }}/renovate-config.js:/usr/src/app/config.js
+            renovate
 
 #              env:
 #                  LOG_LEVEL: debug
@@ -27,6 +28,5 @@ jobs:
 #                  renovate
 
 #                  docker run --rm \
-#                    --volume ${{ github.workspace }}/config.js:/usr/src/app/config.js \
-#                    --env LOG_LEVEL=debug
+
 
