@@ -4,11 +4,10 @@ on:
     workflow_dispatch:
 
 jobs:
-    renovate-vm:
+    renovate:
         name: Renovate VM
         runs-on: ubuntu-latest
-    container:
-        runs-on: ubuntu-latest
+        container: ubuntu-latest
         timeout-minutes: 15
 
         services:
