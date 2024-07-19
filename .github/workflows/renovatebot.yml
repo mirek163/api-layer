@@ -11,7 +11,6 @@ jobs:
     container:
       image: ghcr.io/renovatebot/renovate
       options: --user root #workaround for checkout
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
