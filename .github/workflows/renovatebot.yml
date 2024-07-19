@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/renovatebot/renovate
-      options: --user root #workaround for checkout
+      #options: --user root #workaround for checkout
     steps:
       - name: Check out repository
         uses: actions/checkout@v4 #using checkout to access workspace
@@ -21,19 +21,7 @@ jobs:
           RENOVATE_CONFIG_FILE: ${{ github.workspace }}/config.js
           LOG_LEVEL: debug
 
-          #token: ${{ secrets.GITHUB_TOKEN }}
+
         run: |
             renovate
-
-#${{ github.workspace }}/config.js:/usr/src/app/config.js
-#              env:
-#                  LOG_LEVEL: debug
-#                  RENOVATE_AUTO_APPROVE: true
-#              with:
-#                  github-token: ${{ secrets.GITHUB_TOKEN }}
-#              run: |
-#                  renovate
-
-#                  docker run --rm \
-
 
