@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/renovatebot/renovate
-      #options: --user root #workaround for checkout
+      options: --user root #workaround for checkout
     steps:
       - name: Check out repository
         uses: actions/checkout@v4 #using checkout to access workspace
@@ -23,5 +23,5 @@ jobs:
 
 
         run: |
-            renovate
+            renovate --log-file renovate.log
 
