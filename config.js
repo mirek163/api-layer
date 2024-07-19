@@ -5,7 +5,6 @@ module.exports = {
      // }],
     // logFileLevel: 'debug',
     // logLevel: 'debug',
-    RENOVATE_EXTRA_FLAGS: "--autodiscover=true",
     extends: ["config:recommended", "group:allNonMajor"],
     timezone: "Europe/Berlin",
     schedule: ["after 10am every weekday"],
