@@ -7,14 +7,9 @@ on:
 
 jobs:
     renovate:
-        name: Renovate
         runs-on: ubuntu-latest
-        container: ubuntu:latest
-        timeout-minutes: 15
-
-        services:
-            renovate:
-                image: ghcr.io/renovatebot/renovate
+        container:
+            image: ghcr.io/renovatebot/renovate
 
         steps:
             - name: Run Renovate
