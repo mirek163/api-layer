@@ -5,5 +5,6 @@
         "config:recommended"
     ],
     "baseBranches": ["v3.x.x-renovate"],
-    "automerge": true
+    "automerge": true,
+    "forkProcessing": "enabled"
 }
