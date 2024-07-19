@@ -1,23 +1,26 @@
 name: Renovate
 
 on:
-    schedule:
-        - cron: '0 0 * * *'
     workflow_dispatch:
 
 jobs:
-    renovate:
+    renovate-vm:
+        name: Renovate VM
         runs-on: ubuntu-latest
-        container:
-            image: ghcr.io/renovatebot/renovate:latest
+    container:
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+
+        services:
+            renovate:
+                image: ghcr.io/renovatebot/renovate:latest
 
         steps:
             - name: Run Renovate
-              env:
-                RENOVATE_AUTO_APPROVE: true
-              with:
-                github-token: ${{ secrets.GITHUB_TOKEN }}
-
               run: |
-                  npm install -g renovate
-                  renovate
+                  renovate --config-file
+#                  docker run --rm \
+#                    --volume ${{ github.workspace }}/renovate.js:/usr/src/app/config.js \
+#                    --env LOG_LEVEL=debug \
+#                    ghcr.io/renovatebot/renovate:latest
+
