@@ -13,8 +13,8 @@ jobs:
 
         steps:
             - name: Run Renovate
-              with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
+              env:
+                  RENOVATE_AUTO_APPROVE: true
               run: |
                   renovate
 
