@@ -19,7 +19,7 @@ jobs:
         env:
           RENOVATE_CONFIG_FILE: ${{ github.workspace }}/config.js
           LOG_LEVEL: debug
-          GITHUB_COM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
         run: |
             renovate
 
