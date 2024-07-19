@@ -12,9 +12,6 @@ jobs:
             image: ghcr.io/renovatebot/renovate:latest
 
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
-
             - name: Run Renovate
               run: |
                   npm install -g renovate
