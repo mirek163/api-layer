@@ -6,5 +6,6 @@
     ],
     "baseBranches": ["v3.x.x-renovate"],
     "automerge": true,
-    "forkProcessing": "enabled"
+    "dryRun": "lookup"
 }
+

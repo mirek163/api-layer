@@ -21,8 +21,8 @@ jobs:
           RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RENOVATE_CONFIG_FILE: ${{ github.workspace }}/config.js
           LOG_LEVEL: debug
-
+# renovate.json - forkProcessing forked repositories are not onboarded in default, Renovate essentially ignores them
 
         run: |
-          renovate --dry-run --log-file renovate.log
+          renovate --log-file renovate.log
 
