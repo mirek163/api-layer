@@ -24,5 +24,5 @@ jobs:
 # renovate.json - forkProcessing forked repositories are not onboarded in default, Renovate essentially ignores them
 
         run: |
-          renovate --log-file renovate.log
+          renovate
 

@@ -3,9 +3,6 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
         "config:recommended"
-    ],
-    "baseBranches": ["v3.x.x-renovate"],
-    "automerge": true,
-    "dryRun": "lookup"
+    ]
 }
 

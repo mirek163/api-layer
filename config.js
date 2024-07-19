@@ -12,5 +12,7 @@ module.exports = {
     dependencyDashboard: true,
     baseBranches: ["v3.x.x-renovate", "v2.x.x-renovate"],
     dryRun: "lookup",
+    logFile: "renovate.log",
+    automerge: true,
     assignees: ["mirek163"]
 };
