@@ -1,7 +1,7 @@
 module.exports = {
     "hostRules":[{
         matchHost: "api.github.com",
-        token: "${{ secrets.GITHUB_TOKEN }}"
+        token: "${{ GITHUB_TOKEN }}"
     }],
     logFileLevel: 'debug',
     logLevel: 'debug',
