@@ -17,8 +17,9 @@ jobs:
         steps:
             - name: Run Renovate
               run: |
-                  docker run --rm \
-                    --volume ${{ github.workspace }}/renovate.js:/usr/src/app/config.js \
-                    --env LOG_LEVEL=debug \
-                    ghcr.io/renovatebot/renovate:latest
+                   renovate --config-file .github/renovate.js
+#                  docker run --rm \
+#                    --volume ${{ github.workspace }}/renovate.js:/usr/src/app/config.js \
+#                    --env LOG_LEVEL=debug \
+#                    ghcr.io/renovatebot/renovate:latest
 
