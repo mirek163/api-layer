@@ -13,8 +13,9 @@ jobs:
 
     steps:
       - name: Run Renovate
+        all-env:
         env:
-          RENOVATE_CONFIG_FILE: ./api-layer/renovate-config.js
+          RENOVATE_CONFIG_FILE: ${{github.workspace}}/renovate-config.js
           LOG_LEVEL: debug
         run: |
             renovate
