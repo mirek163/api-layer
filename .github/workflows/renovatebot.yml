@@ -15,8 +15,6 @@ jobs:
       - name: Run Renovate
         env:
           LOG_LEVEL: debug
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           renovate
 
@@ -29,6 +27,6 @@ jobs:
 #                  renovate
 
 #                  docker run --rm \
-#                    --volume ${{ github.workspace }}/renovate.js:/usr/src/app/config.js \
+#                    --volume ${{ github.workspace }}/renovate-config.js:/usr/src/app/config.js \
 #                    --env LOG_LEVEL=debug
 
