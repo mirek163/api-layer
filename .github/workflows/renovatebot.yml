@@ -12,8 +12,12 @@ jobs:
       image: ghcr.io/renovatebot/renovate
 
     steps:
+
+      - name: List files in github.workspace
+        run: ls -R ${{ github.workspace }}
+
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Run Renovate
         env:
