@@ -4,7 +4,5 @@
     "extends": [
         "config:recommended"
     ],
-    "baseBranches": ["v3.x.x-renovate"],
-    "lockFileMaintenance": { "enabled": true },
-    "automerge": true
+    "baseBranches": ["v3.x.x-renovate"]
 }
