@@ -2,14 +2,23 @@ name: Renovate
 
 on:
     workflow_dispatch:
+
 jobs:
     renovate:
         name: Renovate
-        runs-on: linux
+        runs-on: ubuntu-latest
+        container: ubuntu:latest
+        timeout-minutes: 15
+
+        services:
+            renovate:
+                image: ghcr.io/renovatebot/renovate:latest
+
         steps:
             - name: Run Renovate
               run: |
                   docker run --rm \
                     --volume ${{ github.workspace }}/renovate-config.js:/usr/src/app/config.js \
                     --env LOG_LEVEL=debug \
-                    mycompany.net/my-registry-remote/renovate/renovate:32.26.3
+                    ghcr.io/renovatebot/renovate:32.26.3
+
