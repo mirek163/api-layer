@@ -12,9 +12,12 @@ jobs:
       image: ghcr.io/renovatebot/renovate
 
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
       - name: Run Renovate
         env:
-          RENOVATE_CONFIG_FILE: ${{ github.workspace }}/config.js:/usr/src/app/config.js
+          RENOVATE_CONFIG_FILE: ${{ github.workspace }}/config.js
 #          RENOVATE_CONFIG_FILE: ./config.js
           LOG_LEVEL: debug
         run: |
