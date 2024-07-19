@@ -14,12 +14,12 @@ jobs:
     steps:
       - name: Run Renovate
         env:
-          RENOVATE_CONFIG_FILE: ./renovate-config.js
+#          RENOVATE_CONFIG_FILE: ./config.js
           LOG_LEVEL: debug
         run: |
             renovate
 
-#${{ github.workspace }}/renovate-config.js:/usr/src/app/config.js
+#${{ github.workspace }}/config.js:/usr/src/app/config.js
 #              env:
 #                  LOG_LEVEL: debug
 #                  RENOVATE_AUTO_APPROVE: true
