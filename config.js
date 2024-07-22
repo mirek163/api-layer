@@ -13,9 +13,9 @@ module.exports = {
     dryRun: "lookup",
     logFile: "renovate.log",
     //autodiscoverFilter: ["mirek163/api-layer"],
-    repositories: [ { repository: 'mirek163/TavernaBot', bumpVersion: true } ],
+    repositories: [ { repository: 'mirek163/api-layer', bumpVersion: true } ],
     //repositories: ["mirek163/api-layer"],
-    //baseBranches: ["v3.x.x-renovate"], //"v2.x.x-renovate"
+    baseBranches: ["v3.x.x-renovate"], //"v2.x.x-renovate"
     //onboarding: "true",
     //forkProcessing: true,
     //enabledManagers: ['github-actions'],
