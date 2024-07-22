@@ -12,7 +12,7 @@ module.exports = {
     repositories: [ { repository: 'mirek163/api-layer' } ],
     baseBranches: ["v3.x.x-renovate"],
     assignees: ["mirek163"],
-    prCreation: "not-pending",
-    retainStalePrs: true
+  //  prCreation: "not-pending",
+   // retainStalePrs: true
 };
 
