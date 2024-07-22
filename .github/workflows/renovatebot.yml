@@ -23,6 +23,7 @@ jobs:
           RENOVATE_PLATFORM: github
           RENOVATE_ONBOARDING_CONFIG: true
           RENOVATE_ONBOARDING: false
+          RENOVATE_ONBOARDING_NO_DEPS: true
           LOG_LEVEL: debug
 # renovate.json - forkProcessing forked repositories are not onboarded in default, Renovate essentially ignores them
 
