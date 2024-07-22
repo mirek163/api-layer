@@ -5,6 +5,7 @@ module.exports = {
     //    matchHost: "api.github.com",
     //    token: process.env.RENOVATE_TOKEN
     //}],
+    token: process.env.RENOVATE_TOKEN,
     extends: ["config:recommended", "group:allNonMajor"],
     timezone: "Europe/Berlin",
     schedule: ["after 10am every weekday"],
