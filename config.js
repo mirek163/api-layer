@@ -10,7 +10,7 @@ module.exports = {
     autodiscoverFilter: ["mirek163/api-layer"],
     //repositories: [ { repository: 'mirek163/api-layer', bumpVersion: true } ],
     //repositories: ["mirek163/api-layer"],
-    baseBranches: ["v3.x.x-renovate"], //"v2.x.x-renovate"
+    baseBranches: ["v2.x.x-renovate"], //"v2.x.x-renovate"
     //forkProcessing: true,
     //onboarding: "false",
     //enabledManagers: ['github-actions'],
