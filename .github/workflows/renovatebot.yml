@@ -21,7 +21,7 @@ jobs:
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
           RENOVATE_CONFIG_FILE: ${{ github.workspace }}/config.js
           RENOVATE_PLATFORM: github
-          RENOVATE_ONBOARDING_NO_DEPS: true # should create PR even if it is empty
+          #RENOVATE_ONBOARDING_NO_DEPS: true # should create PR even if it is empty
           LOG_LEVEL: debug
 
         run: |
