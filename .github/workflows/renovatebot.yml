@@ -24,7 +24,7 @@ jobs:
           RENOVATE_PLATFORM: github
           RENOVATE_ONBOARDING_NO_DEPS: true # should create PR even if it is empty
           LOG_LEVEL: debug
-          RENOVATE_ONBOARDING_CONFIG: true
+          #RENOVATE_ONBOARDING_CONFIG: true
           #RENOVATE_FORK_CREATION: true
           #RENOVATE_FORK_PROCESSING: true
 # renovate.json - forkProcessing forked repositories are not onboarded in default, Renovate essentially ignores them
