@@ -1,10 +1,10 @@
 
 module.exports = {
     // $schema: "https://docs.renovatebot.com/renovate-schema.json",
-    hostRules:[{
-        matchHost: "api.github.com",
-        token: process.env.RENOVATE_TOKEN
-    }],
+    //hostRules:[{
+    //    matchHost: "api.github.com",
+    //    token: process.env.RENOVATE_TOKEN
+    //}],
     extends: ["config:recommended", "group:allNonMajor"],
     timezone: "Europe/Berlin",
     schedule: ["after 10am every weekday"],
