@@ -5,7 +5,7 @@ module.exports = {
      // }],
     // logFileLevel: 'debug',
     // logLevel: 'debug',
-    $schema: "https://docs.renovatebot.com/renovate-schema.json",
+    // $schema: "https://docs.renovatebot.com/renovate-schema.json",
     extends: ["config:recommended", "group:allNonMajor"],
     timezone: "Europe/Berlin",
     schedule: ["after 10am every weekday"],
