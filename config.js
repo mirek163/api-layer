@@ -4,6 +4,7 @@ module.exports = {
     extends: ["config:recommended", "group:allNonMajor"],
     timezone: "Europe/Berlin",
     schedule: ["after 10am every weekday"],
+    labels: ["renovate"],
     printConfig: true,
     dependencyDashboard: true,
     //dryRun: "lookup",
