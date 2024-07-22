@@ -13,7 +13,6 @@ module.exports = {
     baseBranches: ["v3.x.x-renovate"],
     assignees: ["mirek163"],
     prCreation: "not-pending",
-    automerge: true,
     retainStalePrs: true
 };
 
