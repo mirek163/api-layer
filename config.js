@@ -5,13 +5,8 @@ module.exports = {
     //    matchHost: "api.github.com",
     //    token: process.env.RENOVATE_TOKEN
     //}],
-    extends: ["config:recommended", "group:allNonMajor"],
-    timezone: "Europe/Berlin",
-    schedule: ["after 10am every weekday"],
-    printConfig: true,
-    dependencyDashboard: true,
-    dryRun: "lookup",
-    logFile: "renovate.log",
+    extends: ["config:recommended"],
+
     //autodiscoverFilter: ["mirek163/api-layer"],
     repositories: [ { repository: 'mirek163/api-layer', bumpVersion: true } ],
     //repositories: ["mirek163/api-layer"],
@@ -20,6 +15,5 @@ module.exports = {
     //forkProcessing: true,
     //enabledManagers: ['github-actions'],
     //trustLevel: 'high',
-    assignees: ["mirek163"]
 };
 
