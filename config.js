@@ -13,7 +13,7 @@ module.exports = {
     dependencyDashboard: true,
     //dryRun: "lookup",
     logFile: "renovate.log",
-    autodiscoverFilter: ["mirek163/api-layer/*"],
+    autodiscoverFilter: ["mirek163/api-layer/api-layer"],
     //repositories: ["mirek163/api-layer"],
     baseBranches: ["v3.x.x-renovate"], //"v2.x.x-renovate"
 
