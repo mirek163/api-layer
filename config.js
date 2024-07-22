@@ -11,10 +11,10 @@ module.exports = {
     schedule: ["after 10am every weekday"],
     printConfig: true,
     dependencyDashboard: true,
-    baseBranches: ["v3.x.x-renovate"], //"v2.x.x-renovate"
-    dryRun: "lookup",
+    //dryRun: "lookup",
     logFile: "renovate.log",
     repositories: ["mirek163/api-layer"],
+    baseBranches: ["v3.x.x-renovate"], //"v2.x.x-renovate"
 
     //onboarding: "false",
     //enabledManagers: ['github-actions'],
