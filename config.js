@@ -14,7 +14,7 @@ module.exports = {
     baseBranches: ["v3.x.x-renovate", "v2.x.x-renovate"],
     dryRun: "lookup",
     logFile: "renovate.log",
-    repositories: ["mirek163/API_layer"],
+    repositories: ["mirek163/api-layer"],
 
     //onboarding: "false",
     //enabledManagers: ['github-actions'],
