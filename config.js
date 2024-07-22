@@ -7,12 +7,12 @@ module.exports = {
     dependencyDashboard: true,
     dryRun: "lookup",
     logFile: "renovate.log",
-    autodiscoverFilter: ["mirek163/api-layer"],
-    //repositories: [ { repository: 'mirek163/api-layer', bumpVersion: true } ],
+    //autodiscoverFilter: ["mirek163/api-layer"],
+    repositories: [ { repository: 'mirek163/api-layer', bumpVersion: true } ],
     //repositories: ["mirek163/api-layer"],
-    baseBranches: ["v2.x.x-renovate"], //"v2.x.x-renovate"
+    baseBranches: ["v3.x.x-renovate"], //"v2.x.x-renovate"
     //forkProcessing: true,
-    //onboarding: "false",
+    onboarding: "true",
     //enabledManagers: ['github-actions'],
     //trustLevel: 'high',
     assignees: ["mirek163"]
