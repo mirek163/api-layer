@@ -18,7 +18,7 @@ jobs:
       - name: Run Renovate
         env:
           RENOVATE_AUTODISCOVER: true # going through all reps
-          RENOVATE_TOKEN: ${{ env.RENOVATE_KEY }}
+          RENOVATE_TOKEN: ${{ vars.RENOVATE_KEY }}
           RENOVATE_CONFIG_FILE: ${{ github.workspace }}/config.js
           RENOVATE_PLATFORM: github
           #RENOVATE_ONBOARDING_CONFIG: true
