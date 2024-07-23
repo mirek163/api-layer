@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4 # using checkout to access workspace
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v40
 #      - name: Update size of nodes
 #        run: |
 #          export NODE_OPTIONS="--max_old_space_size=8192"
