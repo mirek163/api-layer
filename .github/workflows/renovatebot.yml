@@ -14,19 +14,24 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4 # using checkout to access workspace
+
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v40
-#      - name: Update size of nodes
+        with:
+            configurationFile: ${{ github.workspace }}/config.js
+            token: ${{ secrets.RENOVATE_TOKEN }}
+
+          #      - name: Update size of nodes
 #        run: |
 #          export NODE_OPTIONS="--max_old_space_size=8192"
-      - name: Run Renovate
-        env:
-          #RENOVATE_AUTODISCOVER: false # going through all reps
-          #RENOVATE_ONBOARDING_NO_DEPS: true # should create PR even if it is empty
-          RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
-          RENOVATE_CONFIG_FILE: ${{ github.workspace }}/config.js
-          LOG_LEVEL: debug
-          #NODE_OPTIONS: "--max_old_space_size=8192"
-        run: |
-          renovate
+#      - name: Run Renovate
+#        env:
+#          #RENOVATE_AUTODISCOVER: false # going through all reps
+#          #RENOVATE_ONBOARDING_NO_DEPS: true # should create PR even if it is empty
+#          RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+#          RENOVATE_CONFIG_FILE: ${{ github.workspace }}/config.js
+#          LOG_LEVEL: debug
+#          #NODE_OPTIONS: "--max_old_space_size=8192"
+#        run: |
+#          renovate
 
