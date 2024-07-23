@@ -1,5 +1,7 @@
 
 module.exports = {
+    autodiscover: false,
+    platform: "github",
     extends: ["config:recommended", "group:allNonMajor"],
     timezone: "Europe/Berlin",
     schedule: ["after 10am every weekday"],
