@@ -17,13 +17,16 @@ jobs:
 
       - name: Run Renovate
         env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
           RENOVATE_AUTODISCOVER: false # going through all reps
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
           RENOVATE_CONFIG_FILE: ${{ github.workspace }}/config.js
           RENOVATE_PLATFORM: github
+
           #RENOVATE_ONBOARDING_NO_DEPS: true # should create PR even if it is empty
           #LOG_LEVEL: debug
 
         run: |
+    #     export NODE_OPTIONS="--max_old_space_size=4096"
           renovate
 
