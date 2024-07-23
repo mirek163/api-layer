@@ -14,7 +14,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4 # using checkout to access workspace
-
       - name: Run Renovate
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
