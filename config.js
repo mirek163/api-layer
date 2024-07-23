@@ -13,7 +13,7 @@ module.exports = {
     //printConfig: true,
     //recreateWhen: "always"
     //dryRun: "lookup",
-    //trustLevel: "high"
+    trustLevel: "high"
     //prCreation: "not-pending",
     // retainStalePrs: true
 };
