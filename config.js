@@ -2,6 +2,8 @@
 module.exports = {
     autodiscover: false,
     platform: "github",
+    onboardingConfig: { "extends": ["config:recommended"] },
+    extends: ["config:recommended", "group:allNonMajor", ":switchToGradleLite"],
     timezone: "Europe/Berlin",
     dependencyDashboard: true,
     logFile: "renovate.log",
@@ -10,7 +12,8 @@ module.exports = {
     assignees: ["mirek163"],
     schedule: ["after 10am every weekday"],
     printConfig: true,
-    recreateWhen: "always"
+    recreateWhen: "always",
+    prHourlyLimit: 0
     //recreateClosed: true
     //dryRun: "lookup",
     //trustLevel: "high"
