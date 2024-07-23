@@ -11,7 +11,8 @@ module.exports = {
     assignees: ["mirek163"],
     schedule: ["after 10am every weekday"],
     printConfig: true,
-    recreateWhen: "always"
+    recreateClosed: true
+    //recreateWhen: "always"
     //dryRun: "lookup",
     //trustLevel: "high"
     //prCreation: "not-pending",
