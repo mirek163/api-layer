@@ -10,11 +10,12 @@ module.exports = {
     baseBranches: ["v3.x.x-renovate"],
     assignees: ["mirek163"],
     schedule: ["after 10am every weekday"],
-    printConfig: true
-    //recreateWhen: "always"
+    printConfig: true,
+    recreateWhen: "always"
     //dryRun: "lookup",
     //trustLevel: "high"
     //prCreation: "not-pending",
     // retainStalePrs: true
+    // ":prConcurrentLimitNone"
 };
 
