@@ -24,7 +24,7 @@ jobs:
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
           RENOVATE_CONFIG_FILE: ${{ github.workspace }}/config.js
           LOG_LEVEL: debug
-          NODE_OPTIONS: "--max_old_space_size=8192"
+          #NODE_OPTIONS: "--max_old_space_size=8192"
         run: |
           renovate
 
