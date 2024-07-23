@@ -2,7 +2,7 @@
 module.exports = {
     autodiscover: false,
     platform: "github",
-    extends: ["config:recommended", "group:allNonMajor", ":switchToGradleLite"],
+    extends: ["config:recommended", "group:allNonMajor", ":switchToGradleLite",":prConcurrentLimitNone"],
     timezone: "Europe/Berlin",
     dependencyDashboard: true,
     logFile: "renovate.log",
