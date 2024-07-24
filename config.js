@@ -2,7 +2,7 @@
 module.exports = {
     autodiscover: false,
     platform: "github",
-    onboardingConfig: { "extends": ["config:recommended", "group:allNonMajor", ":switchToGradleLite"] },
+    onboardingConfig: { "extends": ["config:recommended", "group:allNonMajor"] }, //":switchToGradleLite"
 //    extends: ["config:recommended", "group:allNonMajor", ":switchToGradleLite"],
     timezone: "Europe/Berlin",
     dependencyDashboard: true,
@@ -12,8 +12,8 @@ module.exports = {
     assignees: ["mirek163"],
     schedule: ["after 8am every weekday"],
     printConfig: true,
-    recreateWhen: "always",
-    prHourlyLimit: 0
+    //recreateWhen: "always",
+    //prHourlyLimit: 0
     //recreateClosed: true
     //dryRun: "lookup",
     //trustLevel: "high"
