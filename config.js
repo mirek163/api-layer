@@ -3,7 +3,7 @@ module.exports = {
     autodiscover: false,
     platform: "github",
     //onboardingConfig: { "extends": ["group:allNonMajor", "config:base", ":automergeMinor"] }, //":switchToGradleLite"
-    extends: ["group:allNonMajor", "config:recommend", ":automergeMinor"],
+    extends: ["group:allNonMajor", "config:base", ":automergeMinor"],
 //    extends: ["config:recommended", "group:allNonMajor", ":switchToGradleLite"],
     timezone: "Europe/Berlin",
     dependencyDashboard: true,
@@ -14,9 +14,9 @@ module.exports = {
     schedule: ["after 8am every weekday"],
     printConfig: true,
     recreateWhen: "always",
-    prHourlyLimit: 0
+    prHourlyLimit: 0,
     //recreateClosed: true
-    //dryRun: "lookup",
+    dryRun: "lookup"
     //trustLevel: "high"
     //prCreation: "not-pending",
     // retainStalePrs: true
