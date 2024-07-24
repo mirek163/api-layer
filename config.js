@@ -3,7 +3,17 @@ module.exports = {
     autodiscover: false,
     platform: "github",
     //onboardingConfig: { "extends": ["group:allNonMajor", "config:base", ":automergeMinor"] }, //":switchToGradleLite"
-    extends: ["group:allNonMajor", "config:recommended", ":automergeMinor"],
+    //extends: ["group:allNonMajor", "config:recommended", ":automergeMinor"],
+    extends: ["config:recommended"],
+    packageRules: [
+        {
+            "matchPackagePatterns": ["*"],
+            "matchUpdateTypes": ["minor", "patch"],
+            "excludePackageNames": ["node"],
+            "groupName": "all non-major dependencies except Node.js",
+            "groupSlug": "all-minor-patch-except-node"
+        }
+    ],
 //    extends: ["config:recommended", "group:allNonMajor", ":switchToGradleLite"],
     timezone: "Europe/Berlin",
     dependencyDashboard: true,

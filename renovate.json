@@ -1,4 +1,14 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": ["group:allNonMajor", "config:recommended", ":automergeMinor"]
+    "description": "Group all minor and patch updates except Node.js together",
+    "extends": ["config:recommended"],
+    "packageRules": [
+        {
+            "matchPackagePatterns": ["*"],
+            "matchUpdateTypes": ["minor", "patch"],
+            "excludePackageNames": ["node"],
+            "groupName": "all non-major dependencies except Node.js",
+            "groupSlug": "all-minor-patch-except-node"
+        }
+    ]
 }
