@@ -2,7 +2,7 @@
 module.exports = {
     autodiscover: false,
     platform: "github",
-    onboardingConfig: { "extends": ["config:recommended","group:allNonMajor"] }, //":switchToGradleLite"
+    onboardingConfig: { "extends": ["group:allNonMajor", "config:base", ":automergeMinor"] }, //":switchToGradleLite"
 //    extends: ["config:recommended", "group:allNonMajor", ":switchToGradleLite"],
     timezone: "Europe/Berlin",
     dependencyDashboard: true,
