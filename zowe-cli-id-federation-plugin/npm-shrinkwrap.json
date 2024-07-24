@@ -9,7 +9,7 @@
       "version": "2.8.16",
       "license": "EPL-2.0 or Apache-2.0",
       "dependencies": {
-        "csv-parse": "5.5.2"
+        "csv-parse": "5.5.6"
       },
       "devDependencies": {
         "@types/jest": "29.4.3",
@@ -4659,9 +4659,10 @@
       }
     },
     "node_modules/csv-parse": {
-      "version": "5.5.2",
-      "resolved": "https://zowe.jfrog.io/artifactory/api/npm/npm-org/csv-parse/-/csv-parse-5.5.2.tgz",
-      "integrity": "sha512-YRVtvdtUNXZCMyK5zd5Wty1W6dNTpGKdqQd4EQ8tl/c6KW1aMBB1Kg1ppky5FONKmEqGJ/8WjLlTNLPne4ioVA=="
+      "version": "5.5.6",
+      "resolved": "https://registry.npmjs.org/csv-parse/-/csv-parse-5.5.6.tgz",
+      "integrity": "sha512-uNpm30m/AGSkLxxy7d9yRXpJQFrZzVWLFBkS+6ngPcZkw/5k3L/jjFuj7tVnEpRn+QgmiXr21nDlhCiUK4ij2A==",
+      "license": "MIT"
     },
     "node_modules/dataobject-parser": {
       "version": "1.2.1",
