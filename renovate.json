@@ -1,4 +1,4 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": ["group:allNonMajor", "config:base", ":automergeMinor"]
+    "extends": ["group:allNonMajor", "config:recommended", ":automergeMinor"]
 }
