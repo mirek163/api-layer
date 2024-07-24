@@ -22,7 +22,7 @@ dependencyResolutionManagement {
             version('commonsText', '1.11.0')
             version('commonsIo', '2.16.1')
             version('ehCache', '3.10.8')
-            version('eureka', '2.0.2')
+            version('eureka', '2.0.3')
             version('gradleGitProperties', '2.4.1') // Used in classpath dependencies
             version('gradleNode', '3.6.0') // Used in classpath dependencies
             version('guava', '33.2.0-jre')
