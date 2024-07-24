@@ -25,7 +25,8 @@ module.exports = {
     schedule: ["after 8am every weekday"],
     printConfig: true,
     recreateWhen: "always",
-    prHourlyLimit: 0
+    prHourlyLimit: 0,
+    prCreation: "not-pending"
     //recreateClosed: true
     //dryRun: "lookup"
     //trustLevel: "high"
