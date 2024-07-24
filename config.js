@@ -3,7 +3,7 @@ module.exports = {
     autodiscover: false,
     platform: "github",
     //onboardingConfig: { "extends": ["group:allNonMajor", "config:base", ":automergeMinor"] }, //":switchToGradleLite"
-    extends: ["group:allNonMajor", "config:recommended", ":automergeMinor"],
+    extends: ["group:allNonMajor", "config:recommended"],
     //extends: ["config:recommended", "group:allNonMajor", ":switchToGradleLite"]
     //FILTER NODE.js
     // packageRules: [
@@ -26,7 +26,8 @@ module.exports = {
     printConfig: true,
     recreateWhen: "always",
     prHourlyLimit: 0,
-    prCreation: "not-pending"
+    prCreation: "not-pending",
+    updateLockFiles: false
     //recreateClosed: true
     //dryRun: "lookup"
     //trustLevel: "high"
