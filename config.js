@@ -12,7 +12,7 @@ module.exports = {
     assignees: ["mirek163"],
     schedule: ["after 8am every weekday"],
     printConfig: true,
-    //recreateWhen: "always",
+    recreateWhen: "always",
     prHourlyLimit: 0
     //recreateClosed: true
     //dryRun: "lookup",
