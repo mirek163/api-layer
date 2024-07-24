@@ -10,6 +10,7 @@ module.exports = {
     schedule: ["after 6am every weekday"],
     printConfig: true,
     recreateWhen: "always", // recreates all closed or blocking PRs not just immortals
+    prHourlyLimit: 0, // removes rate limit for PR creation per hour
     npmrc: "legacy-peer-deps=true", //for updating lock-files
     npmrcMerge: true //be combined with a "global" npmrc
 
