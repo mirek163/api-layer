@@ -26,7 +26,7 @@ module.exports = {
     printConfig: true,
     recreateWhen: "always",
     prHourlyLimit: 0,
-    updateLockFiles: false,
+    //updateLockFiles: false,
     npmrcMerge: true,
     npmrc: "legacy-peer-deps=true"
     //prCreation: "not-pending",
