@@ -26,7 +26,7 @@ module.exports = {
     printConfig: true,
     recreateWhen: "always",
     prHourlyLimit: 0,
-    prCreation: "not-pending",
+    //prCreation: "not-pending",
     updateLockFiles: false
     //recreateClosed: true
     //dryRun: "lookup"
