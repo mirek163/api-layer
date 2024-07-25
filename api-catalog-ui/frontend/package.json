@@ -81,7 +81,7 @@
         "@babel/preset-env": "7.24.5",
         "@babel/preset-react": "7.24.1",
         "@testing-library/dom": "8.20.1",
-        "@testing-library/jest-dom": "6.4.5",
+        "@testing-library/jest-dom": "6.4.8",
         "@testing-library/react": "12.1.5",
         "@testing-library/user-event": "13.5.0",
         "ajv": "8.13.0",
