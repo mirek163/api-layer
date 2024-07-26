@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4 # using checkout to access workspace
       - name: Run Renovate
         env:
-          RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
           RENOVATE_CONFIG_FILE: ${{ github.workspace }}/config.js
           LOG_LEVEL: debug
         run: |
