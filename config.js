@@ -5,7 +5,7 @@ module.exports = {
     dependencyDashboard: true,
     logFile: "renovate.log",
     repositories: ['mirek163/api-layer'],
-    baseBranches: ["v2.x.x-renovate"],
+    baseBranches: ["v3.x.x-renovate"],
     assignees: ["mirek163"],
     schedule: ["after 6am every weekday"],
     printConfig: true,
