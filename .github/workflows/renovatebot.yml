@@ -20,7 +20,7 @@ jobs:
         env:
           # RENOVATE_TOKEN should have access :read_user, api, write_repository (repo checkbox)
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
-          RENOVATE_CONFIG_FILE: ${{ github.workspace }}/config.js
+          RENOVATE_CONFIG_FILE: ${{ github.workspace }}/renovate_config.js
           LOG_LEVEL: debug
         run: |
           renovate
