@@ -1,7 +1,6 @@
 module.exports = {
     extends: ["group:allNonMajor", "config:recommended"],
     dependencyDashboard: true,
-    logFile: "renovate.log",
     repositories: ['mirek163/api-layer'],
     baseBranches: ["v3.x.x-renovate"],
     assignees: [],
