@@ -5,7 +5,8 @@ module.exports = {
     baseBranches: ["v3.x.x-renovate"],
     assignees: [],
     labels: ["dependencies"],
-    prTitle: "renovate: Update dependency {{depName}} to v{{newVersion}}",
+    commitMessagePrefix:"chore: " ,
+    //prTitle: "chore: Update dependency {{depName}} to v{{newVersion}}",
     printConfig: true,
     prHourlyLimit: 0, // removes rate limit for PR creation per hour
     npmrc: "legacy-peer-deps=true", //for updating lock-files
