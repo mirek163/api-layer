@@ -23,4 +23,4 @@ jobs:
           RENOVATE_CONFIG_FILE: ${{ github.workspace }}/renovate_config.js
           LOG_LEVEL: debug
         run: |
-          renovate | tee renovate.log
+          renovate
