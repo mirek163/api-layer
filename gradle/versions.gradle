@@ -44,8 +44,8 @@ dependencyResolutionManagement {
             version('jjwt', '0.12.5')
             version('jsonPath', '2.9.0')
             version('jsonSmart', '2.5.1')
-            version('junitJupiter', '5.10.2')
-            version('junitPlatform', '1.10.2')
+            version('junitJupiter', '5.10.3')
+            version('junitPlatform', '1.10.3')
             version('lettuce', '6.3.2.RELEASE')
             // force version in build.gradle file - compatibility with Slf4j
             version('log4j', '2.23.1')
