@@ -1,6 +1,7 @@
 module.exports = {
 
-    extends: ["group:allNonMajor", "config:base"],
+    extends: ["group:allNonMajor", "config:recommended"],
+    ignorePresets: ["group:monorepos"],
     dependencyDashboard: true,
     repositories: ['mirek163/api-layer'],
     baseBranches: ["v3.x.x-renovate"],
