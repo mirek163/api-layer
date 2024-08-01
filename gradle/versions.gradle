@@ -5,7 +5,7 @@ dependencyResolutionManagement {
             version('projectNode', '18.14.0')
             version('projectNpm', '9.3.1')
 
-            version('springBoot', '3.2.5')
+            version('springBoot', '3.3.2')
             version('springCloudNetflix', '4.1.1')
             version('springCloudZuulNetflix', '2.2.10.RELEASE')
             version('springCloudCommons', '4.1.2')
