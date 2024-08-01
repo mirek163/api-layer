@@ -5,12 +5,12 @@ module.exports = {
             groupName: "all non-major dependencies",
             groupSlug: "all-minor-patch",
             matchPackageNames: ["*"],
-            matchUpdateTypes: ["minor", "patch"]
-        },
-        {
-            groupName: "eslint",
-            matchPackagePatterns: ["^eslint", "^@eslint"]
+            matchUpdateTypes: ["minor", "patch", "digest"]
         }
+        // {
+        //     groupName: "eslint",
+        //     matchPackagePatterns: ["^eslint", "^@eslint"]
+        // }
     ],
 //extends: ["config:recommended", "group:allNonMajor"],
 //ignorePresets: ["group:monorepos", "group:recommended"],
