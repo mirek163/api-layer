@@ -1,28 +1,5 @@
 module.exports = {
-    // extends: ["config:recommended"],
-    // packageRules: [
-    //     {
-    //
-    //         groupName: 'all non-major dependencies',
-    //         matchUpdateTypes: ['minor', 'patch']
-    //     },
-    //     {
-    //         excludePackagePatterns: ['*'],
-    //         matchUpdateTypes: ['major']
-    //     }
-        // {
-        //     groupName: "all non-major dependencies",
-        //     groupSlug: "all-minor-patch",
-        //     matchPackageNames: ["*"],
-        //     matchUpdateTypes: ["minor", "patch", "digest"]
-        // }
-        // {
-        //     groupName: "eslint",
-        //     matchPackagePatterns: ["^eslint", "^@eslint"]
-        // }
-    //],
-extends: ["config:recommended", "group:allNonMajor"],
-//ignorePresets: ["group:monorepos", "group:recommended"],
+    extends: ["config:recommended", "group:allNonMajor"],
     dependencyDashboard: true,
     repositories:
         ['mirek163/api-layer'],
@@ -38,6 +15,8 @@ extends: ["config:recommended", "group:allNonMajor"],
         true,
     prHourlyLimit:
         0, // removes rate limit for PR creation per hour
+    prConcurrentLimit:
+        0, //removes a maximum limit of x concurrent branches/PRs
     npmrc:
         'legacy-peer-deps=true', //for updating lock-files
     npmrcMerge:
