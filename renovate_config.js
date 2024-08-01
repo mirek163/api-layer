@@ -1,6 +1,8 @@
 module.exports = {
 
-    extends: ["group:allNonMajor", "config:recommended"],
+    extends: ["group:monorepos","group:allNonMajor"],
+
+    packageRules: [{"matchPackageNames": ["/eslint/"], "groupName": "eslint", "enabled": false}],
     dependencyDashboard: true,
     repositories: ['mirek163/api-layer'],
     baseBranches: ["v3.x.x-renovate"],
