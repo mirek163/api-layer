@@ -38,7 +38,7 @@ dependencyResolutionManagement {
             version('jakartaInject', '2.0.1')
             version('jakartaServlet', '6.1.0-M2')
             version('jerseySun', '1.19.4')
-            version('jettyWebSocketClient', '9.4.54.v20240208')
+            version('jettyWebSocketClient', '12.0.12')
             version('jettison', '1.5.4')
             //0.12.x version contains breaking changes
             version('jjwt', '0.12.5')
