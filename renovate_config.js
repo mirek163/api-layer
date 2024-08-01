@@ -1,15 +1,15 @@
 module.exports = {
-    extends: ["config:recommended"],
-    packageRules: [
-        {
-
-            groupName: 'all non-major dependencies',
-            matchUpdateTypes: ['minor', 'patch']
-        },
-        {
-            excludePackagePatterns: ['*'],
-            matchUpdateTypes: ['major']
-        }
+    // extends: ["config:recommended"],
+    // packageRules: [
+    //     {
+    //
+    //         groupName: 'all non-major dependencies',
+    //         matchUpdateTypes: ['minor', 'patch']
+    //     },
+    //     {
+    //         excludePackagePatterns: ['*'],
+    //         matchUpdateTypes: ['major']
+    //     }
         // {
         //     groupName: "all non-major dependencies",
         //     groupSlug: "all-minor-patch",
@@ -20,8 +20,8 @@ module.exports = {
         //     groupName: "eslint",
         //     matchPackagePatterns: ["^eslint", "^@eslint"]
         // }
-    ],
-//extends: ["config:recommended", "group:allNonMajor"],
+    //],
+extends: ["config:recommended", "group:allNonMajor"],
 //ignorePresets: ["group:monorepos", "group:recommended"],
     dependencyDashboard: true,
     repositories:
