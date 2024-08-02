@@ -28,7 +28,7 @@ dependencyResolutionManagement {
             version('awaitility', '4.2.1')
             version('awsJavaSdk', '1.12.750')
             version('bouncyCastle', '1.78.1')
-            version('bootstrap', '4.3.1')
+            version('bootstrap', '5.3.3')
             // forced version in root gradle.build file. Version 3.x requieres Java 11
             version('caffeine', '2.9.3')
             version('commonsCodec', '1.17.0')
