@@ -6,13 +6,11 @@ module.exports = {
     //         enabled: false
     //     }
     // ],
-    packageRules: [
-        {
-            matchUpdateTypes: ["major"],
-            dependencyDashboardApproval: true
-        }
-    ],
     extends: ["config:recommended", "group:allNonMajor"],
+    major:
+        {
+            dependencyDashboardApproval: true
+        },
     dependencyDashboard: true,
     repositories:
         ['mirek163/api-layer'],
