@@ -9,8 +9,7 @@ module.exports = {
     packageRules: [
         {
             matchUpdateTypes: ["major"],
-            automerge: false,
-            enabled: false
+            dependencyDashboardApproval: true
         }
     ],
     extends: ["config:recommended", "group:allNonMajor"],
