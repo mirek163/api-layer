@@ -64,7 +64,7 @@ dependencyResolutionManagement {
             version('jaxbApi', '2.3.1')
             version('jersey', '2.43')
             version('jerseySun', '1.19.4')
-            version('jettyWebSocketClient', '9.4.54.v20240208')
+            version('jettyWebSocketClient', '12.0.12')
             version('jettison', '1.5.4')
             version('jjwt', '0.11.5')
             version('jjwtFull', '0.9.1')
