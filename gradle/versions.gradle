@@ -39,7 +39,7 @@ dependencyResolutionManagement {
             version('commonsIo', '2.16.1')
             version('commonsFileUpload', '1.5')
             version('ehCache', '3.10.8')
-            version('eureka', '1.10.18')
+            version('eureka', '2.0.3')
             version('findBugs', '3.0.2')
             version('githubClassgraph', '4.8.172')
             version('gradleGitProperties', '2.2.4') // Used in classpath dependencies
