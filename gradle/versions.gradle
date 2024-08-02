@@ -118,7 +118,7 @@ dependencyResolutionManagement {
             // force version in build.gradle file, version 2.x is not compatible
             version('slf4j', '1.7.36')
             version('snakeyaml', '2.2')
-            version('springFox', '2.9.2')
+            version('springFox', '3.0.0')
             version('springDoc') {
                 // version 1.7+ has a conflict with Jackson databind (displaying of examples)
                 strictly '[1.6.15, 1.7.0['
