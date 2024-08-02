@@ -30,7 +30,7 @@ dependencyResolutionManagement {
             version('bouncyCastle', '1.78.1')
             version('bootstrap', '4.3.1')
             // forced version in root gradle.build file. Version 3.x requieres Java 11
-            version('caffeine', '2.9.3')
+            version('caffeine', '3.1.8')
             version('commonsCodec', '1.17.0')
             version('commonsConfiguration', '1.10')
             version('commonsLang3', '3.14.0')
