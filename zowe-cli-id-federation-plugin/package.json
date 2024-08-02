@@ -70,7 +70,7 @@
     "jest-html-reporter": "3.7.0",
     "jest-junit": "15.0.0",
     "jest-stare": "2.5.0",
-    "madge": "6.0.0",
+    "madge": "7.0.0",
     "ts-jest": "29.0.5",
     "ts-node": "10.9.1",
     "typedoc": "0.23.27",
