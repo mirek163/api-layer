@@ -1,6 +1,4 @@
 module.exports = {
-    extends: ["config:recommended", "group:allNonMajor"],
-    dependencyDashboard: true,
     packageRules: [
         {
             matchPackagePatterns : ["*"],
@@ -8,6 +6,8 @@ module.exports = {
             enabled: false
         }
     ],
+    extends: ["config:recommended", "group:allNonMajor"],
+    dependencyDashboard: true,
     repositories:
         ['mirek163/api-layer'],
     baseBranches:
