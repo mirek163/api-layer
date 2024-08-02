@@ -37,7 +37,7 @@
         "ts-jest": "29.0.5",
         "ts-node": "10.9.1",
         "typedoc": "0.23.27",
-        "typescript": "4.9.5"
+        "typescript": "5.5.4"
       },
       "peerDependencies": {
         "@zowe/imperative": "5.9.1"
@@ -2854,13 +2854,6 @@
         "infer-owner": "^1.0.4"
       }
     },
-    "node_modules/@popperjs/core": {
-      "version": "2.11.6",
-      "resolved": "https://zowe.jfrog.io/artifactory/api/npm/npm-org/@popperjs/core/-/core-2.11.6.tgz",
-      "integrity": "sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==",
-      "dev": true,
-      "peer": true
-    },
     "node_modules/@sinclair/typebox": {
       "version": "0.25.24",
       "resolved": "https://zowe.jfrog.io/artifactory/api/npm/npm-org/@sinclair/typebox/-/typebox-0.25.24.tgz",
@@ -4840,6 +4833,20 @@
         "node": "^12.20.0 || >=14"
       }
     },
+    "node_modules/dependency-tree/node_modules/typescript": {
+      "version": "4.9.5",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz",
+      "integrity": "sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==",
+      "dev": true,
+      "license": "Apache-2.0",
+      "bin": {
+        "tsc": "bin/tsc",
+        "tsserver": "bin/tsserver"
+      },
+      "engines": {
+        "node": ">=4.2.0"
+      }
+    },
     "node_modules/detect-newline": {
       "version": "3.1.0",
       "resolved": "https://zowe.jfrog.io/artifactory/api/npm/npm-org/detect-newline/-/detect-newline-3.1.0.tgz",
@@ -4980,6 +4987,20 @@
       },
       "engines": {
         "node": "^12.20.0 || ^14.14.0 || >=16.0.0"
+      }
+    },
+    "node_modules/detective-typescript/node_modules/typescript": {
+      "version": "4.9.5",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz",
+      "integrity": "sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==",
+      "dev": true,
+      "license": "Apache-2.0",
+      "bin": {
+        "tsc": "bin/tsc",
+        "tsserver": "bin/tsserver"
+      },
+      "engines": {
+        "node": ">=4.2.0"
       }
     },
     "node_modules/diff": {
@@ -11703,16 +11724,17 @@
       }
     },
     "node_modules/typescript": {
-      "version": "4.9.5",
-      "resolved": "https://zowe.jfrog.io/artifactory/api/npm/npm-org/typescript/-/typescript-4.9.5.tgz",
-      "integrity": "sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==",
+      "version": "5.5.4",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.5.4.tgz",
+      "integrity": "sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==",
       "dev": true,
+      "license": "Apache-2.0",
       "bin": {
         "tsc": "bin/tsc",
         "tsserver": "bin/tsserver"
       },
       "engines": {
-        "node": ">=4.2.0"
+        "node": ">=14.17"
       }
     },
     "node_modules/uc.micro": {
