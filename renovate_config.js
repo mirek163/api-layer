@@ -1,5 +1,5 @@
 module.exports = {
-    extends: ["group:allNonMajor", "config:recommended"],
+    extends: ["config:recommended", "group:allNonMajor"],
     dependencyDashboard: true,
     packageRules: [
         {
