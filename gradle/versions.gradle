@@ -7,10 +7,10 @@ dependencyResolutionManagement {
 
             version('springBoot', '2.7.18')
             version('springCloud', '2.2.10.RELEASE')
-            version('springCloudCommons', '3.1.8')
-            version('springCloudVersion3', '3.1.8')
-            version('springCloudCB', '2.1.8')
-            version('springCloudGateway', '3.1.9')
+            version('springCloudCommons', '4.1.4')
+            version('springCloudVersion3', '4.1.4')
+            version('springCloudCB', '3.1.2')
+            version('springCloudGateway', '4.1.5')
             version('springSecurity') {
                 strictly '[5.8.13,6.0.0['
                 prefer '5.8.13'
