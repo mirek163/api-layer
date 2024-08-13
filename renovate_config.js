@@ -21,7 +21,7 @@ module.exports = {
     repositories:
         ['mirek163/api-layer'],
     baseBranches:
-        ['v3.x.x-renovate', 'v2.x.x'],
+        ['v2.x.x'],
     assignees:
         [],
     labels:
