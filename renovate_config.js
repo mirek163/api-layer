@@ -6,6 +6,12 @@ module.exports = {
     //         enabled: false
     //     }
     // ],
+    // packageRules: [
+    //     {
+    //         matchUpdateTypes: ["major"],
+    //         dependencyDashboardApproval: true
+    //     }
+    // ],
     extends: ["config:recommended", "group:allNonMajor"],
     major:
         {
@@ -20,14 +26,14 @@ module.exports = {
         [],
     labels:
         ['dependencies'],
+    dependencyDashboardLabels:
+        ['dependencies'],
     commitMessagePrefix:
         'chore: ',
     printConfig:
         true,
     prHourlyLimit:
         0, // removes rate limit for PR creation per hour
-    prConcurrentLimit:
-        0, //removes a maximum limit of x concurrent branches/PRs
     npmrc:
         'legacy-peer-deps=true', //for updating lock-files
     npmrcMerge:
