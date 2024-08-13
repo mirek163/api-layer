@@ -12,7 +12,7 @@ module.exports = {
     //         dependencyDashboardApproval: true
     //     }
     // ],
-    extends: ["config:recommended", "group:allNonMajor"],
+    extends: ["config:recommended", "group:allNonMajor", "config:recommended"],
     major:
         {
             dependencyDashboardApproval: true
