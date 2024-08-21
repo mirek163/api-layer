@@ -26,7 +26,7 @@ dependencyResolutionManagement {
             version('zosUtils', '2.0.5')
             version('archaius', '0.7.12')
             version('awaitility', '4.2.1')
-            version('awsJavaSdk', '1.12.750')
+            version('awsJavaSdk', '1.12.770')
             version('bouncyCastle', '1.78.1')
             version('bootstrap', '4.3.1')
             // forced version in root gradle.build file. Version 3.x requieres Java 11
