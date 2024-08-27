@@ -75,7 +75,7 @@
         "includeFailureMsg": true
     },
     "devDependencies": {
-        "@babel/core": "7.24.5",
+        "@babel/core": "7.25.2",
         "@babel/eslint-parser": "7.24.5",
         "@babel/plugin-proposal-private-property-in-object": "7.21.11",
         "@babel/preset-env": "7.24.5",
