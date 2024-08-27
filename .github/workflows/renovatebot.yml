@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4 # using checkout to access workspace
-      - name: Run Renovate for v2.x.x
+      - name: Run Renovate
         env:
           # RENOVATE_TOKEN should have access :read_user, api, write_repository (repo checkbox)
           RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
