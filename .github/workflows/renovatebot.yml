@@ -16,18 +16,29 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4 # using checkout to access workspace
-      - name: Run Renovate
+      - name: Run Renovate for v2.x.x
         env:
           # RENOVATE_TOKEN should have access :read_user, api, write_repository (repo checkbox)
           RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RENOVATE_CONFIG_FILE: ${{ github.workspace }}/renovate_config.js
+          RENOVATE_EXTENDS: '["config:recommended"]'
           RENOVATE_PACKAGE_RULES : "[{
           	matchPackagePatterns: [ '*' ],
           	matchUpdateTypes: [ 'patch' ],
           	groupName: 'all patch dependencies',
           	groupSlug: 'all-patch'
             }]"
-          RENOVATE_EXTENDS : '["config:recommended"]'
+          RENOVATE_MINOR: '{dependencyDashboardApproval: true}'
           LOG_LEVEL: debug
         run: |
           renovate
+
+#      - name: Run Renovate for v3.x.x
+#        env:
+#            # RENOVATE_TOKEN should have access :read_user, api, write_repository (repo checkbox)
+#            RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#            RENOVATE_CONFIG_FILE: ${{ github.workspace }}/renovate_config.js
+#            RENOVATE_EXTENDS: '["config:recommended", "group:allNonMajor"]'
+#            LOG_LEVEL: debug
+#        run: |
+#            renovate

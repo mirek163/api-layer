@@ -9,10 +9,6 @@ module.exports = {
     //        "groupSlug": "all-patch"
     //    }
     //],
-    minor:
-        {
-            dependencyDashboardApproval: true
-        },
     major:
         {
             dependencyDashboardApproval: true
