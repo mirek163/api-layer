@@ -11,7 +11,7 @@ dependencyResolutionManagement {
             version('springCloudCommons', '4.1.2')
             version('springCloudCB', '3.1.1')
             version('springCloudGateway', '4.1.2')
-            version('springFramework', '6.1.7')
+            version('springFramework', '6.1.12')
             version('springRetry', '2.0.6')
 
             version('zosUtils', '2.0.5')
@@ -61,7 +61,7 @@ dependencyResolutionManagement {
             version('reactor', '3.6.6')
             version('restAssured', '5.4.0')
             version('springDoc', '2.5.0')
-            version('spring4', '5.3.35') // Used within PJE in tests
+            version('spring4', '5.3.39') // Used within PJE in tests
             version('swaggerInflector', '2.0.12')
             version('thymeleaf', '3.1.2.RELEASE')
             version('velocity', '2.3')
