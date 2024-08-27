@@ -1,5 +1,4 @@
 module.exports = {
-    extends: ["config:recommended"],
     packageRules: [
         {
             //for v.3.x.x branch find all Packages which are patch, slug them and make PR with name "all patch dependencies"
@@ -30,6 +29,7 @@ module.exports = {
         //     "dependencyDashboardApproval": true,
         // }
     ],
+    extends: ["config:recommended"],
     dependencyDashboard: true,
     repositories: ['mirek163/api-layer'],
     baseBranches: ['v3.x.x-renovate'],
