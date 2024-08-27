@@ -1,22 +1,49 @@
 module.exports = {
     extends: [":dependencyDashboard", ":semanticPrefixFixDepsChoreOthers", ":ignoreModulesAndTests", "replacements:all", "workarounds:all"],
+    // packageRules: [
+    //     {
+    //         "description": "Group All patch dependency updates",
+    //         "matchPackagePatterns": ["*"],
+    //         "matchUpdateTypes": ["patch"],
+    //         "groupName": "all patch dependencies",
+    //         "groupSlug": "all-patch"
+    //     }
+    // ],
+
     packageRules: [
         {
-            "description": "Group All patch dependency updates",
-            "matchPackagePatterns": ["*"],
-            "matchUpdateTypes": ["patch"],
+            "matchBaseBranches": ["v3.x.x-renovate"],
             "groupName": "all patch dependencies",
-            "groupSlug": "all-patch"
-        }
+            "groupSlug": "all-patch",
+            "matchPackageNames": ["*"],
+            "matchUpdateTypes": ["patch"]
+        },
+        {
+            "matchBaseBranches": ["v3.x.x-renovate"],
+            "matchUpdateTypes": ["major"],
+            "dependencyDashboardApproval": true
+        },
+        // {
+        //     "matchBaseBranches": ["v2.x.x"],
+        //     "groupName": "all non-major dependencies",
+        //     "groupSlug": "all-minor-patch",
+        //     "matchPackageNames": ["*"],
+        //     "matchUpdateTypes": ["minor", "patch"]
+        // },
+        // {
+        //     "matchBaseBranches": ["v2.x.x"],
+        //     "matchUpdateTypes": ["major", "minor"],
+        //     "dependencyDashboardApproval": true
+        // }
     ],
-    minor:
-        {
-            dependencyDashboardApproval: true
-        },
-    major:
-        {
-            dependencyDashboardApproval: true
-        },
+    // minor:
+    //     {
+    //         dependencyDashboardApproval: true
+    //     },
+    // major:
+    //     {
+    //         dependencyDashboardApproval: true
+    //     },
     hostRules: [{
             matchHost: 'https://repo.spring.io/libs-milestone',
             enabled: false
