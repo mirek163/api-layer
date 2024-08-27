@@ -1,6 +1,6 @@
 module.exports = {
-    //extends: [":dependencyDashboard", ":semanticPrefixFixDepsChoreOthers", ":ignoreModulesAndTests", "replacements:all", "workarounds:all"],
-    extends: ["config:recommended"],
+    extends: [":dependencyDashboard", ":semanticPrefixFixDepsChoreOthers", ":ignoreModulesAndTests","group:recommended", "replacements:all", "workarounds:all"],
+    //extends: ["config:recommended"],
     packageRules: [
         {
             "matchBaseBranches": ["v3.x.x-renovate"],
@@ -24,30 +24,18 @@ module.exports = {
         // {
         //     "matchBaseBranches": ["v2.x.x"],
         //     "matchUpdateTypes": ["major"],
-        //     "dependencyDashboardApproval": true
+        //     "dependencyDashboardApproval": true,
         // }
     ],
     dependencyDashboard: true,
-    repositories:
-        ['mirek163/api-layer'],
-    baseBranches:
-        ['v3.x.x-renovate'],
-    assignees:
-        [],
-    labels:
-        ['dependencies'],
-    dependencyDashboardLabels:
-        ['dependencies'],
-    commitMessagePrefix:
-        'chore: ',
-    printConfig:
-        true,
-    prHourlyLimit:
-        0, // removes rate limit for PR creation per hour
-    npmrc:
-        'legacy-peer-deps=true', //for updating lock-files
-    npmrcMerge:
-        true //be combined with a "global" npmrc
-}
-;
+    repositories: ['mirek163/api-layer'],
+    baseBranches: ['v3.x.x-renovate'],
+    printConfig: true,
+    labels: ['dependencies'],
+    dependencyDashboardLabels: ['dependencies'],
+    commitMessagePrefix: 'chore: ',
+    prHourlyLimit: 0, // removes rate limit for PR creation per hour
+    npmrc: 'legacy-peer-deps=true', //for updating lock-files
+    npmrcMerge: true //be combined with a "global" npmrc
+};
 
