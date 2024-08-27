@@ -16,12 +16,12 @@ module.exports = {
             "groupName": "all patch dependencies",
             "groupSlug": "all-patch",
             "matchPackageNames": ["*"],
-            "matchUpdateTypes": ["patch"]
+            "matchUpdateTypes": ["patch"],
         },
         {
             "matchBaseBranches": ["v3.x.x-renovate"],
-            "matchUpdateTypes": ["major"],
-            "dependencyDashboardApproval": true
+            "matchUpdateTypes": ["major", "minor"],
+            "dependencyDashboardApproval": true,
         },
         // {
         //     "matchBaseBranches": ["v2.x.x"],
@@ -32,7 +32,7 @@ module.exports = {
         // },
         // {
         //     "matchBaseBranches": ["v2.x.x"],
-        //     "matchUpdateTypes": ["major", "minor"],
+        //     "matchUpdateTypes": ["major"],
         //     "dependencyDashboardApproval": true
         // }
     ],
