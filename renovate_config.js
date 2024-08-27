@@ -1,18 +1,26 @@
 module.exports = {
-    //extends: ["config:recommended"],
-    //packageRules: [
-    //    {
-    //        "description": "Group All patch dependency updates",
-    //        "matchPackagePatterns": ["*"],
-    //        "matchUpdateTypes": ["patch"],
-    //        "groupName": "all patch dependencies",
-    //        "groupSlug": "all-patch"
-    //    }
-    //],
+    extends: ["config:recommended"],
+    packageRules: [
+        {
+            "description": "Group All patch dependency updates",
+            "matchPackagePatterns": ["*"],
+            "matchUpdateTypes": ["patch"],
+            "groupName": "all patch dependencies",
+            "groupSlug": "all-patch"
+        }
+    ],
     major:
         {
             dependencyDashboardApproval: true
         },
+    minor:
+        {
+            dependencyDashboardApproval: true
+        },
+    hostRules: [{
+            matchHost: 'https://repo.spring.io/libs-milestone',
+            enabled: false
+        }],
     dependencyDashboard: true,
     repositories:
         ['mirek163/api-layer'],
