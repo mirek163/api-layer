@@ -1,5 +1,5 @@
 module.exports = {
-    extends: ["config:recommended"],
+    extends: [":dependencyDashboard", ":semanticPrefixFixDepsChoreOthers", ":ignoreModulesAndTests", "replacements:all", "workarounds:all"],
     packageRules: [
         {
             "description": "Group All patch dependency updates",
@@ -9,11 +9,11 @@ module.exports = {
             "groupSlug": "all-patch"
         }
     ],
-    major:
+    minor:
         {
             dependencyDashboardApproval: true
         },
-    minor:
+    major:
         {
             dependencyDashboardApproval: true
         },
