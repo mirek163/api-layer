@@ -1,14 +1,14 @@
 module.exports = {
-    extends: ["config:recommended"],
-    "packageRules": [
-        {
-            "description": "Group All patch dependency updates",
-            "matchPackagePatterns": ["*"],
-            "matchUpdateTypes": ["patch"],
-            "groupName": "all patch dependencies",
-            "groupSlug": "all-patch"
-        }
-    ],
+    //extends: ["config:recommended"],
+    //packageRules: [
+    //    {
+    //        "description": "Group All patch dependency updates",
+    //        "matchPackagePatterns": ["*"],
+    //        "matchUpdateTypes": ["patch"],
+    //        "groupName": "all patch dependencies",
+    //        "groupSlug": "all-patch"
+    //    }
+    //],
     minor:
         {
             dependencyDashboardApproval: true
@@ -21,7 +21,7 @@ module.exports = {
     repositories:
         ['mirek163/api-layer'],
     baseBranches:
-        ['v2.x.x'],
+        ['v3.x.x-renovate'],
     assignees:
         [],
     labels:
