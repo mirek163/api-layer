@@ -22,10 +22,10 @@ jobs:
           RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RENOVATE_CONFIG_FILE: ${{ github.workspace }}/renovate_config.js
           RENOVATE_PACKAGE_RULES : """[{
-          	"matchPackagePatterns": [ "*" ],
-          	"matchUpdateTypes": [ "patch" ],
-          	"groupName": "all patch dependencies",
-          	"groupSlug": "all-patch"
+          	matchPackagePatterns: [ '*' ],
+          	matchUpdateTypes: [ 'patch' ],
+          	groupName: 'all patch dependencies',
+          	groupSlug: 'all-patch'
             }]"""
           RENOVATE_EXTENDS : '["config:recommended"]'
           LOG_LEVEL: debug
