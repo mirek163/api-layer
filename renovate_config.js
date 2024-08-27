@@ -1,9 +1,9 @@
 module.exports = {
+    globalExtends: ["config:recommended"],
     packageRules: [
         {
             //for v.3.x.x branch find all Packages which are patch, slug them and make PR with name "all patch dependencies"
             "matchBaseBranches": ["v3.x.x-renovate"],
-            "ignorePresets": ["group:monorepos", "group:recommended"],
             "groupName": "all patch dependencies",
             "groupSlug": "all-patch",
             "matchPackageNames": ["*"],
@@ -12,7 +12,7 @@ module.exports = {
         {
             //for v.3.x.x make dashboard approval to all major and minor dependencies updates
             "matchBaseBranches": ["v3.x.x-renovate"],
-            "ignorePresets": ["group:monorepos", "group:recommended"],
+            //"ignorePresets": ["group:monorepos", "group:recommended"],
             "matchUpdateTypes": ["major", "minor"],
             "dependencyDashboardApproval": true,
         },
@@ -29,7 +29,6 @@ module.exports = {
         //     "dependencyDashboardApproval": true,
         // }
     ],
-    extends: ["config:recommended"],
     dependencyDashboard: true,
     repositories: ['mirek163/api-layer'],
     baseBranches: ['v3.x.x-renovate'],
