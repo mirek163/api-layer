@@ -13,6 +13,7 @@ module.exports = {
         {
             //for v.3.x.x make dashboard approval to all major and minor dependencies updates
             "matchBaseBranches": ["v3.x.x-renovate"],
+            "ignorePresets": ["group:monorepos", "group:recommended"],
             "matchUpdateTypes": ["major", "minor"],
             "dependencyDashboardApproval": true,
         },
