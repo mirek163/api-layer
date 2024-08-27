@@ -1,15 +1,6 @@
 module.exports = {
-    extends: [":dependencyDashboard", ":semanticPrefixFixDepsChoreOthers", ":ignoreModulesAndTests", "replacements:all", "workarounds:all"],
-    // packageRules: [
-    //     {
-    //         "description": "Group All patch dependency updates",
-    //         "matchPackagePatterns": ["*"],
-    //         "matchUpdateTypes": ["patch"],
-    //         "groupName": "all patch dependencies",
-    //         "groupSlug": "all-patch"
-    //     }
-    // ],
-
+    //extends: [":dependencyDashboard", ":semanticPrefixFixDepsChoreOthers", ":ignoreModulesAndTests", "replacements:all", "workarounds:all"],
+    extends: ["config:recommended"],
     packageRules: [
         {
             "matchBaseBranches": ["v3.x.x-renovate"],
@@ -36,18 +27,6 @@ module.exports = {
         //     "dependencyDashboardApproval": true
         // }
     ],
-    // minor:
-    //     {
-    //         dependencyDashboardApproval: true
-    //     },
-    // major:
-    //     {
-    //         dependencyDashboardApproval: true
-    //     },
-    hostRules: [{
-            matchHost: 'https://repo.spring.io/libs-milestone',
-            enabled: false
-        }],
     dependencyDashboard: true,
     repositories:
         ['mirek163/api-layer'],
