@@ -2,7 +2,12 @@ module.exports = {
     globalExtends: ["config:recommended"], // instead of "extends" this resolve immediately as part of global config
     repositories: ['mirek163/api-layer'],
     baseBranches: ['v2.x.x','v3.x.x-renovate'],
-    dependencyDashboard: true,
+    dependencyDashboard: true,  
+    hostRules: [
+    {
+      hostType: 'npm',
+      matchHost: 'https://zowe.jfrog.io/artifactory/api/npm/'
+    },
     packageRules: [
         {
             //for v.2.x.x branch ignore grouping from extends preset, find all packages which are patches,
