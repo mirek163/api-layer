@@ -7,7 +7,13 @@ module.exports = {
     {
       hostType: 'npm',
       matchHost: 'https://zowe.jfrog.io/artifactory/api/npm/',
-    }],
+      enabled: true,
+    },
+    {
+      matchHost: 'https://registry.npmjs.org'
+      enabled: false,
+    }
+    ],
     packageRules: [
         {
             //for v.2.x.x branch ignore grouping from extends preset, find all packages which are patches,
