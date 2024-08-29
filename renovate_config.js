@@ -13,10 +13,16 @@ module.exports = {
     //  "matchHost": "registry.npmjs.org",
     //  "replaceHost": "zowe.jfrog.io/artifactory/api/npm/npm-org"
     //}
+     //   {
+     // hostType: 'npm',
+      //matchHost: 'zowe.jfrog.io/artifactory/api/npm/npm-org/'
+       // }
         {
-      hostType: 'npm',
-      matchHost: 'zowe.jfrog.io/artifactory/api/npm/npm-org/'
-        }
+      "matchDatasources": ["npm"],
+      "registryUrls": [
+        "https://zowe.jfrog.io/artifactory/api/npm/npm-org/"
+      ]
+    }
     ],
     packageRules: [
         {
