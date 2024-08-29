@@ -4,9 +4,14 @@ module.exports = {
     baseBranches: ['v2.x.x','v3.x.x-renovate'],
     dependencyDashboard: true,  
     hostRules: [
-    {
-      matchPackageNames: ["npm"],
-      sourceUrl: "https://zowe.jfrog.io/artifactory/api/npm/",
+    //{
+    //  matchPackageNames: ["npm"],
+    //  sourceUrl: "https://zowe.jfrog.io/artifactory/api/npm/",
+    //}
+        {
+      "hostType": "npm",
+      "matchHost": "registry.npmjs.org",
+      "replaceHost": "zowe.jfrog.io/artifactory/api/npm/npm-org"
     }
     ],
     packageRules: [
