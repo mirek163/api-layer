@@ -10,7 +10,7 @@ module.exports = {
       enabled: true,
     },
     {
-      matchHost: 'https://registry.npmjs.org'
+      matchHost: 'https://registry.npmjs.org',
       enabled: false,
     }
     ],
