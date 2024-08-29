@@ -7,11 +7,6 @@ module.exports = {
     {
       hostType: 'npm',
       matchHost: 'https://zowe.jfrog.io/artifactory/api/npm/',
-      enabled: true,
-    },
-    {
-      matchHost: 'https://registry.npmjs.org',
-      enabled: false,
     }
     ],
     packageRules: [
