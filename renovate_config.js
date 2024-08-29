@@ -8,11 +8,15 @@ module.exports = {
     //  matchPackageNames: ["npm"],
     //  sourceUrl: "https://zowe.jfrog.io/artifactory/api/npm/",
     //}
+    //    {
+    //  "hostType": "npm",
+    //  "matchHost": "registry.npmjs.org",
+    //  "replaceHost": "zowe.jfrog.io/artifactory/api/npm/npm-org"
+    //}
         {
-      "hostType": "npm",
-      "matchHost": "registry.npmjs.org",
-      "replaceHost": "zowe.jfrog.io/artifactory/api/npm/npm-org"
-    }
+      hostType: 'npm',
+      matchHost: 'zowe.jfrog.io/artifactory/api/npm/npm-org/'
+        }
     ],
     packageRules: [
         {
