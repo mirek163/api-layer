@@ -6,8 +6,8 @@ module.exports = {
     hostRules: [
     {
       hostType: 'npm',
-      matchHost: 'https://zowe.jfrog.io/artifactory/api/npm/'
-    },
+      matchHost: 'https://zowe.jfrog.io/artifactory/api/npm/',
+    }],
     packageRules: [
         {
             //for v.2.x.x branch ignore grouping from extends preset, find all packages which are patches,
