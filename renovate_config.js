@@ -4,23 +4,24 @@ module.exports = {
     baseBranches: ['v2.x.x','v3.x.x-renovate'],
     dependencyDashboard: true,  
     hostRules: [
-    //{
-    //  matchPackageNames: ["npm"],
-    //  sourceUrl: "https://zowe.jfrog.io/artifactory/api/npm/",
+    //
     //}
     //    {
     //  "hostType": "npm",
     //  "matchHost": "registry.npmjs.org",
-    //  "replaceHost": "zowe.jfrog.io/artifactory/api/npm/npm-org"
+    //  "replaceHost": "https://zowe.jfrog.io/artifactory/api/npm/"
     //}
      //   {
-     // hostType: 'npm',
-      //matchHost: 'zowe.jfrog.io/artifactory/api/npm/npm-org/'
-       // }
+        {
+      "hostType": 'npm',
+      "matchHost": 'https://zowe.jfrog.io/artifactory/api/npm/npm-org/'
+        }
     ],
     packageRules: [
         
             {
+                //  matchPackageNames: ["npm"],
+                //  sourceUrl: "https://zowe.jfrog.io/artifactory/api/npm/",
            "matchDatasources": ["npm"],
            "registryUrls": ["https://zowe.jfrog.io/artifactory/api/npm/npm-org/"]
             },{
