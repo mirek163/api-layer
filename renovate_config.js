@@ -5,9 +5,8 @@ module.exports = {
     dependencyDashboard: true,  
     hostRules: [
     {
-      hostType: 'npm',
-      matchHost: 'https://zowe.jfrog.io/artifactory/api/npm/',
-      enabled: true,
+      matchPackageNames: ["npm"],
+      sourceUrl: "https://zowe.jfrog.io/artifactory/api/npm/",
     }
     ],
     packageRules: [
