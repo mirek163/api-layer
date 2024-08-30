@@ -14,7 +14,12 @@ module.exports = {
      //   {
         {
       "hostType": 'npm',
-      "matchHost": 'https://zowe.jfrog.io/artifactory/api/npm/npm-org/'
+      "matchHost": 'https://zowe.jfrog.io/artifactory/api/npm/npm-org/',
+      "enabled": true
+        },
+        {
+      "matchHost": 'https://registry.npmjs.org/',
+      "enabled": false
         }
     ],
     packageRules: [
@@ -26,9 +31,10 @@ module.exports = {
            //"matchDatasources": ["npm"],
            //"registryUrls": ["https://zowe.jfrog.io/artifactory/api/npm/npm-org/"]
                 
-           "matchDatasources": ["npm"],
-           "sourceUrl": ["https://zowe.jfrog.io/artifactory/api/npm/npm-org/"]
-            },{
+           //"matchDatasources": ["npm"],
+           //"sourceUrl": ["https://zowe.jfrog.io/artifactory/api/npm/npm-org/"]
+            //},
+                //{
             //for v.2.x.x branch ignore grouping from extends preset, find all packages which are patches,
             // slug them and make PR with name "all patch dependencies"
             "matchBaseBranches": ["v2.x.x"],
