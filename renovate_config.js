@@ -22,8 +22,12 @@ module.exports = {
             {
                 //  matchPackageNames: ["npm"],
                 //  sourceUrl: "https://zowe.jfrog.io/artifactory/api/npm/",
+                
+           //"matchDatasources": ["npm"],
+           //"registryUrls": ["https://zowe.jfrog.io/artifactory/api/npm/npm-org/"]
+                
            "matchDatasources": ["npm"],
-           "registryUrls": ["https://zowe.jfrog.io/artifactory/api/npm/npm-org/"]
+           "sourceUrl": ["https://zowe.jfrog.io/artifactory/api/npm/npm-org/"]
             },{
             //for v.2.x.x branch ignore grouping from extends preset, find all packages which are patches,
             // slug them and make PR with name "all patch dependencies"
